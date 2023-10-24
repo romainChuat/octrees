@@ -11,6 +11,16 @@ class Generate extends StatelessWidget{
   Widget build(BuildContext context) {
     var modelProvider = context.watch<ModelProvider>();
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

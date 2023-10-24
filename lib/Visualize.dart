@@ -3,11 +3,23 @@ import 'package:octrees/Generate.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
 
+import 'main.dart';
+
 class Visualize extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     var prov = context.watch<ModelProvider>();
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -25,14 +37,35 @@ class Visualize extends StatelessWidget{
                       padding: const EdgeInsets.all(8),
                       itemCount: prov.trees.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ElevatedButton(
+
+                        return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                          child: ElevatedButton(
                             onPressed: () {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (BuildContext context) => MyWorkingArea() )
+                              );
+
+
                             },
                             child: Center(child: Text(prov.trees[index])),
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green
                             )
-                        );
+
+                        ),),
+                              Tooltip(
+                                message: 'Supprimer',
+                                child: IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    prov.removeTree(index);
+                                  },
+                                ),
+                              ),]);
                       },
                       separatorBuilder: (BuildContext context, int index) => const Divider(),
                     )),),
@@ -61,6 +94,18 @@ class Visualize extends StatelessWidget{
               ]
           )
       ),
+      floatingActionButton: Visibility(
+      visible: prov.trees.isNotEmpty,
+    child: FloatingActionButton(
+        onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (BuildContext context) => Generate() )
+            );
+        },
+        tooltip: 'ajouter un arbre',
+        child: const Icon(Icons.add),
+      ),
+                        ),
     );
 
   }

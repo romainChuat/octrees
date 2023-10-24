@@ -58,10 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Colors.black,
+
         //appBar: AppBar(title: Text('Des cubes !!! Rien que des cubes !!')),
         body: Center (
-
             child :Column(
               mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -144,9 +145,73 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
+    var prov = context.watch<ModelProvider>();
+
+    return Scaffold(
+        appBar: AppBar(
+      backgroundColor: Colors.black,
+      leading: IconButton(
+        icon: Icon(Icons.arrow_back),
+        color: Colors.white,
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+         actions: [
+          Tooltip(
+            message: 'Supprimer',
+            child: IconButton(
+              icon: const Icon(Icons.delete),
+              color: Colors.white,
+              onPressed: () {
+             //   prov.removeTree(index);
+              },
+            ),
+          ),
+        ],
+
+    ),
+
+    body: Center(
+      child: CustomPaint(
         size: MediaQuery.of(context).size,
         painter: Painter(da),
+
+      )
+    ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+            },
+            tooltip: 'Autre vue',
+            backgroundColor: Colors.green,
+            child: const Icon(Icons.autorenew),
+          ),
+          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+
+          FloatingActionButton(
+            onPressed: () {
+              prov.zoomOut(da);
+            },
+            tooltip: 'Zoomer',
+            backgroundColor: Colors.green,
+            child: const Icon(Icons.zoom_in),
+          ),
+          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+          FloatingActionButton(
+            onPressed: () {
+              prov.zoomIn(da);
+            },
+
+            tooltip: 'Dézoomer',
+            backgroundColor: Colors.green,
+            child: const Icon(Icons.zoom_out),
+          ),
+        ],
+      ),
     );
   }
 }
