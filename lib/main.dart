@@ -4,7 +4,7 @@ import 'package:octrees/Octree.dart' ;
 import 'package:octrees/ModelProvider.dart' ;
 import 'package:octrees/Visualize.dart';
 import 'package:provider/provider.dart';
-
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'Generate.dart';
 
 // String arbre = "DPVVPVVVP" ;
@@ -58,6 +58,21 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+            actions: [
+              Tooltip(
+                message: 'Paramètre',
+                child: IconButton(
+                  icon: const Icon(Icons.settings),
+                  color: Colors.white,
+                  onPressed: () {
+                    //   prov.removeTree(index);
+                  },
+                ),
+              ),
+    ],
+        ),
 
       backgroundColor: Colors.black,
 
@@ -66,19 +81,37 @@ class _MyHomePageState extends State<MyHomePage> {
             child :Column(
               mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                "Bienvenue",
-                style: TextStyle(fontSize: 30, color: Colors.white),
+              AnimatedTextKit(
+                animatedTexts: [
+                  TypewriterAnimatedText(
+                    'Bienvenue',
+                    textStyle: const TextStyle(
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                    ),
+                    speed: const Duration(milliseconds: 400),
+                  ),
+                ],
+                totalRepeatCount: 4,
+                pause: const Duration(milliseconds: 500),
               ),
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 60)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+
+
+              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 400)),
               SizedBox(
-                  height: 40,
-                  width: 100,
+                  height: 50,
+                  width: 200,
                   child : ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.cyan,
+                      backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
+                          side: BorderSide(color: Colors.white)
                       )
                     ),
                     onPressed: (){
@@ -88,24 +121,29 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     child: Text('Générer')
               )),
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20)),
+              Padding(padding: EdgeInsets.fromLTRB(60, 0, 0, 0)),
               SizedBox(
-                height: 40,
-                width: 100,
+                height: 50,
+                width: 200,
                 child : ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.cyan,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        )
-                    ),
+
                     onPressed: (){
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (BuildContext context) => Visualize() )
                       );
+
                     },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            side: BorderSide(color: Colors.white)
+                        )
+                    ),
                     child: Text('Visualiser')
                 ),
+              )
+                ],
               )
 
               /*Expanded(
@@ -158,16 +196,27 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
         },
       ),
          actions: [
-          Tooltip(
-            message: 'Supprimer',
-            child: IconButton(
-              icon: const Icon(Icons.delete),
-              color: Colors.white,
-              onPressed: () {
-             //   prov.removeTree(index);
-              },
-            ),
-          ),
+
+           Tooltip(
+             message: 'Supprimer',
+             child: IconButton(
+               icon: const Icon(Icons.delete),
+               color: Colors.white,
+               onPressed: () {
+                 //   prov.removeTree(index);
+               },
+             ),
+           ),
+           Tooltip(
+             message: 'Editer',
+             child: IconButton(
+               icon: const Icon(Icons.edit),
+               color: Colors.white,
+               onPressed: () {
+                 //make something
+               },
+             ),
+           ),
         ],
 
     ),
