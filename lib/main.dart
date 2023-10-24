@@ -207,6 +207,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                },
              ),
            ),
+           Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+
            Tooltip(
              message: 'Editer',
              child: IconButton(
@@ -217,7 +219,10 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                },
              ),
            ),
-        ],
+           Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0)),
+
+
+         ],
 
     ),
 
