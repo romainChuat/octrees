@@ -14,15 +14,15 @@ String arbre3 = "P" ;
 String arbre4 = "V" ;
 // String arbre2 = "DVVVVVVDVVVVVVPVV" ;
 
-int theta = 45 ;
-int phi = 45 ;
-int rho = 50 ;
+//int theta = 45 ;
+//int phi = 45 ;
+//int rho = 50 ;
 
 void main() {
   runApp(
     ChangeNotifierProvider(
       create: (_) => ModelProvider(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -102,14 +102,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
 
 
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 400)),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 400)),
               SizedBox(
                   height: 50,
                   width: 200,
                   child : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                           side: BorderSide(color: Colors.white)
                       )
@@ -119,9 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         MaterialPageRoute(builder: (BuildContext context) => Generate() )
                       );
                     },
-                    child: Text('Générer')
+                    child: const Text('Générer')
               )),
-              Padding(padding: EdgeInsets.fromLTRB(60, 0, 0, 0)),
+              const Padding(padding: EdgeInsets.fromLTRB(60, 0, 0, 0)),
               SizedBox(
                 height: 50,
                 width: 200,
@@ -135,12 +135,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             side: BorderSide(color: Colors.white)
                         )
                     ),
-                    child: Text('Visualiser')
+                    child: const Text('Visualiser')
                 ),
               )
                 ],
@@ -165,15 +165,26 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
 
   late Octree octree1, octree2, octreeResultant ;
   late DessinArbre da ;
+  late TextEditingController thetaController;
+  late TextEditingController phiController;
+  late TextEditingController rhoController;
+
+
+
 
   void initState() {
+    final modelProv = Provider.of<ModelProvider>(context, listen: false);
+    thetaController = TextEditingController(text: '${modelProv.theta}');
+    phiController = TextEditingController(text: '${modelProv.phi}');
+    rhoController = TextEditingController(text: '${modelProv.rho}');
+
     octree1 = Octree.fromChaine(arbre1, 16) ;
     octree2 = Octree.fromChaine(arbre2, 16) ;
     // octreeResultant = octree1.intersection(octree2) ;
     octreeResultant = octree1.clone() ;
     // octreeResultant = octree1.complementaire() ;
     // octree = Octree.aleatoire(16) ;
-    da = DessinArbre(octreeResultant, theta, phi, rho) ;
+    da = DessinArbre(octreeResultant, modelProv.theta, modelProv.phi, modelProv.rho) ;
   }
 
   @override
@@ -189,7 +200,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
         appBar: AppBar(
       backgroundColor: Colors.black,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: const Icon(Icons.arrow_back),
         color: Colors.white,
         onPressed: () {
           Navigator.of(context).pop();
@@ -207,7 +218,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                },
              ),
            ),
-           Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
 
            Tooltip(
              message: 'Editer',
@@ -215,11 +226,76 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                icon: const Icon(Icons.edit),
                color: Colors.white,
                onPressed: () {
-                 //make something
+                 showMenu(
+                   context: context,
+                   position: RelativeRect.fromLTRB(MediaQuery.of(context).size.width, 80.0, 0.0, 0.0),
+                   items: <PopupMenuEntry>[
+                     PopupMenuItem(
+                       child: ListTile(
+                         leading: Text("theta : "),
+
+                         title: TextField(
+                           keyboardType: TextInputType.numberWithOptions(
+                             decimal: false,
+                             signed: true,
+                           ),
+                           controller: thetaController,
+                           
+                           onChanged: (value) {
+                             var newTheta = int.tryParse(value);
+                             if (newTheta != null) {
+                               prov.theta = newTheta;
+                               da.theta = newTheta;
+                             }
+                           },
+                         ),
+
+                       ),
+                     ),
+
+                     PopupMenuItem(
+                       child: ListTile(
+                         leading: Text("phi : "),
+
+                         title: TextField(
+                           keyboardType: TextInputType.number,
+                           controller: phiController,
+
+                           onChanged: (value) {
+                             var newPhi = int.tryParse(value);
+                             if (newPhi != null) {
+                               prov.phi = newPhi;
+                               da.phi = newPhi;}
+                           },
+                         ),
+
+                       ),
+                     ),
+                     PopupMenuItem(
+                       child: ListTile(
+                         leading: Text("rho : "),
+
+                         title: TextField(
+                           keyboardType: TextInputType.number,
+                           controller: rhoController,
+
+                           onChanged: (value) {
+                             var newRho = int.tryParse(value);
+                             if (newRho != null) {
+                               prov.rho = newRho;
+                               da.rho = newRho;
+                             }
+                           },
+                         ),
+
+                       ),
+                     ),
+                   ],
+                 );
                },
              ),
            ),
-           Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0)),
+           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0)),
 
 
          ],
@@ -244,7 +320,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             backgroundColor: Colors.green,
             child: const Icon(Icons.autorenew),
           ),
-          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+          const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
 
           FloatingActionButton(
             onPressed: () {
@@ -254,7 +330,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             backgroundColor: Colors.green,
             child: const Icon(Icons.zoom_in),
           ),
-          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+          const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
           FloatingActionButton(
             onPressed: () {
               prov.zoomIn(da);

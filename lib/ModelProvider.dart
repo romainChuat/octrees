@@ -28,6 +28,24 @@ class ModelProvider extends ChangeNotifier{
 
 //fonction de retrait à la list
 
+  int _rho = 50;
+
+  int get rho => _rho;
+
+  set rho(int value) {
+    _rho = value;
+    notifyListeners();
+  }
+
+  int _phi = 45;
+
+  int get phi => _phi;
+
+  set phi(int value) {
+    _phi = value;
+    notifyListeners();
+  }
+
 
   double _zoomFactor = 1.0;
   double get zoomFactor => _zoomFactor;
@@ -46,6 +64,15 @@ class ModelProvider extends ChangeNotifier{
         notifyListeners();
 
       }
+  }
+
+  int _theta = 45;
+
+  int get theta => _theta;
+
+  set theta(int value) {
+    _theta = value;
+    notifyListeners();
   }
 
 
