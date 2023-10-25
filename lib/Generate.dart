@@ -1,11 +1,46 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:octrees/ModelProvider.dart';
+import 'package:octrees/Octree.dart';
+import 'package:octrees/main.dart';
 import 'package:provider/provider.dart';
 
-class Generate extends StatelessWidget{
+
+class Generate extends StatefulWidget {
+  const Generate({super.key});
+
+  @override
+  State<Generate> createState() => GenerateState();
+}
+
+class GenerateState extends State<Generate>{
 
   var _textFieldController = TextEditingController();
+  bool _showEmptyStringErrorMessage = false;
+  bool _showInvalidStringErrorMessage = false;
+
+
+  void _handleInputChangeTree(String input) {
+    setState(() {
+      _showEmptyStringErrorMessage = false;
+      _showInvalidStringErrorMessage = false;
+    });
+  }
+  Widget buildTextField(){
+    return TextField(
+      onChanged: _handleInputChangeTree,
+      controller: _textFieldController,
+      style: const TextStyle(color: Colors.white),
+      decoration: const InputDecoration(
+          filled: true,
+          fillColor: Color.fromARGB(255, 30, 30, 30),
+          border: OutlineInputBorder(),
+          hintText: 'Saisir votre arbre',
+          hintStyle: TextStyle(color: Colors.white)
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,37 +60,37 @@ class Generate extends StatelessWidget{
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children : [
-                 Text(
+                 const Text(
                   "Vous avez choisis de généré un nouvel arbre, choisissez la manière :",
                   style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0,50)),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0,50)),
+              buildTextField(),
 
-              TextField(
-                onChanged: (value) {},
-                controller: _textFieldController,
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Color.fromARGB(255, 30, 30, 30),
-                  border: OutlineInputBorder(),
-                  hintText: 'Saisir votre arbre',
-                  hintStyle: TextStyle(color: Colors.white)
-                ),
-              ),
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
               SizedBox(
                   height: 40,
                   width: 150,
                 child : ElevatedButton(
                   onPressed: (){
-                    if(_textFieldController.text != ""){
-                      modelProvider.addTree(_textFieldController.text);
+                    if(verifyTreeString() == true){
+                      String treeString = _textFieldController.text.trim();
+                      modelProvider.addTree(treeString);
+
+                      Octree tree = new Octree.fromChaine(treeString,treeString.length);
+                      print(tree.toString());
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext context) => MyWorkingArea() )
+                      );
                     }
                   },
-                  child: Text("Générer l'arbre"),
+                  child: const Text("Générer l'arbre"),
                 )
               ),
+              if (_showEmptyStringErrorMessage)
+                const Text("Veuillez saisir un arbre", style: TextStyle(color: Colors.red),),
+              if(_showInvalidStringErrorMessage)
+                const Text("Veuillez saisir un arbre valide", style: TextStyle(color: Colors.red),),
               Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
               const Text(
                 "ou",
@@ -78,8 +113,32 @@ class Generate extends StatelessWidget{
           )
         ),
     );
+
+
   }
-  
+  bool verifyTreeString() {
+    String tree = _textFieldController.text;
+    if (tree == "") {
+      setState(() {
+        _showEmptyStringErrorMessage = true;
+      });
+      return false;
+    }
+    bool valid = true;
+    for(int i = 0; i< tree.length; i++){
+      if(tree[i] != 'P'&& tree[i] != 'V' && tree[i] !='D'){
+        valid = false;
+      }
+    }
+    if(!valid) {
+      setState(() {
+        _showInvalidStringErrorMessage = true;
+      });
+      return false;
+    }
+    return true;
+  }
+
   
 
 }
