@@ -96,6 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 totalRepeatCount: 4,
                 pause: const Duration(milliseconds: 500),
               ),
+              // TODO ajouter un texte plus explicatif en dessous de bienvenue
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
 
@@ -106,6 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                   height: 50,
                   width: 200,
+                  // TODO factoriser le désign des boutons de l'ensemble des classes
                   child : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
@@ -120,7 +122,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     child: const Text('Générer')
-              )),
+              )
+              ),
               const Padding(padding: EdgeInsets.fromLTRB(60, 0, 0, 0)),
               SizedBox(
                 height: 50,
@@ -156,8 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MyWorkingArea extends StatefulWidget {
-  MyWorkingArea({Key? key}) : super(key: key);
-
+  final int index;
+  MyWorkingArea({Key? key, required this.index}) : super(key: key);
   @override
   State<MyWorkingArea> createState() => _MyWorkingAreaState();
 }
@@ -214,7 +217,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                icon: const Icon(Icons.delete),
                color: Colors.white,
                onPressed: () {
-                 //   prov.removeTree(index);
+                   Navigator.of(context).pop();
+                    prov.removeTree(widget.index);
                },
              ),
            ),
@@ -295,11 +299,19 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                },
              ),
            ),
+           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+           Tooltip(
+             message: 'Paramètre',
+             child: IconButton(
+               icon: const Icon(Icons.settings),
+               color: Colors.white,
+               onPressed: () {
+                 // TODO ajouter des parametres dans l'icon settings
+               },
+             ),
+           ),
            const Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0)),
-
-
          ],
-
     ),
 
     body: Center(

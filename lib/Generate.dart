@@ -55,6 +55,18 @@ class GenerateState extends State<Generate>{
             Navigator.of(context).pop();
           },
         ),
+        actions: [
+        Tooltip(
+        message: 'Paramètre',
+        child: IconButton(
+          icon: const Icon(Icons.settings),
+          color: Colors.white,
+          onPressed: () {
+            // TODO ajouter des parametres dans l'icon settings
+          },
+        ),
+      ),
+      ],
       ),
         body: Center(
           child: Column(
@@ -72,15 +84,23 @@ class GenerateState extends State<Generate>{
                   height: 40,
                   width: 150,
                 child : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          side: BorderSide(color: Colors.white)
+                      )
+                  ),
                   onPressed: (){
                     if(verifyTreeString() == true){
                       String treeString = _textFieldController.text.trim();
                       modelProvider.addTree(treeString);
+                      int sizeTree = modelProvider.getTreeSize();
 
                       Octree tree = new Octree.fromChaine(treeString,treeString.length);
                       print(tree.toString());
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) => MyWorkingArea() )
+                          MaterialPageRoute(builder: (BuildContext context) => MyWorkingArea(index: sizeTree) )
                       );
                     }
                   },
@@ -102,8 +122,15 @@ class GenerateState extends State<Generate>{
               SizedBox(
                   height: 40,
                   child : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                              side: BorderSide(color: Colors.white)
+                          )
+                      ),
                       onPressed: (){
-
+                        // TODO générer un arbre aléatoire
                       },
                       child: Text("Génerer un arbre aléatoire")
                   )
