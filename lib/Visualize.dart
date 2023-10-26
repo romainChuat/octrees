@@ -32,6 +32,8 @@ class Visualize extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: Colors.black,
+
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(

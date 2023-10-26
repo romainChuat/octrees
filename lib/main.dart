@@ -37,9 +37,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.black
+      theme: ThemeData.dark().copyWith(
+
+      popupMenuTheme: PopupMenuThemeData(
+        color: Colors.black,
+      ),
       ),
       home: MyHomePage(),
     );
@@ -231,20 +233,34 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                color: Colors.white,
                onPressed: () {
                  showMenu(
+
                    context: context,
+
                    position: RelativeRect.fromLTRB(MediaQuery.of(context).size.width, 80.0, 0.0, 0.0),
                    items: <PopupMenuEntry>[
                      PopupMenuItem(
-                       child: ListTile(
-                         leading: Text("theta : "),
+
+                       child: Container(
+                         decoration: BoxDecoration(
+                           border: Border.all(color: Colors.white, width: 1.0),
+                           borderRadius: BorderRadius.only(
+                             topLeft: Radius.circular(10.0),
+                             topRight: Radius.circular(10.0),
+                           ),
+                         ),
+                         child: ListTile(
+                         tileColor: Colors.black,
+
+                         leading: Text("theta : ",style: TextStyle(color: Colors.white)),
 
                          title: TextField(
+
                            keyboardType: TextInputType.numberWithOptions(
                              decimal: false,
                              signed: true,
                            ),
                            controller: thetaController,
-                           
+
                            onChanged: (value) {
                              var newTheta = int.tryParse(value);
                              if (newTheta != null) {
@@ -255,9 +271,15 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                          ),
 
                        ),
+                 ),
                      ),
 
                      PopupMenuItem(
+                 child: Container(
+                 decoration: BoxDecoration(
+                 border: Border.all(color: Colors.white, width: 1.0),
+
+                 ),
                        child: ListTile(
                          leading: Text("phi : "),
 
@@ -274,8 +296,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                          ),
 
                        ),
+                 ),
                      ),
                      PopupMenuItem(
+                 child: Container(
+                 decoration: BoxDecoration(
+                 border: Border.all(color: Colors.white, width: 1.0),
+                 borderRadius: BorderRadius.only(
+                 bottomLeft: Radius.circular(10.0),
+                 bottomRight: Radius.circular(10.0),
+                 ),
+                 ),
                        child: ListTile(
                          leading: Text("rho : "),
 
@@ -293,7 +324,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                          ),
 
                        ),
-                     ),
+                     ),),
                    ],
                  );
                },
