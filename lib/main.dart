@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 totalRepeatCount: 4,
                 pause: const Duration(milliseconds: 500),
               ),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
 
                 children: [
@@ -156,13 +156,18 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MyWorkingArea extends StatefulWidget {
-  MyWorkingArea({Key? key}) : super(key: key);
+  MyWorkingArea({Key? key, required this.octree}) : super(key: key);
+
+  final Octree octree;
 
   @override
-  State<MyWorkingArea> createState() => _MyWorkingAreaState();
+  _MyWorkingAreaState createState() => _MyWorkingAreaState(octree: octree);
 }
-class _MyWorkingAreaState extends State<MyWorkingArea> {
 
+class _MyWorkingAreaState extends State<MyWorkingArea> {
+  final Octree octree;
+
+  _MyWorkingAreaState({required this.octree});
   late Octree octree1, octree2, octreeResultant ;
   late DessinArbre da ;
   late TextEditingController thetaController;
@@ -184,7 +189,9 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     octreeResultant = octree1.clone() ;
     // octreeResultant = octree1.complementaire() ;
     // octree = Octree.aleatoire(16) ;
-    da = DessinArbre(octreeResultant, modelProv.theta, modelProv.phi, modelProv.rho) ;
+    //da = DessinArbre(octreeResultant, modelProv.theta, modelProv.phi, modelProv.rho) ;
+
+    da = DessinArbre(octree, modelProv.theta, modelProv.phi, modelProv.rho);
   }
 
   @override
