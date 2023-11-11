@@ -86,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                   totalRepeatCount: 4,
                   pause: const Duration(milliseconds: 500),
+                  // TODO ajouter un texte plus explicatif en dessous de bienvenue
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -94,6 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                         height: 50,
                         width: 200,
+                        // TODO factoriser le désign des boutons de l'ensemble des classes
                         child : ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
@@ -201,7 +203,9 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               icon: const Icon(Icons.delete),
               color: Colors.white,
               onPressed: () {
-                //   prov.removeTree(index);
+   // Navigator.of(context).pop();
+   // prov.removeTree(treeName);
+    //},
               },
             ),
           ),
@@ -269,6 +273,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                     ),
                   ],
                 );
+              },
+            ),
+          ),
+          const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+          Tooltip(
+            message: 'Paramètre',
+            child: IconButton(
+              icon: const Icon(Icons.settings),
+              color: Colors.white,
+              onPressed: () {
+                // TODO ajouter des parametres dans l'icon settings
               },
             ),
           ),

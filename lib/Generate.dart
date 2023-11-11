@@ -48,6 +48,18 @@ class GenerateState extends State<Generate> {
             Navigator.of(context).pop();
           },
         ),
+        actions: [
+          Tooltip(
+            message: 'Paramètre',
+            child: IconButton(
+              icon: const Icon(Icons.settings),
+              color: Colors.white,
+              onPressed: () {
+                // TODO ajouter des parametres dans l'icon settings
+              },
+            ),
+          ),
+        ],
       ),
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -62,6 +74,13 @@ class GenerateState extends State<Generate> {
                 height: 40,
                 width: 150,
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          side: BorderSide(color: Colors.white)
+                      )
+                  ),
                   onPressed: () {
                     if (verifyTreeString() == true) {
                       String treeString = _treeStringController.text.trim();

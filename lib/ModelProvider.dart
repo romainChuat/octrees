@@ -43,6 +43,7 @@ class ModelProvider extends ChangeNotifier{
   }
   double _zoomFactor = 1.0;
   double get zoomFactor => _zoomFactor;
+
   void zoomIn(DessinArbre da) {
     _zoomFactor += 0.1;
     da.rho = (rho * zoomFactor).toInt();
@@ -60,5 +61,9 @@ class ModelProvider extends ChangeNotifier{
   set theta(int value) {
     _theta = value;
     notifyListeners();
+  }
+
+  int getTreeSize() {
+    return _trees.length;
   }
 }

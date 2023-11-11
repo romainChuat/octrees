@@ -18,6 +18,18 @@ class Visualize extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
+        actions: [
+          Tooltip(
+            message: 'Paramètre',
+            child: IconButton(
+              icon: const Icon(Icons.settings),
+              color: Colors.white,
+              onPressed: () {
+                // TODO ajouter des parametres dans l'icon settings
+              },
+            ),
+          ),
+        ],
       ),
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -40,7 +52,6 @@ class Visualize extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-
                               child: ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context).push(MaterialPageRoute(
@@ -49,8 +60,13 @@ class Visualize extends StatelessWidget {
                                                 octree: prov.getOctree(treeName))));
                                   },
                                   child: Center(child: Text(treeName)),
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.green)),
+                      style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      shape: const RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(10)),
+                      side: BorderSide(color: Colors.white)))),
+
                             ),
                             Tooltip(
                               message: 'Supprimer',
@@ -58,7 +74,46 @@ class Visualize extends StatelessWidget {
                                 icon: const Icon(Icons.delete),
                                 color: Colors.white,
                                 onPressed: () {
+    showDialog(
+    context: context,
+    builder: (BuildContext context) {
+    return AlertDialog(
+    title: const Text(
+    'Confirmation',
+    style: TextStyle(color: Colors.white),
+    ),
+    backgroundColor: Colors.black,
+    shape: RoundedRectangleBorder(
+    side: BorderSide(color: Colors.white),
+    borderRadius: BorderRadius.circular(10.0),
+    ),
+    content: const Text(
+    'Souhaitez-vous vraiment supprimer cet élément ?',
+    style: TextStyle(color: Colors.white)),
+    actions: <Widget>[
+    TextButton(
+    onPressed: () {
+    Navigator.of(context).pop();
+    },
+    child: const Text(
+    'Annuler',
+    style: TextStyle(color: Colors.white),
+    ),
+    ),
+    TextButton(
+    onPressed: () {
                                   prov.removeTree(treeName);
+                                  Navigator.of(context).pop();
+    },
+      child: const Text(
+        'Confirmer',
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+    ],
+    );
+    },
+    );
                                 },
                               ),
                             ),
