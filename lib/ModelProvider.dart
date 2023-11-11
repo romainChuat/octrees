@@ -6,7 +6,7 @@ import 'DessinArbre.dart';
 
 class ModelProvider extends ChangeNotifier{
 
-  Map<String,Octree> _trees = {'name_1' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
+  Map<String,Octree> _trees = {'name_1 ' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
 
   Map<String,Octree> get trees => _trees;
 
