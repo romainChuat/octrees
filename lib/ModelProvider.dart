@@ -19,67 +19,46 @@ class ModelProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-   ///Retourne l'element de trees identifié par la string name
-   getOctree(String name){
+  ///Retourne l'element de trees identifié par la string name
+  getOctree(String name){
     if(_trees.containsKey(name)){
       return _trees[name];
     }
     return null;
   }
-  int getTreeSize() {
-    return _trees.length;
-  }
-
 
 //fonction de retrait à la list
 
   int _rho = 50;
-
   int get rho => _rho;
-
   set rho(int value) {
     _rho = value;
     notifyListeners();
   }
-
   int _phi = 45;
-
   int get phi => _phi;
-
   set phi(int value) {
     _phi = value;
     notifyListeners();
   }
-
-
   double _zoomFactor = 1.0;
   double get zoomFactor => _zoomFactor;
-
   void zoomIn(DessinArbre da) {
-      _zoomFactor += 0.1;
+    _zoomFactor += 0.1;
+    da.rho = (rho * zoomFactor).toInt();
+    notifyListeners();
+  }
+  void zoomOut(DessinArbre da) {
+    if (zoomFactor > 0.2) {
+      _zoomFactor -= 0.1;
       da.rho = (rho * zoomFactor).toInt();
       notifyListeners();
-
+    }
   }
-
-  void zoomOut(DessinArbre da) {
-      if (zoomFactor > 0.2) {
-        _zoomFactor -= 0.1;
-        da.rho = (rho * zoomFactor).toInt();
-        notifyListeners();
-
-      }
-  }
-
   int _theta = 45;
-
   int get theta => _theta;
-
   set theta(int value) {
     _theta = value;
     notifyListeners();
   }
-
-
-
 }
