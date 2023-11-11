@@ -1,11 +1,10 @@
-
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:octrees/Octree.dart';
 import 'package:octrees/main.dart';
 import 'package:provider/provider.dart';
-
 
 class Generate extends StatefulWidget {
   const Generate({super.key});
@@ -14,31 +13,32 @@ class Generate extends StatefulWidget {
   State<Generate> createState() => GenerateState();
 }
 
-class GenerateState extends State<Generate>{
-
-  var _textFieldController = TextEditingController();
+class GenerateState extends State<Generate> {
+  var _treeStringController = TextEditingController();
+  var _randomTreeStringController = TextEditingController();
   bool _showEmptyStringErrorMessage = false;
   bool _showInvalidStringErrorMessage = false;
-
+  bool _showInvalidLengthStringError = false;
 
   void _handleInputChangeTree(String input) {
     setState(() {
       _showEmptyStringErrorMessage = false;
       _showInvalidStringErrorMessage = false;
+      _showInvalidLengthStringError = false;
     });
   }
-  Widget buildTextField(){
+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
+  Widget buildTextField(String hintText, TextEditingController controller) {
     return TextField(
       onChanged: _handleInputChangeTree,
-      controller: _textFieldController,
+      controller: controller,
       style: const TextStyle(color: Colors.white),
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
           filled: true,
           fillColor: Color.fromARGB(255, 30, 30, 30),
           border: OutlineInputBorder(),
-          hintText: 'Saisir votre arbre',
-          hintStyle: TextStyle(color: Colors.white)
-      ),
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.white)),
     );
   }
 
@@ -68,83 +68,98 @@ class GenerateState extends State<Generate>{
       ),
       ],
       ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children : [
-                 const Text(
-                  "Vous avez choisis de généré un nouvel arbre, choisissez la manière :",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0,50)),
-              buildTextField(),
-
-              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-              SizedBox(
-                  height: 40,
-                  width: 150,
-                child : ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          side: BorderSide(color: Colors.white)
-                      )
-                  ),
-                  onPressed: (){
-                    if(verifyTreeString() == true){
-                      String treeString = _textFieldController.text.trim();
-                      modelProvider.addTree(treeString);
-                      int sizeTree = modelProvider.getTreeSize();
-
-                      Octree tree = new Octree.fromChaine(treeString,treeString.length);
-                      print(tree.toString());
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext context) => MyWorkingArea(index: sizeTree) )
-                      );
-                    }
-                  },
-                  child: const Text("Générer l'arbre"),
-                )
-              ),
-              if (_showEmptyStringErrorMessage)
-                const Text("Veuillez saisir un arbre", style: TextStyle(color: Colors.red),),
-              if(_showInvalidStringErrorMessage)
-                const Text("Veuillez saisir un arbre valide", style: TextStyle(color: Colors.red),),
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
-              const Text(
-                "ou",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-
-              ),
-              Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
-
-              SizedBox(
-                  height: 40,
-                  child : ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              side: BorderSide(color: Colors.white)
-                          )
-                      ),
-                      onPressed: (){
-                        // TODO générer un arbre aléatoire
-                      },
-                      child: Text("Génerer un arbre aléatoire")
-                  )
-              )
-
-            ]
-          )
+      body: Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        const Text(
+          "Vous avez choisis de généré un nouvel arbre, choisissez la manière :",
+          style: TextStyle(color: Colors.white, fontSize: 20),
         ),
+        const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 50)),
+        buildTextField('Saisir votre arbre', _treeStringController),
+        const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+        SizedBox(
+            height: 40,
+            width: 150,
+            child: ElevatedButton(
+              onPressed: () {
+                if (verifyTreeString() == true) {
+                  String treeString = _treeStringController.text.trim();
+                  /**
+                   * TODO vérification longueur valide
+                   * +TODO  calculer le nombre de coté
+                   **/
+                  print(treeString);
+                  Octree tree = new Octree.fromChaine(treeString, 16);
+                  modelProvider.addTree(
+                      "name_" + Random().nextInt(100000).toString(), tree);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          MyWorkingArea(octree: tree)));
+                }
+              },
+              child: const Text("Générer l'arbre"),
+            )),
+        if (_showEmptyStringErrorMessage)
+          const Text(
+            "Veuillez saisir un arbre",
+            style: TextStyle(color: Colors.red),
+          ),
+        if (_showInvalidStringErrorMessage)
+          const Text(
+            "Veuillez saisir un arbre valide",
+            style: TextStyle(color: Colors.red),
+          ),
+        const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
+        const Text(
+          "ou",
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+        const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
+        buildTextField(
+            "Longueur d'arbre aléatoire", _randomTreeStringController),
+        const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
+        SizedBox(
+            height: 40,
+            child: ElevatedButton(
+                onPressed: () {
+                  if (verifyLengthString() == true) {
+                    /**
+                     *TODO vérification longueur valide doit être un puissance de 2
+                     **/
+                    Octree tree = new Octree.aleatoire(
+                        int.parse(_randomTreeStringController.text));
+                    String name = "name_" + Random().nextInt(100000).toString();
+                    modelProvider.addTree(name, tree);
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            MyWorkingArea(octree: tree)));
+                    print(modelProvider.getOctree(name).toString());
+                  }
+                },
+                child: const Text("Génerer un arbre aléatoire"))),
+        if (_showInvalidLengthStringError)
+          const Text(
+            "Veuillez saisir une longueur valide",
+            style: TextStyle(color: Colors.red),
+          ),
+      ])),
     );
-
-
   }
+
+  bool verifyLengthString() {
+    String treeLength = _randomTreeStringController.text;
+    final RegExp regex = RegExp(r'^[0-9]+$');
+    if (!regex.hasMatch(treeLength)) {
+      setState(() {
+        _showInvalidLengthStringError = true;
+      });
+      return false;
+    }
+    return true;
+  }
+
   bool verifyTreeString() {
-    String tree = _textFieldController.text;
+    String tree = _treeStringController.text;
     if (tree == "") {
       setState(() {
         _showEmptyStringErrorMessage = true;
@@ -152,12 +167,12 @@ class GenerateState extends State<Generate>{
       return false;
     }
     bool valid = true;
-    for(int i = 0; i< tree.length; i++){
-      if(tree[i] != 'P'&& tree[i] != 'V' && tree[i] !='D'){
+    for (int i = 0; i < tree.length; i++) {
+      if (tree[i] != 'P' && tree[i] != 'V' && tree[i] != 'D') {
         valid = false;
       }
     }
-    if(!valid) {
+    if (!valid) {
       setState(() {
         _showInvalidStringErrorMessage = true;
       });
@@ -165,7 +180,4 @@ class GenerateState extends State<Generate>{
     }
     return true;
   }
-
-  
-
 }

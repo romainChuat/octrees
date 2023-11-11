@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:graphview/GraphView.dart';
 import 'package:octrees/DessinArbre.dart';
 import 'package:octrees/Octree.dart' ;
 import 'package:octrees/ModelProvider.dart' ;
 import 'package:octrees/Visualize.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'Cube.dart';
 import 'Generate.dart';
 
 // String arbre = "DPVVPVVVP" ;
@@ -98,8 +100,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 totalRepeatCount: 4,
                 pause: const Duration(milliseconds: 500),
               ),
+
+              Column(
+
               // TODO ajouter un texte plus explicatif en dessous de bienvenue
-              Row(
+
                 mainAxisAlignment: MainAxisAlignment.center,
 
                 children: [
@@ -161,23 +166,32 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MyWorkingArea extends StatefulWidget {
-  final int index;
-  MyWorkingArea({Key? key, required this.index}) : super(key: key);
-  @override
-  State<MyWorkingArea> createState() => _MyWorkingAreaState();
-}
-class _MyWorkingAreaState extends State<MyWorkingArea> {
 
+  MyWorkingArea({Key? key, required this.octree}) : super(key: key);
+
+  final Octree octree;
+
+
+  @override
+  _MyWorkingAreaState createState() => _MyWorkingAreaState(octree: octree);
+}
+
+class _MyWorkingAreaState extends State<MyWorkingArea> {
+  final Octree octree;
+
+  _MyWorkingAreaState({required this.octree});
   late Octree octree1, octree2, octreeResultant ;
   late DessinArbre da ;
   late TextEditingController thetaController;
   late TextEditingController phiController;
   late TextEditingController rhoController;
+  Widget currentContent = Container();
+  bool octree3D = true;
 
 
-
-
-  void initState() {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     final modelProv = Provider.of<ModelProvider>(context, listen: false);
     thetaController = TextEditingController(text: '${modelProv.theta}');
     phiController = TextEditingController(text: '${modelProv.phi}');
@@ -189,7 +203,11 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     octreeResultant = octree1.clone() ;
     // octreeResultant = octree1.complementaire() ;
     // octree = Octree.aleatoire(16) ;
-    da = DessinArbre(octreeResultant, modelProv.theta, modelProv.phi, modelProv.rho) ;
+    //da = DessinArbre(octreeResultant, modelProv.theta, modelProv.phi, modelProv.rho) ;
+
+    da = DessinArbre(octree, modelProv.theta, modelProv.phi, modelProv.rho);
+    currentContent = CustomPaint( size: MediaQuery.of(context).size, painter: Painter(da),);
+
   }
 
   @override
@@ -200,7 +218,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   @override
   Widget build(BuildContext context) {
     var prov = context.watch<ModelProvider>();
-
+    //initState();
     return Scaffold(
         appBar: AppBar(
       backgroundColor: Colors.black,
@@ -346,11 +364,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     ),
 
     body: Center(
-      child: CustomPaint(
-        size: MediaQuery.of(context).size,
-        painter: Painter(da),
-
-      )
+      child: currentContent,
     ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -358,6 +372,72 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
         children: [
           FloatingActionButton(
             onPressed: () {
+              setState(() {
+                if(octree3D == true){
+                  /// création de l'arbre en 2D
+                  String univers_string = octree.decompile(octree.univers);
+                  double tree_height = 0;
+                  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+                  builder.orientation = 3;
+                  builder.siblingSeparation = 10;
+                  builder.levelSeparation = 15;
+
+                  final Graph graph = Graph()..isTree = true;
+                  Map<Node,String> nodes = {};
+
+                  ///ajout des noeuds au graph
+
+                  for(int i =0; i< 8 ; i++){
+                    nodes[Node.Id(i)] = univers_string[i];
+                  }
+                  Node root = nodes.entries.first.key;
+                  for (Node n in nodes.keys) {
+                    if (n != root) {
+                      graph.addEdge(root, n);
+                    }
+
+                  }
+                  /*for(int i =0; i< univers_string.length; i+=8){
+                    for(int j = i; j<i+8; j++ ){
+                      if(univers_string[j] == 'D') {
+                        graph.addEdge()
+                      }
+                    }
+                  }*/
+                  
+                  /*for(int i = 0; i< 8; i++){
+                    graph.addEdge(nodes[0], nodes[i]);
+                  }*/
+                  graph.addEdge(Node.Id(0), Node.Id(1));
+                  currentContent = Expanded(
+                    //child: InteractiveViewer(
+                      //  constrained: false,
+                        //boundaryMargin: EdgeInsets.all(100),
+                        //minScale: 0.01,
+                        //maxScale: 5.6,
+                        child: GraphView(
+                          graph: graph,
+                          algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+                          paint: Paint()
+                            ..color = Colors.green
+                            ..strokeWidth = 1
+                            ..style = PaintingStyle.stroke,
+                          builder: (Node node) {
+                            // I can decide what widget should be shown here based on the id
+                            //var a = node.key?.value as int;
+                            String? a = nodes[node];
+                            return rectangleWidget(a!);
+                          },
+                        ),
+                  );
+                  //currentContent = Container(color: Colors.blue,);
+                  octree3D = false;
+                }else{
+                  /// creéation de l'arbre en 3D
+                  currentContent = CustomPaint( size: MediaQuery.of(context).size, painter: Painter(da),);
+                  octree3D = true;
+                }
+              });
             },
             tooltip: 'Autre vue',
             backgroundColor: Colors.green,
@@ -384,6 +464,16 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             child: const Icon(Icons.zoom_out),
           ),
         ],
+      ),
+    );
+  }
+  Widget rectangleWidget(String a ){
+    return SizedBox(
+      height: 20,
+      width: 20,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: Colors.white),
+        child: Text('${a}', style: TextStyle(fontSize: 20),),
       ),
     );
   }

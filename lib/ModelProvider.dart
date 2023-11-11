@@ -1,30 +1,31 @@
-
 import 'package:flutter/foundation.dart';
-
+import 'package:octrees/Octree.dart';
 import 'DessinArbre.dart';
-import 'main.dart';
 
 class ModelProvider extends ChangeNotifier{
 
-  List<String> _trees = ["arbre 1", "arbre 2"];
+  Map<String,Octree> _trees = {'name_1' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
 
-  List<String> get trees => _trees;
-  //une liste d'arbre
+  Map<String,Octree> get trees => _trees;
 
-  //fonction de génération
-
-  //fonction de création après saisie
-
-  //fonction d'ajout à la list
-  void addTree(String tree){
-    _trees.add(tree);
-  }
-// supprime un élements à l'index donner
-  void removeTree(int index) {
-    _trees.removeAt(index);
+  void addTree(String name, Octree tree){
+    _trees[name] = tree;
     notifyListeners();
   }
 
+  ///  Supprime dans trees l'arbre identifié par la string name
+  void removeTree(String name) {
+    _trees.removeWhere((key, value) => key == name);
+    notifyListeners();
+  }
+
+   ///Retourne l'element de trees identifié par la string name
+   getOctree(String name){
+    if(_trees.containsKey(name)){
+      return _trees[name];
+    }
+    return null;
+  }
   int getTreeSize() {
     return _trees.length;
   }
