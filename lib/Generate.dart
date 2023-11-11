@@ -78,7 +78,7 @@ class GenerateState extends State<Generate> {
                               MyWorkingArea(octree: tree)));
                     }
                   },
-                  child: const Text("Générer l'arbre"),
+                  child: const Text("Générer l'arbre "),
                 )),
             if (_showEmptyStringErrorMessage)
               const Text(

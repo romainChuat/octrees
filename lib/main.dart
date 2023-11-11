@@ -345,7 +345,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                   //currentContent = Container(color: Colors.blue,);
                   octree3D = false;
                 }else{
-                  /// creéation de l'arbre en 3D
+                  /// création de l'arbre en 3D
                   currentContent = CustomPaint( size: MediaQuery.of(context).size, painter: Painter(da),);
                   octree3D = true;
                 }

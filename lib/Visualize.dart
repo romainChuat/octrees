@@ -22,7 +22,7 @@ class Visualize extends StatelessWidget {
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             const Text(
-              "Vous avez choisis de visualiser un arbre, voici l’ensemble de vos arbres :",
+              "Vous avez choisis de visualiser un arbre, voici l’ensemble de vos arbres : ",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 50)),
