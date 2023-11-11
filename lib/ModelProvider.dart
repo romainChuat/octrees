@@ -26,6 +26,10 @@ class ModelProvider extends ChangeNotifier{
     }
     return null;
   }
+  int getTreeSize() {
+    return _trees.length;
+  }
+
 
 //fonction de retrait à la list
 

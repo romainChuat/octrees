@@ -39,9 +39,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.black
+      theme: ThemeData.dark().copyWith(
+
+      popupMenuTheme: PopupMenuThemeData(
+        color: Colors.black,
+      ),
       ),
       home: MyHomePage(),
     );
@@ -98,7 +100,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 totalRepeatCount: 4,
                 pause: const Duration(milliseconds: 500),
               ),
+
               Column(
+
+              // TODO ajouter un texte plus explicatif en dessous de bienvenue
+
                 mainAxisAlignment: MainAxisAlignment.center,
 
                 children: [
@@ -108,6 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(
                   height: 50,
                   width: 200,
+                  // TODO factoriser le désign des boutons de l'ensemble des classes
                   child : ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
@@ -122,7 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     child: const Text('Générer')
-              )),
+              )
+              ),
               const Padding(padding: EdgeInsets.fromLTRB(60, 0, 0, 0)),
               SizedBox(
                 height: 50,
@@ -158,9 +166,11 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MyWorkingArea extends StatefulWidget {
+
   MyWorkingArea({Key? key, required this.octree}) : super(key: key);
 
   final Octree octree;
+
 
   @override
   _MyWorkingAreaState createState() => _MyWorkingAreaState(octree: octree);
@@ -227,7 +237,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                icon: const Icon(Icons.delete),
                color: Colors.white,
                onPressed: () {
-                 //   prov.removeTree(index);
+                   Navigator.of(context).pop();
+                    prov.removeTree(widget.index);
                },
              ),
            ),
@@ -240,20 +251,34 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                color: Colors.white,
                onPressed: () {
                  showMenu(
+
                    context: context,
+
                    position: RelativeRect.fromLTRB(MediaQuery.of(context).size.width, 80.0, 0.0, 0.0),
                    items: <PopupMenuEntry>[
                      PopupMenuItem(
-                       child: ListTile(
-                         leading: Text("theta : "),
+
+                       child: Container(
+                         decoration: BoxDecoration(
+                           border: Border.all(color: Colors.white, width: 1.0),
+                           borderRadius: BorderRadius.only(
+                             topLeft: Radius.circular(10.0),
+                             topRight: Radius.circular(10.0),
+                           ),
+                         ),
+                         child: ListTile(
+                         tileColor: Colors.black,
+
+                         leading: Text("theta : ",style: TextStyle(color: Colors.white)),
 
                          title: TextField(
+
                            keyboardType: TextInputType.numberWithOptions(
                              decimal: false,
                              signed: true,
                            ),
                            controller: thetaController,
-                           
+
                            onChanged: (value) {
                              var newTheta = int.tryParse(value);
                              if (newTheta != null) {
@@ -264,9 +289,15 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                          ),
 
                        ),
+                 ),
                      ),
 
                      PopupMenuItem(
+                 child: Container(
+                 decoration: BoxDecoration(
+                 border: Border.all(color: Colors.white, width: 1.0),
+
+                 ),
                        child: ListTile(
                          leading: Text("phi : "),
 
@@ -283,8 +314,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                          ),
 
                        ),
+                 ),
                      ),
                      PopupMenuItem(
+                 child: Container(
+                 decoration: BoxDecoration(
+                 border: Border.all(color: Colors.white, width: 1.0),
+                 borderRadius: BorderRadius.only(
+                 bottomLeft: Radius.circular(10.0),
+                 bottomRight: Radius.circular(10.0),
+                 ),
+                 ),
                        child: ListTile(
                          leading: Text("rho : "),
 
@@ -302,17 +342,25 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                          ),
 
                        ),
-                     ),
+                     ),),
                    ],
                  );
                },
              ),
            ),
+           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
+           Tooltip(
+             message: 'Paramètre',
+             child: IconButton(
+               icon: const Icon(Icons.settings),
+               color: Colors.white,
+               onPressed: () {
+                 // TODO ajouter des parametres dans l'icon settings
+               },
+             ),
+           ),
            const Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0)),
-
-
          ],
-
     ),
 
     body: Center(

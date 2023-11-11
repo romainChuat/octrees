@@ -27,7 +27,7 @@ class GenerateState extends State<Generate> {
       _showInvalidLengthStringError = false;
     });
   }
-
+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
   Widget buildTextField(String hintText, TextEditingController controller) {
     return TextField(
       onChanged: _handleInputChangeTree,
@@ -55,6 +55,18 @@ class GenerateState extends State<Generate> {
             Navigator.of(context).pop();
           },
         ),
+        actions: [
+        Tooltip(
+        message: 'Paramètre',
+        child: IconButton(
+          icon: const Icon(Icons.settings),
+          color: Colors.white,
+          onPressed: () {
+            // TODO ajouter des parametres dans l'icon settings
+          },
+        ),
+      ),
+      ],
       ),
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
