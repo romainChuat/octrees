@@ -20,16 +20,19 @@ class Octree {
     // decompile (univers) ;
   }
 
-  void decompile(Voxel v) {
-    if (v is VoxelPlein) {print ('P') ;}
-    else if (v is VoxelVide) {print ('V') ;}
+  String decompile(Voxel v) {
+    String voxelString = "";
+
+    if (v is VoxelPlein) { voxelString += 'P' ;}
+    else if (v is VoxelVide) { voxelString += 'V' ;}
     else {
       VoxelDivisible vd = v as VoxelDivisible ;
-      print('D');
+      voxelString += 'D';
       for (Voxel voxel in vd.voxels) {
-        decompile(voxel);
+        voxelString += decompile(voxel);
       }
     }
+    return voxelString;
   }
 
   Octree.aleatoire(int longueur) {

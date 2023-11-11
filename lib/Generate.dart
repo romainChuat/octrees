@@ -112,7 +112,7 @@ class GenerateState extends State<Generate> {
                 onPressed: () {
                   if (verifyLengthString() == true) {
                     /**
-                     *TODO vérification longueur valide
+                     *TODO vérification longueur valide doit être un puissance de 2
                      **/
                     Octree tree = new Octree.aleatoire(
                         int.parse(_randomTreeStringController.text));
