@@ -226,6 +226,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                       child: Text('Annuler'),
                       onPressed: () {
                         Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+
 
                       },
                     ),
@@ -261,9 +263,9 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               icon: const Icon(Icons.delete),
               color: Colors.white,
               onPressed: () {
-                // Navigator.of(context).pop();
-                // prov.removeTree(treeName);
-                //},
+                Navigator.of(context).pop();
+                prov.removeTreeByOctree(octree);
+
               },
             ),
           ),

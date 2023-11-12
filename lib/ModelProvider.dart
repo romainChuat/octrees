@@ -51,6 +51,7 @@ class ModelProvider extends ChangeNotifier{
     _rho = value;
     notifyListeners();
   }
+
   int _phi = 45;
   int get phi => _phi;
   set phi(int value) {
@@ -58,22 +59,20 @@ class ModelProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-
   void zoomIn(DessinArbre da) {
-
-      _rho = rho.toInt()+5;
-      da.rho = _rho;
-      notifyListeners();
-
+    _rho = rho.toInt() + 5;
+    da.rho = _rho;
+    notifyListeners();
   }
+
   void zoomOut(DessinArbre da) {
-    if(rho >= 5 ) {
+    if (rho >= 5) {
       _rho = rho.toInt() - 5;
       da.rho = _rho;
       notifyListeners();
     }
-
   }
+
   int _theta = 45;
   int get theta => _theta;
   set theta(int value) {
