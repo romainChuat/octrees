@@ -257,17 +257,43 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-          Tooltip(
-            message: 'Supprimer',
-            child: IconButton(
-              icon: const Icon(Icons.delete),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.of(context).pop();
-                prov.removeTreeByOctree(octree);
 
-              },
-            ),
+            Tooltip(
+              message: 'Supprimer',
+              child: IconButton(
+                icon: const Icon(Icons.delete),
+                color: Colors.white,
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Confirmation'),
+                        content: Text('Voulez-vous vraiment supprimer cet arbre ?'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Annuler'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              prov.removeTreeByOctree(octree);
+                              Navigator.of(context).pop();
+
+                            },
+                            child: Text('Supprimer'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+
+
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
           Tooltip(
