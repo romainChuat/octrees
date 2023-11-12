@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:octrees/Octree.dart';
 import 'DessinArbre.dart';
+
 
 class ModelProvider extends ChangeNotifier{
 
@@ -12,6 +14,7 @@ class ModelProvider extends ChangeNotifier{
     _trees[name] = tree;
     notifyListeners();
   }
+
 
   ///  Supprime dans trees l'arbre identifié par la string name
   void removeTree(String name) {
@@ -41,20 +44,22 @@ class ModelProvider extends ChangeNotifier{
     _phi = value;
     notifyListeners();
   }
-  double _zoomFactor = 1.0;
-  double get zoomFactor => _zoomFactor;
+
 
   void zoomIn(DessinArbre da) {
-    _zoomFactor += 0.1;
-    da.rho = (rho * zoomFactor).toInt();
-    notifyListeners();
+
+      _rho = rho.toInt()+5;
+      da.rho = _rho;
+      notifyListeners();
+
   }
   void zoomOut(DessinArbre da) {
-    if (zoomFactor > 0.2) {
-      _zoomFactor -= 0.1;
-      da.rho = (rho * zoomFactor).toInt();
+    if(rho >= 5 ) {
+      _rho = rho.toInt() - 5;
+      da.rho = _rho;
       notifyListeners();
     }
+
   }
   int _theta = 45;
   int get theta => _theta;
@@ -66,4 +71,14 @@ class ModelProvider extends ChangeNotifier{
   int getTreeSize() {
     return _trees.length;
   }
+
+  /*void showToastDelete() {
+    Fluttertoast.showToast(
+      msg: "Supprimer!",
+      timeInSecForIosWeb: 2,
+      fontSize: 16.0,
+      backgroundColor: Colors.white,
+    );
+    notifyListeners();
+  }*/
 }

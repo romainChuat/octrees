@@ -292,13 +292,16 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
       ),
 
       body: Center(
+        child: Container(
         child: currentContent,
+        ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: "btn1",
             onPressed: () {
               setState(() {
                 if(octree3D == true){
@@ -336,13 +339,13 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                     graph.addEdge(nodes[0], nodes[i]);
                   }*/
                   graph.addEdge(Node.Id(0), Node.Id(1));
-                  currentContent = Expanded(
+                  currentContent =
                     //child: InteractiveViewer(
                     //  constrained: false,
                     //boundaryMargin: EdgeInsets.all(100),
                     //minScale: 0.01,
                     //maxScale: 5.6,
-                    child: GraphView(
+                     GraphView(
                       graph: graph,
                       algorithm: BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
                       paint: Paint()
@@ -355,8 +358,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                         String? a = nodes[node];
                         return rectangleWidget(a!);
                       },
-                    ),
-                  );
+                    );
+
                   //currentContent = Container(color: Colors.blue,);
                   octree3D = false;
                 }else{
@@ -372,6 +375,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
           FloatingActionButton(
+            heroTag: "btn2",
             onPressed: () {
               prov.zoomOut(da);
             },
@@ -381,6 +385,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
           FloatingActionButton(
+            heroTag: "btn3",
             onPressed: () {
               prov.zoomIn(da);
             },
