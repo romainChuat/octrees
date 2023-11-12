@@ -15,6 +15,19 @@ class ModelProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  void removeTreeByOctree(Octree tree) {
+    String? keyToRemove;
+    _trees.forEach((key, value) {
+      if (identical(value, tree)) {
+        keyToRemove = key;
+      }
+    });
+    if (keyToRemove != null) {
+      _trees.remove(keyToRemove);
+      notifyListeners();
+    }
+  }
+
 
   ///  Supprime dans trees l'arbre identifié par la string name
   void removeTree(String name) {

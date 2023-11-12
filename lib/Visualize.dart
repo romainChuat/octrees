@@ -54,10 +54,12 @@ class Visualize extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                               onPressed: () {
+
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         MyWorkingArea(
-                                            octree: prov.getOctree(treeName))));
+                                            octree: prov.getOctree(treeName),
+                                        namePage: "visualizePage")));
                               },
                               child: Center(child: Text(treeName)),
                               style: ElevatedButton.styleFrom(

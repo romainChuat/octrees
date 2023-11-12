@@ -90,11 +90,10 @@ class GenerateState extends State<Generate> {
                        **/
                       print(treeString);
                       Octree tree = new Octree.fromChaine(treeString, 16);
-                      modelProvider.addTree(
-                          "name_" + Random().nextInt(100000).toString(), tree);
+
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
-                              MyWorkingArea(octree: tree)));
+                              MyWorkingArea(octree: tree, namePage: "generatePage",)));
                     }
                   },
                   child: const Text("Générer l'arbre"),
@@ -128,11 +127,10 @@ class GenerateState extends State<Generate> {
                          **/
                         Octree tree = new Octree.aleatoire(
                             int.parse(_randomTreeStringController.text));
-                        String name = "name_" + Random().nextInt(100000).toString();
-                        modelProvider.addTree(name, tree);
+                        String name = "";
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                MyWorkingArea(octree: tree)));
+                                MyWorkingArea(octree: tree, namePage: "generatePage")));
                         print(modelProvider.getOctree(name).toString());
                       }
                     },
