@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:octrees/Octree.dart';
@@ -15,6 +14,7 @@ class GenerateState extends State<Generate> {
   bool _showEmptyStringErrorMessage = false;
   bool _showInvalidStringErrorMessage = false;
   bool _showInvalidLengthStringError = false;
+
   void _handleInputChangeTree(String input) {
     setState(() {
       _showEmptyStringErrorMessage = false;
@@ -22,6 +22,7 @@ class GenerateState extends State<Generate> {
       _showInvalidLengthStringError = false;
     });
   }
+
   Widget buildTextField(String hintText, TextEditingController controller) {
     return TextField(
       onChanged: _handleInputChangeTree,
@@ -85,12 +86,9 @@ class GenerateState extends State<Generate> {
                     if (verifyTreeString() == true) {
                       String treeString = _treeStringController.text.trim();
                       /**
-                       * TODO vérification longueur valide
-                       * +TODO  calculer le nombre de coté
+                       * TODO  calculer le nombre de coté
                        **/
-                      print(treeString);
                       Octree tree = new Octree.fromChaine(treeString, 16);
-
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
                               MyWorkingArea(octree: tree, namePage: "generatePage",)));
@@ -122,11 +120,7 @@ class GenerateState extends State<Generate> {
                 child: ElevatedButton(
                     onPressed: () {
                       if (verifyLengthString() == true) {
-                        /**
-                         *TODO vérification longueur valide doit être un puissance de 2
-                         **/
-                        Octree tree = new Octree.aleatoire(
-                            int.parse(_randomTreeStringController.text));
+                        Octree tree = Octree.aleatoire(int.parse(_randomTreeStringController.text));
                         String name = "";
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) =>
@@ -137,7 +131,7 @@ class GenerateState extends State<Generate> {
                     child: const Text("Génerer un arbre aléatoire"))),
             if (_showInvalidLengthStringError)
               const Text(
-                "Veuillez saisir une longueur valide",
+                "La longueur saisie doit être une puissance de 2",
                 style: TextStyle(color: Colors.red),
               ),
           ])),
@@ -145,18 +139,32 @@ class GenerateState extends State<Generate> {
   }
   bool verifyLengthString() {
     String treeLength = _randomTreeStringController.text;
-    final RegExp regex = RegExp(r'^[0-9]+$');
-    if (!regex.hasMatch(treeLength)) {
+    bool valid = true;
+    try{
+      int treeLengthInt = int.parse(treeLength);
+      if( ((treeLengthInt & (treeLengthInt - 1)) != 0 ) || treeLengthInt == 0 ){
+        valid = false;
+      }
+    } catch (e){
+        valid = false;
+    }
+    if(!valid){
       setState(() {
         _showInvalidLengthStringError = true;
       });
-      return false;
     }
-    return true;
+    return valid;
   }
   bool verifyTreeString() {
     String tree = _treeStringController.text;
-    if (tree == "") {
+    int countNbD = 0;
+    for(int i = 0; i < tree.length; i++ ){
+      if(tree[i] == 'D'){
+        countNbD++;
+      }
+    }
+    int correctLength = countNbD * 8 +1;
+    if (tree == "" || tree.length != correctLength  || tree[0] != 'D') {
       setState(() {
         _showEmptyStringErrorMessage = true;
       });
