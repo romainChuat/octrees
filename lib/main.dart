@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'Cube.dart';
 import 'Generate.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 // String arbre = "DPVVPVVVP" ;
 String arbre2 = "DPPPPVVVV";
@@ -100,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 400)),
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 200)),
                     SizedBox(
                         height: 50,
                         width: 200,
@@ -118,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Generate()));
                             },
                             child: const Text('Générer'))),
-                    const Padding(padding: EdgeInsets.fromLTRB(60, 0, 0, 0)),
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 60, 0, 0)),
                     SizedBox(
                       height: 50,
                       width: 200,
@@ -142,7 +143,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: MyWorkingArea()
               ),*/
               ],
-            )));
+            )),
+        floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+    },
+    child: Icon(Icons.picture_as_pdf),
+    backgroundColor: Colors.blue,
+    ),
+    floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+    );
   }
 }
 
