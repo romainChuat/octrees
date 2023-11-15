@@ -164,7 +164,7 @@ class GenerateState extends State<Generate> {
       }
     }
     int correctLength = countNbD * 8 +1;
-    if (tree == "" || tree.length != correctLength  || tree[0] != 'D') {
+    if (tree == "" || tree.length != correctLength  || (tree[0] != 'D' && correctLength == 1 )) {
       setState(() {
         _showEmptyStringErrorMessage = true;
       });
