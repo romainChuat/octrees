@@ -86,9 +86,9 @@ class GenerateState extends State<Generate> {
                     if (verifyTreeString() == true) {
                       String treeString = _treeStringController.text.trim();
                       /**
-                       * TODO  calculer le nombre de coté
+                       * TODO  calculer le nombre de coté !!!!!
                        **/
-                      Octree tree = new Octree.fromChaine(treeString, 16);
+                      Octree tree = new Octree.fromChaine(treeString, 16); /// TODO  calculer le nombre de coté !!!!! Pas toujours égale à 16
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
                               MyWorkingArea(octree: tree, namePage: "generatePage",)));
