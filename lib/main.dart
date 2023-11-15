@@ -10,6 +10,8 @@ import 'Cube.dart';
 import 'Generate.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import 'Operation.dart';
+
 // String arbre = "DPVVPVVVP" ;
 String arbre2 = "DPPPPVVVV";
 
@@ -136,6 +138,24 @@ class _MyHomePageState extends State<MyHomePage> {
                                   BorderRadius.all(Radius.circular(10)),
                                   side: BorderSide(color: Colors.white))),
                           child: const Text('Visualiser')),
+                    ),
+                    const Padding(padding: EdgeInsets.fromLTRB(0, 60, 0, 0)),
+                    SizedBox(
+                      height: 50,
+                      width: 200,
+                      child: ElevatedButton(
+                          onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) => Operation()
+                              ));
+                            },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                                  side: BorderSide(color: Colors.white))),
+                            child: const Text('Opération')),
                     )
                   ],
                 )
