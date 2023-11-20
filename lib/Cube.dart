@@ -14,7 +14,8 @@ abstract class Voxel {
       return VoxelDivisible(voxels);
     } else {
       // this is VoxelDivisible et voxel is VoxelPlein
-      return this.clone();
+      if (voxel is VoxelPlein) return this.clone() ; // this est un VoxelDivisible et voxel est un VoxelPlein
+      return voxel.clone() ; // voxel VoxelDivisible et this VoxelPlein
     }
   }
 
@@ -30,7 +31,8 @@ abstract class Voxel {
       }
       return VoxelDivisible(voxels);
     }
-    return this.clone() ; // this VoxelDivisible && voxel VoxelVide
+    if (this is VoxelVide) return voxel.clone() ; // this VoxelVide et voxel VoxelDivisible
+    return this.clone() ; // this VoxelDivisible et voxel VoxelVide
   }
 
   Voxel difference(Voxel voxel) {
