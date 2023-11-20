@@ -28,6 +28,8 @@ $ flutter pub get
 
 ### 1.4 Dépendance
 
+## 2. Fonctionnalité implémenté
+
 
 ## 2. Execution
   ### 2.1. Commande principal
@@ -43,6 +45,8 @@ $ flutter pub get
 ``` $ flutter run -d <nom_emulateur> ``` : Execute l'application sur un émulateur spécifique.
 
 ``` $ flutter clean ``` : Supprime les fichiers temporaires et les artefacts de construction générés par Flutter.
+
+``` $ flutter build ``` : Permet de compiler le projet.
 
 
 
