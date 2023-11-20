@@ -1,6 +1,6 @@
 <h1 align="center">Octree</h1>
 
-<p>Ce travail réalisé dans un contexte universitaire vise à acquérir des compétences dans le développement multiplateforme  avec les outils de développement logiciel. L'objectif est de développer un projet Flutter et Dart permettant de travailler sur des objets 3D ont la structure de données sous-jacente est un arbre, via une interface utilisateur. </p>
+<p>Ce travail réalisé dans un contexte universitaire vise à acquérir des compétences dans le développement multiplateforme  avec les outils de développement logiciel. L'objectif est de développer un projet Flutter et Dart permettant de travailler sur des objets 3D dont la structure de données sous-jacente est un arbre, via une interface utilisateur. </p>
 
 > Ce README fournit des informations sur [TODO]
 
@@ -29,6 +29,7 @@ $ flutter pub get
 ### 1.4 Dépendance
 
 ## 2. Fonctionnalité implémenté
+<p>Lors du lancement de l'application, l'utilisateur a trois choix dans le menu principal :</p>
 
 
 ## 2. Execution
