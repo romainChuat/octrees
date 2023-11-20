@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:octrees/Database_helper.dart';
 import 'package:octrees/Octree.dart';
 import 'DessinArbre.dart';
 
@@ -7,11 +8,17 @@ import 'DessinArbre.dart';
 class ModelProvider extends ChangeNotifier{
 
   Map<String,Octree> _trees = {'name_1 ' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
-
   Map<String,Octree> get trees => _trees;
+  late Database_helper _database_helper;
 
-  void addTree(String name, Octree tree){
+  void test() async{
+
+  }
+
+  void addTree(String name, Octree tree) async{
     _trees[name] = tree;
+    _database_helper = await Database_helper.dbhelper;
+    _database_helper.insertTree({'tree_name' : name, 'tree_string' : (tree.decompile(tree.univers)).trim() });
     notifyListeners();
   }
 
@@ -27,7 +34,6 @@ class ModelProvider extends ChangeNotifier{
       notifyListeners();
     }
   }
-
 
   ///  Supprime dans trees l'arbre identifié par la string name
   void removeTree(String name) {
