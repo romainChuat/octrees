@@ -2,7 +2,7 @@
 
 <p>Ce travail réalisé dans un contexte universitaire vise à acquérir des compétences dans le développement multiplateforme  avec les outils de développement logiciel. L'objectif est de développer un projet Flutter et Dart permettant de travailler sur des objets 3D dont la structure de données sous-jacente est un arbre, via une interface utilisateur. </p>
 
-> Ce README fournit des informations sur [TODO]
+> Ce README fournit des informations sur l'application Octree, mettant en lumière les différentes fonctionnalités implémentées, la documentation essentielle à la compréhension, les étapes d'installation de l'environnement de travail, l'explication de ce dernier, l'exécution de l'application, ainsi que les commandes indispensables.
 
 ## 1. Fonctionnalité implémenté
 <p>Lors du lancement de l'application, l'utilisateur a trois choix dans le menu principal :</p>
@@ -10,22 +10,21 @@
 
 
 ## 2. Documentation
- • Doc flutter : [Documentation Flutter](https://docs.flutter.dev/) <br>
- • Doc Dart : [Documentation Dart](https://dart.dev/guides)<br>
- • Packages Dart : [Dart packages](https://pub.dev/)<br>
+ • [Documentation Flutter](https://docs.flutter.dev/) <br>
+ • [Documentation Dart](https://dart.dev/guides)<br>
+ • [Documentation packages Dart](https://pub.dev/)<br>
 
  ## 3. Installation
 
 
 ### 3.1 Prérequis 
+
 <par>Avant de commencer à travailler sur ce projet, assurez-vous d'avoir installé les outils nécessaires :</par>
- • Installer Flutter : https://docs.flutter.dev/get-started/install<br>
- • Obtenir le SDK pour Dart : https://dart.dev/get-dart<br>
 
+ • Installer Flutter : [Flutter](https://docs.flutter.dev/get-started/install) <br>
+ • Obtenir le SDK pour Dart : [Dart SDK](https://dart.dev/get-dart)<br>
  
-
- 
- ### 3.2. Mise en place de l'environnement de travail
+ ### 3.2. Mise en place de l'environnement de travail et execution
 
  • Cloner le projet à l'aide de la commande : 
  ```
@@ -42,7 +41,7 @@ $ flutter pub get
 $ flutter run
 ```
 
-## 4. Envirronement de travaille
+## 4. Environement de travaille
 ### 4.1. Arborescence
 
 
@@ -52,6 +51,16 @@ $ flutter run
 
 
 ### 4.3 Dépendance
+
+<par> L'ensemble des dépendance ce situe dans le fichier *pubspec.yaml* dans les partie *dependencies* et *dev_dependencies*: </par> <br>
+
+ • *cupertino_icons: ^1.0.2* : Fournit une collection d'icônes. <br>
+ • *provider: ^6.0.5* : Bibliothèque de gestion d'état et de partage de données. <br>
+ • *graphview: ^1.2.0* : Affiche des données dans des structures graphiques.<br>
+ • *sqflite: ^2.3.0* : Permet d'intégrer et de gérer des bases de données SQLite.<br>
+ • *flutter_lints: ^2.0.0* : Ccontient un ensemble recommandé de lints pour les applications, packages et plugins Flutter afin d'encourager de bonnes pratiques de codage.
+ • *animated_text_kit: ^4.2.2* : Contient une collection d'animations de texte.
+    
 
 ### 4.4 Base de donnée
 
