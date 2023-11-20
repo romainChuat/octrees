@@ -4,8 +4,23 @@
 
 > Ce README fournit des informations sur [TODO]
 
+
+## 0. Documentation
+Doc flutter : [Documentation Flutter](https://docs.flutter.dev/)
+Doc Dart : [Documentation Dart](https://dart.dev/guides)
+Packages Dart : [Dart packages](https://pub.dev/)
+
  ## 1. Installation
 
+
+### 1.1 Prérequis 
+
+ • Installer Flutter : https://docs.flutter.dev/get-started/install
+ • Obtenir le SDK pour Dart : https://dart.dev/get-dart
+
+ 
+
+ 
  ### 1.1. Mise en place de l'environnement de travail
 
  • Cloner le projet à l'aide de la commande : 
@@ -16,6 +31,11 @@
 • Installer les dépendances nécessaire à l'application : 
  ```
 $ flutter pub get
+```
+
+• Executer l'application : 
+ ```
+$ flutter run
 ```
 
 ### 1.2. Arborescence
