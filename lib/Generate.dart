@@ -121,11 +121,9 @@ class GenerateState extends State<Generate> {
                     onPressed: () {
                       if (verifyLengthString() == true) {
                         Octree tree = Octree.aleatoire(int.parse(_randomTreeStringController.text));
-                        String name = "";
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (BuildContext context) =>
                                 MyWorkingArea(octree: tree, namePage: "generatePage")));
-                        print(modelProvider.getOctree(name).toString());
                       }
                     },
                     child: const Text("Génerer un arbre aléatoire"))),

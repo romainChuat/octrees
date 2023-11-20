@@ -11,7 +11,7 @@ class Visualize extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var prov = context.watch<ModelProvider>();
-
+    prov.getAllTrees();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -58,7 +58,6 @@ class Visualize extends StatelessWidget {
                         Expanded(
                           child: ElevatedButton(
                               onPressed: () {
-                                prov.test();
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         MyWorkingArea(

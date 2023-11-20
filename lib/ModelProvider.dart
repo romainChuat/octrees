@@ -5,14 +5,30 @@ import 'package:octrees/Octree.dart';
 import 'DessinArbre.dart';
 
 
-class ModelProvider extends ChangeNotifier{
+class ModelProvider extends ChangeNotifier {
 
   Map<String,Octree> _trees = {'name_1 ' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
   Map<String,Octree> get trees => _trees;
   late Database_helper _database_helper;
 
-  void test() async{
-
+  /// update de trees en récupérant les valeurs de la base de données
+   getAllTrees() async{
+     print("Get all trees");
+    _database_helper = await Database_helper.dbhelper;
+    try {
+      Future<List<Map<String, dynamic>>> futureTrees = _database_helper.getAllTree();
+      List<Map<String, dynamic>> db_trees= await futureTrees;
+      //trees.clear();
+      for(var tree in db_trees){
+        String treeName = tree['tree_name'];
+        String treeString = tree['tree_string'];
+        //_trees[treeName] = Octree.creationFromTexte(treeString);
+        print('tree_name : $treeName, treeString : $treeString \n');
+      }
+    }catch(e) {
+      print(e);
+    }
+    return null;
   }
 
   void addTree(String name, Octree tree) async{
@@ -22,7 +38,7 @@ class ModelProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void removeTreeByOctree(Octree tree) {
+  void removeTreeByOctree(Octree tree) async{
     String? keyToRemove;
     _trees.forEach((key, value) {
       if (identical(value, tree)) {
@@ -33,16 +49,25 @@ class ModelProvider extends ChangeNotifier{
       _trees.remove(keyToRemove);
       notifyListeners();
     }
+    _database_helper = await Database_helper.dbhelper;
+    _database_helper.deleteTreeByName(tree.decompile(tree.univers));
   }
 
   ///  Supprime dans trees l'arbre identifié par la string name
-  void removeTree(String name) {
+  void removeTree(String name) async{
     _trees.removeWhere((key, value) => key == name);
+    _database_helper = await Database_helper.dbhelper;
+    _database_helper.deleteTreeByName(name);
     notifyListeners();
   }
 
   ///Retourne l'element de trees identifié par la string name
-  getOctree(String name){
+  getOctree(String name) async{
+    /*_database_helper = await Database_helper.dbhelper;
+    Future<String?> octree = _database_helper.getByName(name);
+    if(octree != null){
+      return Octree.fromChaine(octree as String, 16);
+    }*/
     if(_trees.containsKey(name)){
       return _trees[name];
     }

@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 import 'Octree.dart';
 
-class Database_helper {
+class Database_helper  {
 
 
  Database_helper._Constructor();
@@ -46,7 +47,7 @@ class Database_helper {
    );
  }
 
- Future close() async => await _db!.close() ;
+  Future close() async => await _db!.close() ;
 
   Future<int> insertTree(Map<String,String> octree) async{
     Database db = await _dbhelper.db ;
@@ -54,14 +55,37 @@ class Database_helper {
     return id;
   }
 
-  Future<int> deleteByName(String name) async{
+  Future<int> deleteTreeByName(String name) async{
     Database db = await _dbhelper.db ;
     return await db.delete('tree', where: 'tree_name = ?', whereArgs: [name]);
   }
 
-  Future addTree() async{
-
+  //TODO : pas censé faire ça il peut y avoir plusieurs fois le même arbre
+  Future<int> deleteTreeByOctree(String tree) async{
+    Database db = await _dbhelper.db ;
+    return await db.delete('tree', where: 'tree_string = ?', whereArgs: [tree]);
   }
+
+  Future<String?> getByName(String name) async{
+   Database db  = await _dbhelper.db;
+   String res = (await db.query("SELECT tree_string FROM tree WHERE tree_name = '$name' ",)) as String;
+   if(res== null){
+     return null;
+   }
+   return res;
+ }
+
+  Future<List<Map<String,dynamic>>> getAllTree() async{
+    Database db  = await _dbhelper.db;
+    var res  = await db.query("tree", columns: ["tree_name","tree_string"]);
+    if(res.isEmpty){
+      return [];
+    }
+    return res;
+ }
+
+
+
 
 
 }

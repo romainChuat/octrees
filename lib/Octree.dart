@@ -29,7 +29,7 @@ class Octree {
         voxelString += decompile(voxel);
       }
     }
-    return voxelString+' ';
+    return voxelString+'';
   }
 
   Octree.aleatoire(int longueur) {
