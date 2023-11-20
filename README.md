@@ -4,24 +4,28 @@
 
 > Ce README fournit des informations sur [TODO]
 
-
-## 0. Documentation
-Doc flutter : [Documentation Flutter](https://docs.flutter.dev/)
-Doc Dart : [Documentation Dart](https://dart.dev/guides)
-Packages Dart : [Dart packages](https://pub.dev/)
-
- ## 1. Installation
+## 1. Fonctionnalité implémenté
+<p>Lors du lancement de l'application, l'utilisateur a trois choix dans le menu principal :</p>
 
 
-### 1.1 Prérequis 
 
- • Installer Flutter : https://docs.flutter.dev/get-started/install
- • Obtenir le SDK pour Dart : https://dart.dev/get-dart
+## 2. Documentation
+ • Doc flutter : [Documentation Flutter](https://docs.flutter.dev/) <br>
+ • Doc Dart : [Documentation Dart](https://dart.dev/guides)<br>
+ • Packages Dart : [Dart packages](https://pub.dev/)<br>
+
+ ## 3. Installation
+
+
+### 3.1 Prérequis 
+<par>Avant de commencer à travailler sur ce projet, assurez-vous d'avoir installé les outils nécessaires :</par>
+ • Installer Flutter : https://docs.flutter.dev/get-started/install<br>
+ • Obtenir le SDK pour Dart : https://dart.dev/get-dart<br>
 
  
 
  
- ### 1.1. Mise en place de l'environnement de travail
+ ### 3.2. Mise en place de l'environnement de travail
 
  • Cloner le projet à l'aide de la commande : 
  ```
@@ -38,22 +42,24 @@ $ flutter pub get
 $ flutter run
 ```
 
-### 1.2. Arborescence
+## 4. Envirronement de travaille
+### 4.1. Arborescence
 
 
 
-### 1.3. Architecture
+### 4.2 Architecture
 
 
 
-### 1.4 Dépendance
+### 4.3 Dépendance
 
-## 2. Fonctionnalité implémenté
-<p>Lors du lancement de l'application, l'utilisateur a trois choix dans le menu principal :</p>
+### 4.4 Base de donnée
 
 
-## 2. Execution
-  ### 2.1. Commande principal
+
+
+## 5. Commande
+  ### 5.1. Commande Flutter principal
 
  ``` $ flutter run ``` : Permet d'exécuter l'application Flutter.
 
@@ -70,10 +76,7 @@ $ flutter run
 ``` $ flutter build ``` : Permet de compiler le projet.
 
 
-
-### 2.2 Base de donnée
-
-## 3. Gestion du code source
+### 5.2 Gestion du code source sur le dépot distant
 
 Commande utile pour la gestion du code source sur le dépôt distant:
 
@@ -91,9 +94,10 @@ fichier sur le dépôt distant, avec un message (-m ...).
 ```$ git log``` : Pour afficher la chronologie des commits réalisés.
 
 
-## 4. Auteurs
+
+## 6. Auteurs
  Ce travail a été réalisé par Chuat Romain et Berthod Katty.
 
-## 5. Remerciements
+## 7. Remerciements
  Nous tenons à remercier notre encadrant pour ses conseils tout au long de ce travail.
 
