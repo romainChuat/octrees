@@ -1,16 +1,74 @@
-# octrees
+<h1 align="center">Octree</h1>
 
-A new Flutter project.
+<p>Ce travail réalisé dans un contexte universitaire vise à acquérir des compétences dans le développement multiplateforme  avec les outils de développement logiciel. L'objectif est de développer un projet Flutter et Dart permettant de travailler sur des objets 3D ont la structure de données sous-jacente est un arbre, via une interface utilisateur. </p>
 
-## Getting Started
+> Ce README fournit des informations sur [TODO]
 
-This project is a starting point for a Flutter application.
+ ## 1. Installation
 
-A few resources to get you started if this is your first Flutter project:
+ ### 1.1. Mise en place de l'environnement de travail
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+ • Cloner le projet à l'aide de la commande : 
+ ```
+ $git clone
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+• Installer les dépendances nécessaire à l'application : 
+ ```
+$ flutter pub get
+```
+
+### 1.2. Arborescence
+
+
+
+### 1.3. Architecture
+
+
+
+### 1.4 Dépendance
+
+
+## 2. Execution
+  ### 2.1. Commande principal
+
+ ``` $ flutter run ``` : Permet d'exécuter l'application Flutter.
+
+``` $ flutter pub get ``` : Met à jour les dépendance du projet.
+
+``` $ flutter doctor ``` : Vérifie si l'installation de Flutter est valide.
+
+``` $ flutter emulators ``` : Liste des émulateurs disponibles.
+
+``` $ flutter run -d <nom_emulateur> ``` : Execute l'application sur un émulateur spécifique.
+
+``` $ flutter clean ``` : Supprime les fichiers temporaires et les artefacts de construction générés par Flutter.
+
+
+
+### 2.2 Base de donnée
+
+## 3. Gestion du code source
+
+Commande utile pour la gestion du code source sur le dépôt distant:
+
+```$ git status ``` : Pour observer les changements entre le dépôt local et dépôt distant (le fichier texte créé est précédé d’un " ?", se qui veut dire que le fichier n’est pas connu du dépôt distant.
+
+```$ git add nomDuFichier ``` : Versionner un fichier non suivi ou pour ajouter un fichier suivi et ayant été modifié au contenu du prochain commit à destination du dépôt distant.
+
+```$ git commit -m "commit du fichier"``` : Vous permet d’envoyer la nouvelle version locale du
+fichier sur le dépôt distant, avec un message (-m ...).
+
+```$ git push origin <nom_branche>``` : Transmet le ou les commits que vous avez réalisés en local au dépôt distant.
+
+```$ git pull origin <nom_branche>``` : Récupération des derniers changements du dépôt distant.
+
+```$ git log``` : Pour afficher la chronologie des commits réalisés.
+
+
+## 4. Auteurs
+ Ce travail a été réalisé par Chuat Romain et Berthod Katty.
+
+## 5. Remerciements
+ Nous tenons à remercier notre encadrant pour ses conseils tout au long de ce travail.
+
