@@ -7,39 +7,38 @@ import 'DessinArbre.dart';
 
 class ModelProvider extends ChangeNotifier {
 
-  Map<String,Octree> _trees = {'name_1 ' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
+  Map<String,Octree> _trees = new Map<String,Octree>(); //= {'name_1 ' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
   Map<String,Octree> get trees => _trees;
   late Database_helper _database_helper;
 
   /// update de trees en récupérant les valeurs de la base de données
    getAllTrees() async{
-     print("Get all trees");
     _database_helper = await Database_helper.dbhelper;
     try {
       Future<List<Map<String, dynamic>>> futureTrees = _database_helper.getAllTree();
-      List<Map<String, dynamic>> db_trees= await futureTrees;
-      //trees.clear();
-      for(var tree in db_trees){
+      List<Map<String, dynamic>> dbTrees= await futureTrees;
+      trees.clear();
+      for(var tree in dbTrees){
         String treeName = tree['tree_name'];
         String treeString = tree['tree_string'];
-        //_trees[treeName] = Octree.creationFromTexte(treeString);
-        print('tree_name : $treeName, treeString : $treeString \n');
+        _trees[treeName] = Octree.fromChaine(treeString,16);  ///TODO LONGUEUR
+        //print('tree_name : $treeName, treeString : $treeString \n');
       }
     }catch(e) {
       print(e);
     }
-    return null;
+    notifyListeners();
   }
 
   void addTree(String name, Octree tree) async{
-    _trees[name] = tree;
+    //_trees[name] = tree;
     _database_helper = await Database_helper.dbhelper;
     _database_helper.insertTree({'tree_name' : name, 'tree_string' : (tree.decompile(tree.univers)).trim() });
     notifyListeners();
   }
 
   void removeTreeByOctree(Octree tree) async{
-    String? keyToRemove;
+    /*String? keyToRemove;
     _trees.forEach((key, value) {
       if (identical(value, tree)) {
         keyToRemove = key;
@@ -48,14 +47,14 @@ class ModelProvider extends ChangeNotifier {
     if (keyToRemove != null) {
       _trees.remove(keyToRemove);
       notifyListeners();
-    }
+    }*/
     _database_helper = await Database_helper.dbhelper;
     _database_helper.deleteTreeByName(tree.decompile(tree.univers));
   }
 
   ///  Supprime dans trees l'arbre identifié par la string name
   void removeTree(String name) async{
-    _trees.removeWhere((key, value) => key == name);
+    //_trees.removeWhere((key, value) => key == name);
     _database_helper = await Database_helper.dbhelper;
     _database_helper.deleteTreeByName(name);
     notifyListeners();
