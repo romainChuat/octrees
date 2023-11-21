@@ -1,6 +1,6 @@
 <h1 align="center">Octree</h1>
 
-<p>CCe travail, réalisé dans un contexte universitaire, vise à acquérir des compétences dans le développement multiplateforme avec les outils de développement logiciel. L'objectif est de développer un projet Flutter et Dart permettant de travailler sur des objets 3D, dont la structure de données sous-jacente est un arbre, via une interface utilisateur. </p>
+<p>Ce travail, réalisé dans un contexte universitaire, vise à acquérir des compétences dans le développement multiplateforme avec les outils de développement logiciel. L'objectif est de développer un projet Flutter et Dart permettant de travailler sur des objets 3D, dont la structure de données sous-jacente est un arbre, via une interface utilisateur. </p>
 
 > Ce README fournit des informations sur l'application Octree, mettant en lumière les différentes fonctionnalités implémentées, la documentation essentielle à la compréhension, les étapes d'installation de l'environnement de travail, l'explication de ce dernier, l'exécution de l'application, ainsi que les commandes indispensables.
 
