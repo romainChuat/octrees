@@ -7,7 +7,7 @@ import 'DessinArbre.dart';
 
 class ModelProvider extends ChangeNotifier {
 
-  Map<String,Octree> _trees = new Map<String,Octree>(); //= {'name_1 ' : Octree.fromChaine('DPPPVPVDVVVVVVPVV',16 ), 'name_2' : Octree.fromChaine('DVVVVVVDVVVVVVPVV',16)};
+  Map<String,Octree> _trees = new Map<String,Octree>();
   Map<String,Octree> get trees => _trees;
   late Database_helper _database_helper;
 
@@ -22,7 +22,6 @@ class ModelProvider extends ChangeNotifier {
         String treeName = tree['tree_name'];
         String treeString = tree['tree_string'];
         _trees[treeName] = Octree.fromChaine(treeString,16);  ///TODO LONGUEUR
-        //print('tree_name : $treeName, treeString : $treeString \n');
       }
     }catch(e) {
       print(e);
@@ -31,49 +30,32 @@ class ModelProvider extends ChangeNotifier {
   }
 
   void addTree(String name, Octree tree) async{
-    //_trees[name] = tree;
     _database_helper = await Database_helper.dbhelper;
     _database_helper.insertTree({'tree_name' : name, 'tree_string' : (tree.decompile(tree.univers)).trim() });
     notifyListeners();
   }
 
+  //TODO : pas censé faire ça il peut y avoir plusieurs tree avec la même chaine
   void removeTreeByOctree(Octree tree) async{
-    /*String? keyToRemove;
-    _trees.forEach((key, value) {
-      if (identical(value, tree)) {
-        keyToRemove = key;
-      }
-    });
-    if (keyToRemove != null) {
-      _trees.remove(keyToRemove);
-      notifyListeners();
-    }*/
     _database_helper = await Database_helper.dbhelper;
     _database_helper.deleteTreeByName(tree.decompile(tree.univers));
+    notifyListeners();
   }
 
   ///  Supprime dans trees l'arbre identifié par la string name
   void removeTree(String name) async{
-    //_trees.removeWhere((key, value) => key == name);
     _database_helper = await Database_helper.dbhelper;
     _database_helper.deleteTreeByName(name);
     notifyListeners();
   }
 
   ///Retourne l'element de trees identifié par la string name
-  getOctree(String name) async{
-    /*_database_helper = await Database_helper.dbhelper;
-    Future<String?> octree = _database_helper.getByName(name);
-    if(octree != null){
-      return Octree.fromChaine(octree as String, 16);
-    }*/
+  getOctree(String name){
     if(_trees.containsKey(name)){
       return _trees[name];
     }
     return null;
   }
-
-//fonction de retrait à la list
 
   int _rho = 50;
   int get rho => _rho;
