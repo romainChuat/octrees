@@ -4,10 +4,7 @@ import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 
-class Visualize extends StatelessWidget {
-
-
-
+class Visualize extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     var prov = context.watch<ModelProvider>();
@@ -105,12 +102,12 @@ class Visualize extends StatelessWidget {
                                         ),
                                       ),
                                       TextButton(
-                                        onPressed: () {
+                                        onPressed: () async {
                                           prov.removeTree(treeName);
+                                          await prov.getAllTrees();
                                           Navigator.of(context).pop();
                                           //TODO show toast
-                                        //  prov.showToastDelete();
-
+                                          //prov.showToastDelete();
                                         },
                                         child: const Text(
                                           'Confirmer',
