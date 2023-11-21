@@ -7,7 +7,6 @@ import 'Octree.dart';
 
 class Operation extends StatefulWidget {
   const Operation({super.key});
-
   @override
   _OperationState createState() => _OperationState();
 }
@@ -52,6 +51,9 @@ class _OperationState extends State<Operation> {
   }
 
   Widget buildTextField(String dropDownValueTreeType, var controller) {
+    if(dropDownValueTreeType == 'arbre aléatoire') {
+      dropDownValueTreeType = 'saisir une longueur';
+    }
     return TextField(
       decoration: InputDecoration(hintText: dropDownValueTreeType),
       controller: controller,
@@ -231,7 +233,7 @@ class _OperationState extends State<Operation> {
             Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (
-                      BuildContext context) => MyWorkingArea(octree: octree1, namePage: "")
+                      BuildContext context) => MyWorkingArea(octree: octree1, namePage: "generatePage")
                 )
             );
           }

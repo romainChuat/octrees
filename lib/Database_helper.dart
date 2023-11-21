@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-import 'Octree.dart';
 
 class Database_helper  {
 
@@ -60,7 +58,6 @@ class Database_helper  {
     return await db.delete('tree', where: 'tree_name = ?', whereArgs: [name]);
   }
 
-  //TODO : pas censé faire ça il peut y avoir plusieurs fois le même arbre
   Future<int> deleteTreeByOctree(String tree) async{
     Database db = await _dbhelper.db ;
     return await db.delete('tree', where: 'tree_string = ?', whereArgs: [tree]);
