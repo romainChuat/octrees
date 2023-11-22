@@ -1,8 +1,11 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:octrees/Octree.dart';
 import 'package:octrees/main.dart';
 import 'package:provider/provider.dart';
+import 'package:octrees/library.dart';
+
 class Generate extends StatefulWidget {
   const Generate({super.key});
   @override
@@ -85,10 +88,12 @@ class GenerateState extends State<Generate> {
                   onPressed: () {
                     if (verifyTreeString() == true) {
                       String treeString = _treeStringController.text.trim();
-                      /**
-                       * TODO  calculer le nombre de coté !!!!!
-                       **/
-                      Octree tree = new Octree.fromChaine(treeString, 16); /// TODO  calculer le nombre de coté !!!!! Pas toujours égale à 16
+                      //count level of the tree
+                      int levelNumber = treeLevel(treeString);
+                      print(levelNumber);
+                      int treeLength = treeSide(levelNumber);
+                      print(treeLength);
+                      Octree tree = new Octree.fromChaine(treeString, treeLength);
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (BuildContext context) =>
                               MyWorkingArea(octree: tree, namePage: "generatePage",)));
@@ -97,23 +102,14 @@ class GenerateState extends State<Generate> {
                   child: const Text("Générer l'arbre "),
                 )),
             if (_showEmptyStringErrorMessage)
-              const Text(
-                "Veuillez saisir un arbre",
-                style: TextStyle(color: Colors.red),
-              ),
+              const Text("Veuillez saisir un arbre", style: TextStyle(color: Colors.red),),
             if (_showInvalidStringErrorMessage)
-              const Text(
-                "Veuillez saisir un arbre valide",
-                style: TextStyle(color: Colors.red),
-              ),
+              const Text( "Veuillez saisir un arbre valide", style: TextStyle(color: Colors.red),),
+
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
-            const Text(
-              "ou",
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
+            const Text( "ou", style: TextStyle(color: Colors.white, fontSize: 18),),
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
-            buildTextField(
-                "Longueur d'arbre aléatoire", _randomTreeStringController),
+            buildTextField("Longueur d'arbre aléatoire", _randomTreeStringController),
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
             SizedBox(
                 height: 40,
@@ -135,6 +131,16 @@ class GenerateState extends State<Generate> {
           ])),
     );
   }
+  int countD(String tree){
+    int countNbD = 0;
+    for(int i = 0; i < tree.length; i++ ){
+      if(tree[i] == 'D'){
+        countNbD++;
+      }
+    }
+    return countNbD;
+  }
+
   bool verifyLengthString() {
     String treeLength = _randomTreeStringController.text;
     bool valid = true;
@@ -155,12 +161,7 @@ class GenerateState extends State<Generate> {
   }
   bool verifyTreeString() {
     String tree = _treeStringController.text;
-    int countNbD = 0;
-    for(int i = 0; i < tree.length; i++ ){
-      if(tree[i] == 'D'){
-        countNbD++;
-      }
-    }
+    int countNbD = countD(tree);
     int correctLength = countNbD * 8 +1;
     if (tree == "" || tree.length != correctLength  || (tree[0] != 'D' && correctLength == 1 )) {
       setState(() {

@@ -206,7 +206,9 @@ class _OperationState extends State<Operation> {
         }
         if (title == 'arbre 1') {
           if (dropDownValueTreeType == 'saisir mon arbre') {
-            octree1 = Octree.fromChaine(tree, 16); //TODO calcul de la longeur
+            int levelNumber = treeLevel(tree);
+            int treeLength = treeSide(levelNumber);
+            octree1 = Octree.fromChaine(tree, treeLength);
           } else {
             octree1 = Octree.aleatoire(int.parse(tree));
           }
