@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:octrees/Database_helper.dart';
 import 'package:octrees/Octree.dart';
 import 'DessinArbre.dart';
+import 'package:octrees/library.dart';
 
 
 class ModelProvider extends ChangeNotifier {
@@ -21,7 +22,9 @@ class ModelProvider extends ChangeNotifier {
       for(var tree in dbTrees){
         String treeName = tree['tree_name'];
         String treeString = tree['tree_string'];
-        _trees[treeName] = Octree.fromChaine(treeString,16);  ///TODO LONGUEUR
+        int levelNumber = treeLevel(treeString);
+        int treeLength = treeSide(levelNumber);
+        _trees[treeName] = Octree.fromChaine(treeString,treeLength);
       }
     }catch(e) {
       print(e);
