@@ -14,7 +14,7 @@
  • [Documentation Dart](https://dart.dev/guides)<br>
  • [Documentation packages Dart](https://pub.dev/)<br>
 
- ## 3. Installation
+ ## 3. Installation et exécution de l’application
 
 ### 3.1 Prérequis 
 
@@ -22,23 +22,46 @@
 
  • Installer Flutter : [Flutter](https://docs.flutter.dev/get-started/install) <br>
  • Obtenir le SDK pour Dart : [Dart SDK](https://dart.dev/get-dart)<br>
+ • Installer un environnement de dévelompement, favoriser l’IDE : [Android Studio](https://developer.android.com/codelabs/basic-android-kotlin-training-install-android-studio?hl=fr#0)<br>
  
  ### 3.2. Mise en place de l'environnement de travail et execution
 
- • Cloner le projet à l'aide de la commande : 
+ <par>Pour commencer, vous devez obtenir une copie de l'application en clonant le dépôt sur GitHub ou en téléchargeant une version compressée au format ZIP sur votre ordinateur. Pour ce faire suivez les étape suivante : </par>
+
+**• Cloner le projet à l'aide avec Git :** 
+
+ 1. Créez un dossier où vous souhaitez stocker le projet<br>
+ 2. Exécutez la commande suivante dans le dossier nouvellement créé :<br>
+
  ```
- $git clone
+$ git clone https://github.com/romainChuat/octrees.git
 ```
 
-• Installer les dépendances nécessaire à l'application : 
+**• Ou bien installer en téléchargeant un fichier compresser (_.zip_)**
+
+1. Décompressez le fichier à l'aide de l'interface graphique ou en utilisant la commande suivante : 
+ ```
+$ unzip /[chemin vers votre fichier]/nom_du_fichier.zip
+```
+
+**• Ouverture du code à l’aide d’une environnement de développement :**
+
+<par>Maintenant que le projet a été cloné ou décompressé localement, ouvrez-le dans un éditeur de code, en privilégiant un IDE dédié comme Android Studio, spécialement conçu pour les applications mobiles. Bien que Visual Studio Code soit également une option fonctionnelle. Pour ce faire, accédez à Fichier > Ouvrir le dossier dans l'IDE. Une fois ouvert, vous pouvez utiliser un terminal intégré ou externe pour les étapes suivantes.</par>
+
+**• Installation des dépendances nécessaires à l'éxécution de l'application :**
+
+<par>Réaliser cette commande:</par>
  ```
 $ flutter pub get
 ```
 
-• Executer l'application : 
- ```
-$ flutter run
-```
+**• Connexion d'un appareil ou utilisation d'un émulateur :**
+
+<par>Connectez un appareil Android à votre ordinateur via USB ou utilisez un émulateur Android. En haut à gauche, choisissez la cible (device) du projet : linux ou chrome. Générez et exécutez le programme pour ces deux cibles. Si vous n'avez pas d'émulateur, créez-en un en utilisant l'icône Device Manager, choisissez un téléphone, et téléchargez le SDK correspondant.</par>
+
+**• Exécution de l'application :**
+
+<par>Cliquez sur le bouton "run" (flêches vertes) en haut à gauche de l'écran. Android Studio compilera votre application et la lancera sur l'appareil ou l'émulateur choisi.</par>
 
 ## 4. Environement de travaille
 ### 4.1. Arborescence
