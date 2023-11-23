@@ -344,7 +344,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1.0),
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10.0),
                             topRight: Radius.circular(10.0),
                           ),
@@ -395,7 +395,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                       child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1.0),
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(10.0),
                             bottomRight: Radius.circular(10.0),
                           ),
@@ -428,7 +428,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               icon: const Icon(Icons.settings),
               color: Colors.white,
               onPressed: () {
-                // TODO ajouter des parametres dans l'icon settings
+                /// TODO ajouter des parametres dans l'icon settings
               },
             ),
           ),
@@ -452,45 +452,25 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                   /// création de l'arbre en 2D
                   String univers_string = octree.decompile(octree.univers);
                   double tree_height = 0;
-                  BuchheimWalkerConfiguration builder =
-                  BuchheimWalkerConfiguration();
+                  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
                   builder.orientation = 3;
                   builder.siblingSeparation = 10;
-                  builder.levelSeparation = 15;
-
-                  final Graph graph = Graph()
-                    ..isTree = true;
-                  Map<Node, String> nodes = {};
-
+                  builder.levelSeparation = 50;
+                  final Graph graph = Graph()..isTree = true;
+                  Map<Node,String> nodes = {};
                   ///ajout des noeuds au graph
-                  for (int i = 0; i < 8; i++) {
+                  for (int i = 0; i < univers_string.length; i++) {
                     nodes[Node.Id(i)] = univers_string[i];
+                    print(nodes[Node.Id(i)]);
                   }
-                  Node root = nodes.entries.first.key;
-                  for (Node n in nodes.keys) {
-                    if (n != root) {
-                      graph.addEdge(root, n);
-                    }
-                  }
-                  /*for(int i =0; i< univers_string.length; i+=8){
-                    for(int j = i; j<i+8; j++ ){
-                      if(univers_string[j] == 'D') {
-                        graph.addEdge()
-                      }
-                    }
-                  }*/
-
-                  /*for(int i = 0; i< 8; i++){
-                    graph.addEdge(nodes[0], nodes[i]);
-                  }*/
-                  graph.addEdge(Node.Id(0), Node.Id(1));
+                  createGraphe(graph, nodes, 0, 1);
                   currentContent =
-                  //child: InteractiveViewer(
-                  //  constrained: false,
+                  //InteractiveViewer(
+                  // constrained: false,
                   //boundaryMargin: EdgeInsets.all(100),
                   //minScale: 0.01,
                   //maxScale: 5.6,
-                  GraphView(
+                   GraphView(
                     graph: graph,
                     algorithm: BuchheimWalkerAlgorithm(
                         builder, TreeEdgeRenderer(builder)),
@@ -502,11 +482,20 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                       // I can decide what widget should be shown here based on the id
                       //var a = node.key?.value as int;
                       String? a = nodes[node];
-                      return rectangleWidget(a!);
+                      return SizedBox(
+                          height: 15,
+                          width: 10,
+                          child : TextField(
+                            decoration: InputDecoration(
+                                hintText: a,
+                              border: InputBorder.none
+                            ),
+
+                          )
+                      );
                     },
                   );
 
-                  //currentContent = Container(color: Colors.blue,);
                   octree3D = false;
                 } else {
                   /// creéation de l'arbre en 3D
@@ -547,6 +536,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
         ],
       ),
     );
+  }
+  void createGraphe(Graph g, Map<Node,String> nodes, int father, int childIndex){
+    //int i  = childIndex;
+    int countD  = 0;
+    for(int k = childIndex; k < childIndex+8; k++){
+      g.addEdge(Node.Id(father), Node.Id(k));
+      if(nodes[Node.Id(k)] == 'D' ){
+        countD++;
+        createGraphe(g, nodes, k, childIndex+(8*countD));
+      }
+    }
   }
 
     saveMethod(BuildContext context, ModelProvider prov)  {
