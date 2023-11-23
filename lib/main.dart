@@ -6,6 +6,7 @@ import 'package:octrees/ModelProvider.dart';
 import 'package:octrees/Visualize.dart';
 import 'package:provider/provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'Cube.dart';
 import 'Generate.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -25,6 +26,7 @@ String arbre4 = "V";
 //int phi = 45 ;
 //int rho = 50 ;
 void main() {
+  databaseFactory = databaseFactoryFfi;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ModelProvider(),
@@ -189,6 +191,8 @@ class MyWorkingArea extends StatefulWidget {
 }
 
 class _MyWorkingAreaState extends State<MyWorkingArea> {
+  double initialTheta = 0.0;
+  double initialPhi = 0.0;
   final Octree octree;
   final String namePage;
   TextEditingController _textNameController = TextEditingController();
@@ -245,6 +249,19 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
           icon: const Icon(Icons.arrow_back),
           color: Colors.white,
           onPressed: () {
+            prov.phi = 45;
+            prov.theta = 45;
+            prov.rho = 50;
+    if (namePage == "visualizePage") {
+
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => MyHomePage(),
+      ));
+
+
+    } else if (namePage == "generatePage") {
+
+
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -264,6 +281,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                     TextButton(
                       child: Text('Sauvegarder'),
                       onPressed: () {
+
                         saveMethod(context, prov);
 
 
@@ -273,17 +291,22 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                 );
               },
             );
+            }
           },
         ),
         actions: [
+
           Tooltip(
             message: 'Sauvegarder',
+            child: Visibility(
+              visible: namePage == "generatePage",
             child: IconButton(
               icon: const Icon(Icons.save_alt),
               color: Colors.white,
               onPressed: () {
                  saveMethod(context, prov);
               },
+            ),
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
@@ -436,9 +459,23 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
         ],
       ),
       body: Center(
+    child: GestureDetector(
+
+      onPanUpdate: (details) {
+
+        setState(() {
+          prov.phi += details.delta.dy.toInt();
+          prov.theta += details.delta.dx.toInt();
+
+        }
+        );
+
+
+    },
         child: Container(
           child: currentContent,
         ),
+      ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -564,16 +601,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               child: Text('Valider'),
               onPressed: () {
                 Navigator.of(context).pop();
-                if (namePage == "visualizePage") {
-                  prov.removeTreeByOctree(octree);
+
                   prov.addTree(_textNameController.text, octree);
-
-
-
-                } else if (namePage == "generatePage") {
-                  prov.addTree(_textNameController.text, octree);
-
-                }
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => MyHomePage(),
                 ));
