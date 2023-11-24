@@ -26,7 +26,7 @@ String arbre4 = "V";
 //int phi = 45 ;
 //int rho = 50 ;
 void main() {
-  databaseFactory = databaseFactoryFfi;
+  //databaseFactory = databaseFactoryFfi;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ModelProvider(),
@@ -45,7 +45,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
-
         popupMenuTheme: PopupMenuThemeData(
           color: Colors.black,
         ),
@@ -66,114 +65,107 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          actions: [
-            Tooltip(
-              message: 'Paramètre',
-              child: IconButton(
-                icon: const Icon(Icons.settings),
-                color: Colors.white,
-                onPressed: () {
-                  //   prov.removeTree(index);
-                },
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBar(
         backgroundColor: Colors.black,
-        //appBar: AppBar(title: Text('Des cubes !!! Rien que des cubes !!')),
-        body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AnimatedTextKit(
-                  animatedTexts: [
-                    TypewriterAnimatedText(
-                      'Bienvenue',
-                      textStyle: const TextStyle(
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                      speed: const Duration(milliseconds: 400),
-                    ),
-                  ],
-                  totalRepeatCount: 4,
-                  pause: const Duration(milliseconds: 500),
-                  // TODO ajouter un texte plus explicatif en dessous de bienvenue
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 200)),
-                    SizedBox(
-                        height: 50,
-                        width: 200,
-                        // TODO factoriser le désign des boutons de l'ensemble des classes
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                    side: BorderSide(color: Colors.white))),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      Generate()));
-                            },
-                            child: const Text('Générer'))),
-                    const Padding(padding: EdgeInsets.fromLTRB(0, 60, 0, 0)),
-                    SizedBox(
-                      height: 50,
-                      width: 200,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    Visualize()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
+        actions: [
+          Tooltip(
+            message: 'Paramètre',
+            child: IconButton(
+              icon: const Icon(Icons.settings),
+              color: Colors.white,
+              onPressed: () {
+                //   prov.removeTree(index);
+              },
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.black,
+      //appBar: AppBar(title: Text('Des cubes !!! Rien que des cubes !!')),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AnimatedTextKit(
+            animatedTexts: [
+              TypewriterAnimatedText(
+                'Bienvenue',
+                textStyle: const TextStyle(
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+                speed: const Duration(milliseconds: 400),
+              ),
+            ],
+            totalRepeatCount: 4,
+            pause: const Duration(milliseconds: 500),
+            // TODO ajouter un texte plus explicatif en dessous de bienvenue
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 200)),
+              SizedBox(
+                  height: 50,
+                  width: 200,
+                  // TODO factoriser le désign des boutons de l'ensemble des classes
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
-                                  side: BorderSide(color: Colors.white))),
-                          child: const Text('Visualiser')),
-                    ),
-                    const Padding(padding: EdgeInsets.fromLTRB(0, 60, 0, 0)),
-                    SizedBox(
-                      height: 50,
-                      width: 200,
-                      child: ElevatedButton(
-                          onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (BuildContext context) => Operation()
-                              ));
-                            },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                                  side: BorderSide(color: Colors.white))),
-                            child: const Text('Opération')),
-                    )
-                  ],
-                )
-                /*Expanded(
+                              side: BorderSide(color: Colors.white))),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => Generate()));
+                      },
+                      child: const Text('Générer'))),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 60, 0, 0)),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => Visualize()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            side: BorderSide(color: Colors.white))),
+                    child: const Text('Visualiser')),
+              ),
+              const Padding(padding: EdgeInsets.fromLTRB(0, 60, 0, 0)),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) => Operation()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            side: BorderSide(color: Colors.white))),
+                    child: const Text('Opération')),
+              )
+            ],
+          )
+          /*Expanded(
                   child: MyWorkingArea()
               ),*/
-              ],
-            )),
-        floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-    },
-    child: Icon(Icons.picture_as_pdf),
-    backgroundColor: Colors.blue,
-    ),
-    floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        ],
+      )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.picture_as_pdf),
+        backgroundColor: Colors.blue,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }
@@ -195,12 +187,12 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   double initialPhi = 0.0;
   final Octree octree;
   final String namePage;
+
   TextEditingController _textNameController = TextEditingController();
 
   _MyWorkingAreaState({required this.octree, required this.namePage});
 
   late Octree octree1, octree2, octreeResultant;
-
   late DessinArbre da;
 
   late TextEditingController thetaController;
@@ -208,6 +200,12 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   late TextEditingController rhoController;
   Widget currentContent = Container();
   bool octree3D = true;
+
+  /// 2D VIEW
+  Map<TextEditingController, int> _controllers = {};
+  bool edit = false;
+  final Graph graph = Graph()..isTree = true;
+  Map<Node, String> nodes = {};
 
   @override
   void didChangeDependencies() {
@@ -225,12 +223,12 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     //da = DessinArbre(octreeResultant, modelProv.theta, modelProv.phi, modelProv.rho) ;
 
     da = DessinArbre(octree, modelProv.theta, modelProv.phi, modelProv.rho);
-    currentContent = CustomPaint(
-      size: MediaQuery
-          .of(context)
-          .size,
-      painter: Painter(da),
-    );
+    if (!edit) {
+      currentContent = CustomPaint(
+        size: MediaQuery.of(context).size,
+        painter: Painter(da),
+      );
+    }
   }
 
   @override
@@ -252,101 +250,87 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             prov.phi = 45;
             prov.theta = 45;
             prov.rho = 50;
-    if (namePage == "visualizePage") {
-
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) => MyHomePage(),
-      ));
-
-
-    } else if (namePage == "generatePage") {
-
-
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text('Sauvegarde'),
-                  content: Text('Voulez-vous sauvegarder avant de quitter ?'),
-                  actions: <Widget>[
-                    TextButton(
-                      child: Text('Annuler'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-
-
-                      },
-                    ),
-                    TextButton(
-                      child: Text('Sauvegarder'),
-                      onPressed: () {
-
-                        saveMethod(context, prov);
-
-
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
+            if (namePage == "visualizePage") {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => MyHomePage(),
+              ));
+            } else if (namePage == "generatePage") {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Sauvegarde'),
+                    content: Text('Voulez-vous sauvegarder avant de quitter ?'),
+                    actions: <Widget>[
+                      TextButton(
+                        child: Text('Annuler'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: Text('Sauvegarder'),
+                        onPressed: () {
+                          saveMethod(context, prov);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             }
           },
         ),
         actions: [
-
           Tooltip(
             message: 'Sauvegarder',
             child: Visibility(
               visible: namePage == "generatePage",
-            child: IconButton(
-              icon: const Icon(Icons.save_alt),
-              color: Colors.white,
-              onPressed: () {
-                 saveMethod(context, prov);
-              },
-            ),
+              child: IconButton(
+                icon: const Icon(Icons.save_alt),
+                color: Colors.white,
+                onPressed: () {
+                  saveMethod(context, prov);
+                },
+              ),
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-
-            Tooltip(
-              message: 'Supprimer',
-              child: IconButton(
-                icon: const Icon(Icons.delete),
-                color: Colors.white,
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Confirmation'),
-                        content: Text('Voulez-vous vraiment supprimer cet arbre ?'),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Annuler'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              prov.removeTreeByOctree(octree);
-                              Navigator.of(context).pop();
-
-                            },
-                            child: Text('Supprimer'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
-
-
+          Tooltip(
+            message: 'Supprimer',
+            child: IconButton(
+              icon: const Icon(Icons.delete),
+              color: Colors.white,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Confirmation'),
+                      content:
+                          Text('Voulez-vous vraiment supprimer cet arbre ?'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Annuler'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            prov.removeTreeByOctree(octree);
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Supprimer'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
           Tooltip(
@@ -358,10 +342,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                 showMenu(
                   context: context,
                   position: RelativeRect.fromLTRB(
-                      MediaQuery
-                          .of(context)
-                          .size
-                          .width, 80.0, 0.0, 0.0),
+                      MediaQuery.of(context).size.width, 80.0, 0.0, 0.0),
                   items: <PopupMenuEntry>[
                     PopupMenuItem(
                       child: Container(
@@ -459,23 +440,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
         ],
       ),
       body: Center(
-    child: GestureDetector(
-
-      onPanUpdate: (details) {
-
-        setState(() {
-          prov.phi += details.delta.dy.toInt();
-          prov.theta += details.delta.dx.toInt();
-
-        }
-        );
-
-
-    },
-        child: Container(
-          child: currentContent,
+        child: GestureDetector(
+          onPanUpdate: (details) {
+            setState(() {
+              prov.phi += details.delta.dy.toInt();
+              prov.theta += details.delta.dx.toInt();
+            });
+          },
+          child: Container(
+            child: currentContent,
+          ),
         ),
-      ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -489,57 +464,44 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                   /// création de l'arbre en 2D
                   String univers_string = octree.decompile(octree.univers);
                   double tree_height = 0;
-                  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
-                  builder.orientation = 3;
-                  builder.siblingSeparation = 10;
-                  builder.levelSeparation = 50;
-                  final Graph graph = Graph()..isTree = true;
-                  Map<Node,String> nodes = {};
+
                   ///ajout des noeuds au graph
                   for (int i = 0; i < univers_string.length; i++) {
                     nodes[Node.Id(i)] = univers_string[i];
                     print(nodes[Node.Id(i)]);
                   }
                   createGraphe(graph, nodes, 0, 1);
-                  currentContent =
-                  //InteractiveViewer(
-                  // constrained: false,
-                  //boundaryMargin: EdgeInsets.all(100),
-                  //minScale: 0.01,
-                  //maxScale: 5.6,
-                   GraphView(
-                    graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(
-                        builder, TreeEdgeRenderer(builder)),
-                    paint: Paint()
-                      ..color = Colors.green
-                      ..strokeWidth = 1
-                      ..style = PaintingStyle.stroke,
-                    builder: (Node node) {
-                      // I can decide what widget should be shown here based on the id
-                      //var a = node.key?.value as int;
-                      String? a = nodes[node];
-                      return SizedBox(
-                          height: 15,
-                          width: 10,
-                          child : TextField(
-                            decoration: InputDecoration(
-                                hintText: a,
-                              border: InputBorder.none
-                            ),
-
-                          )
-                      );
-                    },
-                  );
+                  BuchheimWalkerConfiguration builder =
+                      BuchheimWalkerConfiguration();
+                  builder.orientation = 3;
+                  builder.siblingSeparation = 10;
+                  builder.levelSeparation = 50;
+                  currentContent = InteractiveViewer(
+                      constrained: false,
+                      boundaryMargin: EdgeInsets.all(20),
+                      minScale: 0.01,
+                      maxScale: 5.6,
+                      child: GraphView(
+                        graph: graph,
+                        algorithm: BuchheimWalkerAlgorithm(
+                            builder, TreeEdgeRenderer(builder)),
+                        paint: Paint()
+                          ..color = Colors.green
+                          ..strokeWidth = 1
+                          ..style = PaintingStyle.stroke,
+                        builder: (Node node) {
+                          String? a = nodes[node];
+                          print(node.key?.value);
+                          return rectangleWidget(a!, node.key?.value as int,
+                              graph.getOutEdges(node));
+                        },
+                      ));
 
                   octree3D = false;
                 } else {
                   /// creéation de l'arbre en 3D
                   currentContent = CustomPaint(
-                    size: MediaQuery
-                        .of(context)
-                        .size,
+                    size: MediaQuery.of(context).size,
                     painter: Painter(da),
                   );
                   octree3D = true;
@@ -574,20 +536,22 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
       ),
     );
   }
-  void createGraphe(Graph g, Map<Node,String> nodes, int father, int childIndex){
+
+  void createGraphe(
+      Graph g, Map<Node, String> nodes, int father, int childIndex) {
     //int i  = childIndex;
-    int countD  = 0;
-    for(int k = childIndex; k < childIndex+8; k++){
+    int countD = 0;
+    for (int k = childIndex; k < childIndex + 8; k++) {
       g.addEdge(Node.Id(father), Node.Id(k));
-      if(nodes[Node.Id(k)] == 'D' ){
+      if (nodes[Node.Id(k)] == 'D') {
         countD++;
-        createGraphe(g, nodes, k, childIndex+(8*countD));
+        createGraphe(g, nodes, k, childIndex + (8 * countD));
       }
     }
   }
 
-    saveMethod(BuildContext context, ModelProvider prov)  {
-     showDialog(
+  saveMethod(BuildContext context, ModelProvider prov) {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -602,7 +566,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               onPressed: () {
                 Navigator.of(context).pop();
 
-                  prov.addTree(_textNameController.text, octree);
+                prov.addTree(_textNameController.text, octree);
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => MyHomePage(),
                 ));
@@ -620,18 +584,49 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     );
   }
 
-  Widget rectangleWidget(String a) {
+  Widget rectangleWidget(String a, int id, List<Edge> e) {
+    TextEditingController controller = TextEditingController(text: a);
+    _controllers[controller] = id;
+
     return SizedBox(
-      height: 20,
-      width: 20,
-      child: DecoratedBox(
-        decoration: BoxDecoration(color: Colors.white),
-        child: Text(
-          '${a}',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
+        height: 26,
+        width: 26,
+        child: TextField(
+          style: const TextStyle(
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+          enabled: e.isEmpty,
+          controller: controller,
+          onChanged: (newValue) => _handleNodeChange(controller),
+          onTap: _handleTextFieldTap,
+          textAlignVertical: TextAlignVertical.top,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+              hintText: a,
+              contentPadding: EdgeInsets.fromLTRB(3, 30, 0, 0),
+              filled: true,
+              fillColor: Colors.white,
+              border: InputBorder.none),
+        ));
+  }
+
+  _handleNodeChange(TextEditingController controller) {
+    //setState(() {
+    print(controller.text);
+    print("change");
+    if (controller.text == 'D') {
+      if (_controllers.containsKey(controller)) {
+        int? id = _controllers[controller];
+        print(id);
+        //graph.addEdge(Node.Id(id), Node.Id(35));
+      }
+    }
+    octree3D = true;
+  }
+
+  _handleTextFieldTap() {
+    setState(() {
+      edit = true;
+    });
   }
 }
 
