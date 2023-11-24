@@ -92,8 +92,8 @@ $ flutter pub get
 L'ensemble des arbres enregistré par l'utilisateur sont sauvegardés dans une base de données locale au téléphone grâce à *sqflite*. Ainsi, si un utilisateur quitte l'application, il pourra retrouver les arbres qu'il a 
 crée lors de sa prochaine utilisation de l'application.
 
-Une base de données sqlflite est stockée sous la forme d'un fichier enregistré sur l'appareil de l'utilisateur. La création de la base de données est faite dans le fichier *Database_helper.dart*
-Si vous ouvrez l'explorateur de fichier de votre émulateur dans Android Studio, vous pourrez trouvrer le fichier db_flutter.db au chemin suivant : 
+Une base de données sqlflite est stockée sous la forme d'un fichier enregistré sur l'appareil de l'utilisateur. La création de la base de données est faite dans le fichier `Database_helper.dart`
+Si vous ouvrez l'explorateur de fichier de votre émulateur dans Android Studio, vous pourrez trouvrer le fichier `db_flutter.db` au chemin suivant : 
 - *data/user/0/com.example.octrees/databases/db_flutter.db*
 
 
