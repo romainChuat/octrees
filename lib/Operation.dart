@@ -99,8 +99,7 @@ class _OperationState extends State<Operation> {
         }
       }
       int correctLength = countNbD * 8 + 1;
-      if (treeValue.length == correctLength &&
-          (treeValue[0] == 'D' || correctLength == 1)) {
+      if (treeValue.length == correctLength && (treeValue[0] == 'D' || correctLength == 1)) {
         bool valid = true;
         for (int i = 0; i < treeValue.length; i++) {
           if (treeValue[i] != 'P' &&
