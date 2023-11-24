@@ -146,7 +146,7 @@ class GenerateState extends State<Generate> {
     bool valid = true;
     try{
       int treeLengthInt = int.parse(treeLength);
-      if( ((treeLengthInt & (treeLengthInt - 1)) != 0 ) || treeLengthInt == 0 ){
+      if( ((treeLengthInt & (treeLengthInt - 1)) != 0 ) || treeLengthInt == 0 || treeLengthInt == 1){
         valid = false;
       }
     } catch (e){
@@ -163,23 +163,25 @@ class GenerateState extends State<Generate> {
     String tree = _treeStringController.text;
     int countNbD = countD(tree);
     int correctLength = countNbD * 8 +1;
-    if (tree == "" || tree.length != correctLength  || (tree[0] != 'D' && correctLength == 1 )) {
+    if (tree == "" ) {
       setState(() {
         _showEmptyStringErrorMessage = true;
       });
       return false;
     }
-    bool valid = true;
-    for (int i = 0; i < tree.length; i++) {
-      if (tree[i] != 'P' && tree[i] != 'V' && tree[i] != 'D') {
-        valid = false;
-      }
-    }
-    if (!valid) {
+    if(tree.length != correctLength || (tree.length> 1 && tree[0] != 'D')){
       setState(() {
         _showInvalidStringErrorMessage = true;
       });
       return false;
+    }
+    for (int i = 0; i < tree.length; i++) {
+      if (tree[i] != 'P' && tree[i] != 'V' && tree[i] != 'D') {
+        setState(() {
+          _showInvalidStringErrorMessage = true;
+        });
+        return false;
+      }
     }
     return true;
   }
