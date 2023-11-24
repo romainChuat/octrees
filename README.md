@@ -94,7 +94,7 @@ crée lors de sa prochaine utilisation de l'application.
 
 Une base de données sqlflite est stockée sous la forme d'un fichier enregistré sur l'appareil de l'utilisateur. La création de la base de données est faite dans le fichier *Database_helper.dart*
 Si vous ouvrez l'explorateur de fichier de votre émulateur dans Android Studio, vous pourrez trouvrer le fichier db_flutter.db au chemin suivant : 
-*data/user/0/com.example.octrees/databases/db_flutter.db*
+- *data/user/0/com.example.octrees/databases/db_flutter.db*
 
 
 Les arbres sont les seules données à être enregistrés dans la base de données *sqflite*, ils sont enregistrés dans la table octree. Dans la table octree, un arbre est identifié par un entier id, un nom sous forme de chaîne de caractères
