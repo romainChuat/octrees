@@ -83,13 +83,22 @@ $ flutter pub get
  • *provider: ^6.0.5* : Bibliothèque de gestion d'état et de partage de données. <br>
  • *graphview: ^1.2.0* : Affiche des données dans des structures graphiques.<br>
  • *sqflite: ^2.3.0* : Permet d'intégrer et de gérer des bases de données SQLite.<br>
- • *flutter_lints: ^2.0.0* : Ccontient un ensemble recommandé de lints pour les applications, packages et plugins Flutter afin d'encourager de bonnes pratiques de codage.
+ • *flutter_lints: ^2.0.0* : Ccontient un ensemble recommandé de lints pour les applications, packages et plugins Flutter afin d'encourager de bonnes pratiques de codage.<br>
  • *animated_text_kit: ^4.2.2* : Contient une collection d'animations de texte.
     
 
 ### 4.4 Base de donnée
 
+L'ensemble des arbres enregistré par l'utilisateur sont sauvegardés dans une base de données locale au téléphone grâce à *sqflite*. Ainsi, si un utilisateur quitte l'application, il pourra retrouver les arbres qu'il a 
+crée lors de sa prochaine utilisation de l'application.
 
+Une base de données sqlflite est stockée sous la forme d'un fichier enregistré sur l'appareil de l'utilisateur. La création de la base de données est faite dans le fichier `Database_helper.dart`
+Si vous ouvrez l'explorateur de fichier de votre émulateur dans Android Studio, vous pourrez trouvrer le fichier `db_flutter.db` au chemin suivant : 
+- *data/user/0/com.example.octrees/databases/db_flutter.db*
+
+
+Les arbres sont les seules données à être enregistrés dans la base de données *sqflite*, ils sont enregistrés dans la table octree. Dans la table octree, un arbre est identifié par un entier id, un nom sous forme de chaîne de caractères
+et la chaîne de caractères représentant l'univers de l'octree.
 
 
 ## 5. Commande
