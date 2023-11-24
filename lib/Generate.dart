@@ -151,7 +151,7 @@ class GenerateState extends State<Generate> {
       }
     } catch (e){
         valid = false;
-
+    }
     if(!valid){
       setState(() {
         _showInvalidLengthStringError = true;
