@@ -486,8 +486,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                         algorithm: BuchheimWalkerAlgorithm(
                             builder, TreeEdgeRenderer(builder)),
                         paint: Paint()
-                          ..color = Colors.green
-                          ..strokeWidth = 1
+                          ..color = Colors.black
+                          ..strokeWidth = 3
                           ..style = PaintingStyle.stroke,
                         builder: (Node node) {
                           String? a = nodes[node];
@@ -588,9 +588,10 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     TextEditingController controller = TextEditingController(text: a);
     _controllers[controller] = id;
 
-    return SizedBox(
+    return Container(
         height: 26,
         width: 26,
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)) ),
         child: TextField(
           style: const TextStyle(
               color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
@@ -610,18 +611,24 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   }
 
   _handleNodeChange(TextEditingController controller) {
-    //setState(() {
-    print(controller.text);
-    print("change");
-    if (controller.text == 'D') {
-      if (_controllers.containsKey(controller)) {
-        int? id = _controllers[controller];
-        print(id);
-        //graph.addEdge(Node.Id(id), Node.Id(35));
+    setState(() {
+      print(controller.text);
+      print("change");
+      int? id = _controllers[controller];
+      if (controller.text == 'V' || controller.text == 'P') {
+        nodes[Node.Id(id)] = controller.text;
       }
+      if (controller.text == 'D') {
+        if (_controllers.containsKey(controller)) {
+          print(id);
+          nodes[Node.Id(35)] = 'D';
+          graph.addEdge(Node.Id(id), Node.Id(35));
+
+        }
+      }
+      octree3D = true;
+    });
     }
-    octree3D = true;
-  }
 
   _handleTextFieldTap() {
     setState(() {
