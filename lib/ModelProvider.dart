@@ -60,6 +60,9 @@ class ModelProvider extends ChangeNotifier {
     }
     return null;
   }
+  Octree getByIndex(int index){
+     return _trees.values.elementAt(index);
+  }
 
   int _rho = 50;
   int get rho => _rho;
