@@ -103,7 +103,7 @@ $ flutter pub get
 
 #### Racine
 
-<p>En plus des différents fichiers contenant l'ensemble du code Dart de l'application, nous avons également deux fichiers importants :</p>
+<p>En plus des différents fichiers contenant l'ensemble du code Dart de l'application, nous avons également deux fichiers et un répertoire importants :</p>
 
  • *.gitignore* : Spécifie les fichiers et répertoires qui doivent être ignorés par Git lors d'un *commit*. <br>
  • *pubspec.yaml* : Défini les dépendances et les paramètres de configuration.<br>
