@@ -81,6 +81,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     prov = context.watch<ModelProvider>();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           color: Colors.white,
@@ -137,6 +138,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
           Tooltip(
             message: 'Supprimer',
+            child: Visibility(
+              visible: namePage == "visualizePage",
             child: IconButton(
               icon: const Icon(Icons.delete),
               color: Colors.white,
@@ -169,9 +172,11 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                 );
               },
             ),
+            ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-          Tooltip(
+          if(!edit && octree3D == true)
+            Tooltip(
             message: 'Editer',
             child: IconButton(
               icon: const Icon(Icons.edit),

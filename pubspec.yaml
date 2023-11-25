@@ -40,6 +40,7 @@ dependencies:
   sqflite: ^2.3.0
   sqflite_common_ffi: ^2.3.0+4
   flutter_launcher_icons: ^0.13.1
+  animated_text_kit: ^4.2.2
 
 flutter_icons:
   image_path_android: "./assets/octree.png"
@@ -68,7 +69,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  animated_text_kit: ^4.2.2
   syncfusion_flutter_pdfviewer: ^23.1.44
   stroke_text: ^0.0.2
 
