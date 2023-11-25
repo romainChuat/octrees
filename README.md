@@ -68,34 +68,48 @@ $ flutter pub get
 
 <par>Ci-dessous est présentée l'arborescence du projet Octree.</par>
 
-#### Racine
 
 #### Application
 
-<par>L'ensemble des fichiers contenant le développement se trouve dans le répertoire /lib, chacun ayant l'extension .dart. Voici leur contenu.</par>
+<par>L'ensemble des fichiers contenant le développement se trouve dans le répertoire /lib, chacun ayant l'extension .dart. Voici leur contenu avec une explication de leur fonction:</par>
 
  ```
 /lib
+
   /Cube.dart //Interface définit des opérations fondamentales pour les différents Voxels dans le contexte de la modélisation tridimensionnelle.
+
   /Database_helper.dart //Classe qui permet la gestion de la base de doonée.
+
   /DessinArbre.dart //Classe permettant d'effectuer le dessin en perspective d'une structure arborescente tridimensionnelle représentée par un octree.
+
   /Librairy.dart //Bibliotèque regroupant les fonctions fréquemment utilisées.
+
   /Main.dart //Contient la focntion main ainsi que la classe MyApp qui  sert à définir la configuration initiale de l'application.
+
   /MenuArbreGeneration.dart //Classe représentant un menu permettant à l'utilisateur de générer un arbre en spécifiant une chaîne de caractères ou en générant une longueur aléatoire.
+
   /MenuArbreSauvegarde.dart //Classe représentant un menu permettant à l'utilisateur de visualiser et gérer la liste des arbres sauvegardés.
+
   /MenuPrincipal.dart //Classe représentant la page d'accueil avec les différents choix possible.
+
   /ModelProvider.dart //Gestionnaire de modèle dans l'application, fournissant de nombreuses méthodes.
+
   /Octree.dart //Classe permettant de représenter une structure de données octree en 3D, avec de nombreuses méthodes en liens avec ces derniers.
+
   /Operation.dart //Classe permettant de représenter une interface utilisateur permettant à l'utilisateur d'effectuer des opérations (intersection, union, différence) sur des structures de données de type octree en 3D).
+
   /Visualisation.dart //Cette classe permet d'afficher une zone permettant de visualiser et d'interagir avec une structure de données de type Octree en 3D et en arborescence 2D.
- ``` 
+ ```
 
-
+#### Racine
 
 <p>En plus des différents fichiers contenant l'ensemble du code Dart de l'application, nous avons également deux fichiers importants :</p>
 
  • *.gitignore* : Spécifie les fichiers et répertoires qui doivent être ignorés par Git lors d'un *commit*. <br>
- • *pubspec.yaml* : Défini les dépendances et les paramètres de configuration, 
+ • *pubspec.yaml* : Défini les dépendances et les paramètres de configuration.<br>
+  • _/assets_ : Contient l'image _.png_ du logo de l'application.
+
+
 
 ### 4.3 Dépendance
 
