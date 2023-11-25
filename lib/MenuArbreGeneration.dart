@@ -6,12 +6,14 @@ import 'package:octrees/main.dart';
 import 'package:provider/provider.dart';
 import 'package:octrees/library.dart';
 
-class Generate extends StatefulWidget {
-  const Generate({super.key});
+import 'Visualisation.dart';
+
+class MenuArbreGeneration extends StatefulWidget {
+  const MenuArbreGeneration({super.key});
   @override
-  State<Generate> createState() => GenerateState();
+  State<MenuArbreGeneration> createState() => MenuArbreGenerationState();
 }
-class GenerateState extends State<Generate> {
+class MenuArbreGenerationState extends State<MenuArbreGeneration> {
   var _treeStringController = TextEditingController();
   var _randomTreeStringController = TextEditingController();
   bool _showEmptyStringErrorMessage = false;
@@ -150,7 +152,7 @@ class GenerateState extends State<Generate> {
         valid = false;
       }
     } catch (e){
-        valid = false;
+      valid = false;
     }
     if(!valid){
       setState(() {

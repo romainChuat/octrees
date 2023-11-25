@@ -4,6 +4,7 @@ import 'package:octrees/main.dart';
 import 'package:provider/provider.dart';
 import 'ModelProvider.dart';
 import 'Octree.dart';
+import 'Visualisation.dart';
 
 class Operation extends StatefulWidget {
   const Operation({super.key});
