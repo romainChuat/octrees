@@ -17,7 +17,7 @@ String arbre4 = "V";
 //int phi = 45 ;
 //int rho = 50 ;
 void main() {
-  databaseFactory = databaseFactoryFfi;
+  //databaseFactory = databaseFactoryFfi;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ModelProvider(),

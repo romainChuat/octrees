@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:graphview/GraphView.dart';
 import 'package:octrees/Database_helper.dart';
 import 'package:octrees/Octree.dart';
 import 'DessinArbre.dart';
@@ -108,4 +109,40 @@ class ModelProvider extends ChangeNotifier {
     );
     notifyListeners();
   }*/
+
+  /// GRAPH
+  /*Graph _graph = Graph()..isTree = true;
+  Map<Node, String> _nodes = {};
+
+  Graph get graph => _graph;
+  Map<Node, String> get nodes => _nodes;
+
+
+  void createNodes(String univers_string){
+    for (int i = 0; i < univers_string.length; i++) {
+      nodes[Node.Id(i)] = univers_string[i];
+      print(nodes[Node.Id(i)]);
+    }
+    notifyListeners();
+  }
+
+  void modifyToDivisble(int id ){
+    nodes[Node.Id(35)] = 'V';
+    graph.addEdge(Node.Id(id), Node.Id(35));
+    notifyListeners();
+  }
+
+  void createGraphe( int father, int childIndex) {
+    //int i  = childIndex;
+    int countD = 0;
+    for (int k = childIndex; k < childIndex + 8; k++) {
+      graph.addEdge(Node.Id(father), Node.Id(k));
+      if (nodes[Node.Id(k)] == 'D') {
+        countD++;
+        createGraphe(k, childIndex + (8 * countD));
+      }
+    }
+    notifyListeners();
+  }*/
+
 }

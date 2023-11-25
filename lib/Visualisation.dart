@@ -44,6 +44,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   bool edit = false;
   final Graph graph = Graph()..isTree = true;
   Map<Node, String> nodes = {};
+  var prov;
 
   @override
   void didChangeDependencies() {
@@ -76,8 +77,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
 
   @override
   Widget build(BuildContext context) {
-    var prov = context.watch<ModelProvider>();
-    //initState();
+    prov = context.watch<ModelProvider>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -301,16 +301,14 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                 if (octree3D == true) {
                   /// création de l'arbre en 2D
                   String univers_string = octree.decompile(octree.univers);
-                  double tree_height = 0;
 
                   ///ajout des noeuds au graph
                   for (int i = 0; i < univers_string.length; i++) {
                     nodes[Node.Id(i)] = univers_string[i];
                     print(nodes[Node.Id(i)]);
                   }
-                  createGraphe(graph, nodes, 0, 1);
-                  BuchheimWalkerConfiguration builder =
-                  BuchheimWalkerConfiguration();
+                  createGraphe(0, 1);
+                  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
                   builder.orientation = 3;
                   builder.siblingSeparation = 10;
                   builder.levelSeparation = 50;
@@ -324,12 +322,12 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                         algorithm: BuchheimWalkerAlgorithm(
                             builder, TreeEdgeRenderer(builder)),
                         paint: Paint()
-                          ..color = Colors.green
-                          ..strokeWidth = 1
+                          ..color = Colors.white
+                          ..strokeWidth = 3
                           ..style = PaintingStyle.stroke,
                         builder: (Node node) {
                           String? a = nodes[node];
-                          print(node.key?.value);
+                          print("a");
                           return rectangleWidget(a!, node.key?.value as int,
                               graph.getOutEdges(node));
                         },
@@ -351,7 +349,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             child: const Icon(Icons.autorenew),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-          if(octree3D == true)
+          if(!edit && octree3D == true)
             FloatingActionButton(
               heroTag: "btn2",
               onPressed: () {
@@ -361,9 +359,9 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               backgroundColor: Colors.green,
               child: const Icon(Icons.zoom_in),
             ),
-          if(octree3D == true)
+          if(!edit && octree3D == true)
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-          if(octree3D == true)
+          if(!edit && octree3D == true)
             FloatingActionButton(
               heroTag: "btn3",
               onPressed: () {
@@ -378,15 +376,14 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     );
   }
 
-  void createGraphe(
-      Graph g, Map<Node, String> nodes, int father, int childIndex) {
+  void createGraphe(/*Graph g, Map<Node, String> nodes,*/ int father, int childIndex) {
     //int i  = childIndex;
     int countD = 0;
     for (int k = childIndex; k < childIndex + 8; k++) {
-      g.addEdge(Node.Id(father), Node.Id(k));
+      graph.addEdge(Node.Id(father), Node.Id(k));
       if (nodes[Node.Id(k)] == 'D') {
         countD++;
-        createGraphe(g, nodes, k, childIndex + (8 * countD));
+        createGraphe(k, childIndex + (8 * countD));
       }
     }
   }
@@ -428,13 +425,11 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   Widget rectangleWidget(String a, int id, List<Edge> e) {
     TextEditingController controller = TextEditingController(text: a);
     _controllers[controller] = id;
-
     return SizedBox(
         height: 26,
         width: 26,
         child: TextField(
-          style: const TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           enabled: e.isEmpty,
           controller: controller,
           onChanged: (newValue) => _handleNodeChange(controller),
@@ -451,22 +446,30 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   }
 
   _handleNodeChange(TextEditingController controller) {
-    //setState(() {
-    print(controller.text);
-    print("change");
-    if (controller.text == 'D') {
-      if (_controllers.containsKey(controller)) {
-        int? id = _controllers[controller];
-        print(id);
-        //graph.addEdge(Node.Id(id), Node.Id(35));
+    setState(() {
+      print(controller.text);
+      print("change");
+      int? id = _controllers[controller];
+      if (controller.text == 'V' || controller.text == 'P') {
+        nodes[Node.Id(id)] = controller.text;
       }
-    }
-    octree3D = true;
+      if (controller.text == 'D') {
+        if (_controllers.containsKey(controller)) {
+          print(id);
+          nodes[Node.Id(id)] = 'D';
+          // creé 8 Noeud en partant du noeud last;
+          nodes[Node.Id(35)] = 'V';
+          graph.addEdge(Node.Id(id), Node.Id(35));
+        }
+      }
+      octree3D = true;
+    });
   }
 
   _handleTextFieldTap() {
     setState(() {
       edit = true;
+      octree3D = true;
     });
   }
 }
