@@ -5,7 +5,43 @@
 > Ce README fournit des informations sur l'application Octree, mettant en lumière les différentes fonctionnalités implémentées, la documentation essentielle à la compréhension, les étapes d'installation de l'environnement de travail, l'explication de ce dernier, l'exécution de l'application, ainsi que les commandes indispensables.
 
 ## 1. Fonctionnalité implémenté
+
+<p>Cette application propose de nombreuses fonctionnalités, telles que la génération et la visualisation d'arbres représentés en 3D ou sous forme d'arborescence. Vous trouverez ci-dessous les différentes fonctionnalités pour chacune des parties de l'application.</p>
 <p>Lors du lancement de l'application, l'utilisateur a trois choix dans le menu principal :</p>
+
+- Générer un arbre
+- Visualiser un arbre sauvegardé
+- effectuer des opérations sur des arbres
+
+
+### 1.1 Génération d’un arbre
+
+&emsp;&emsp;&emsp;Vous pouvez générer un arbre à partir d'une chaîne spécifiée, où chaque nœud peut être Divisible (D), Plein (P) ou Vide (V). Les nœuds P et V sont des feuilles sans fils, tandis qu'un nœud D a huit nœuds fils. La racine de l'arbre est associée à une puissance de 2, représentant la taille initiale de l'univers, qui diminue à chaque niveau de l'arbre.
+
+&emsp;&emsp;&emsp;L'application permet également la génération d'un arbre à partir d'une chaîne aléatoire, avec la possibilité de spécifier la longueur des côtésqui est forcément une puissance de 2.
+
+&emsp;&emsp;&emsp;Une fois l'arbre généré, vous pouvez le visualiser en 3D ou sous forme d'arborescence. Sous l'affichage 3D, vous avez la possibilité de sauvegarder l'arbre avec un nom, de modifier les valeurs de phi, theta et rho pour ajuster la vue, de déplacer la forme grâce au tactile, et de zoomer ou dézoomer.
+
+&emsp;&emsp;&emsp;L'application offre une transition fluide entre les affichages 3D et en arborescence. Sous l'affichage en arborescence, vous pouvez aussi sauvegarder l’arbre avec un nom. Vous avez également la possibilité de modifier la valeur de tous les nœuds, ajustant automatiquement les nœuds enfants en conséquence. Par exemple, vous pouvez mettre un D pour rendre les enfants vides et les éditer ultérieurement, ou bien ajouter un P ou un V à la place d’un D, ce qui supprimera l’ensemble des enfants.
+
+### 1.2 Visualisation d’un arbre
+
+&emsp;&emsp;&emsp;Vous pouvez sélectionner un arbre parmi ceux enregistrés après la génération, ainsi que supprimer les arbres sauvegardés existants. Une fois l'arbre choisi, vous avez la possibilité de le visualiser en 3D ou sous forme d'arborescence.
+
+&emsp;&emsp;&emsp;Sous l'affichage 3D, vous pouvez ajuster la vue en modifiant les valeurs de phi, theta et rho. De plus, vous pouvez déplacer la forme en utilisant des commandes tactiles et effectuer des zooms in et out pour une expérience interactive complète, et enfin il est possible de supprimer l’arbre.
+
+&emsp;&emsp;&emsp;L'application offre une transition fluide entre les affichages 3D et en arborescence, avec aussi une possibilité de supprimer l’arbre. Dans le mode arborescence, vous pouvez non seulement modifier la valeur de chaque nœud, mais aussi ajuster automatiquement les nœuds enfants en conséquence. Par exemple, vous pouvez attribuer la valeur "D" pour rendre les enfants vides et les éditer ultérieurement. De même, l'ajout de "P" ou "V" à la place d'un "D" supprimera l'ensemble des enfants, offrant ainsi une flexibilité totale dans la manipulation des structures arborescentes.
+
+### 1.3 Opération sur des arbre
+
+&emsp;&emsp;&emsp;Vous pouvez effectuer des opérations sur deux arbres pour ca entrer le premier arbre de l'opération en saisissant une chaîne (voir la partie 1.1 pour l'explication des chaînes à entrer), en sélectionnant un arbre existant ou en générant un arbre aléatoire en spécifiant la longueur des côtés, qui doit être une puissance de 2. De même, vous avez la possibilité de saisir le deuxième arbre avec les mêmes options.
+
+&emsp;&emsp;&emsp;Après avoir saisi les arbres, l'application permet d'effectuer plusieurs opérations fondamentales telles que l'intersection, l'union et la différence entre ces arbres. Vous pouvez ensuite exécuter l'opération pour obtenir le résultat.
+
+&emsp;&emsp;&emsp;Une fois l'opération réalisée, l'application offre la possibilité de visualiser le nouvel arbre en 3D ou sous forme d'arborescence. Dans l'affichage 3D, vous pouvez sauvegarder le nouvel arbre généré avec un nom, ajuster la vue en modifiant les valeurs de phi, theta et rho, déplacer la forme grâce à des interactions tactiles, et effectuer des zooms ou des dézooms.
+
+&emsp;&emsp;&emsp;L'application offre une transition fluide entre les affichages 3D et en arborescence. Sous l'affichage en arborescence, vous pouvez également sauvegarder l'arbre avec un nom. Vous avez la possibilité de modifier la valeur de tous les nœuds, ajustant automatiquement les nœuds enfants en conséquence. Par exemple, vous pouvez remplacer un "D" pour rendre les enfants vides, éditant ainsi ultérieurement, ou ajouter un "P" ou un "V" à la place d'un "D", ce qui supprimera l'ensemble des enfants.
+
 
 
 
