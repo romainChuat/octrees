@@ -2,9 +2,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:octrees/Octree.dart';
-import 'package:octrees/main.dart';
+import 'package:octrees/Main.dart';
 import 'package:provider/provider.dart';
-import 'package:octrees/library.dart';
+import 'package:octrees/Library.dart';
 
 import 'Visualisation.dart';
 

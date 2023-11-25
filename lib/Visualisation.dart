@@ -5,7 +5,7 @@ import 'package:octrees/Octree.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
 import 'MenuPrincipal.dart';
-import 'main.dart';
+import 'Main.dart';
 
 
 class MyWorkingArea extends StatefulWidget {

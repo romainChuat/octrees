@@ -3,7 +3,7 @@ import 'package:octrees/MenuArbreGeneration.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
 import 'Visualisation.dart';
-import 'main.dart';
+import 'Main.dart';
 
 class MenuArbreSauvegarde extends StatelessWidget{
   @override

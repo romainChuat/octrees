@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:octrees/Database_helper.dart';
 import 'package:octrees/Octree.dart';
 import 'DessinArbre.dart';
-import 'package:octrees/library.dart';
+import 'package:octrees/Library.dart';
 
 
 class ModelProvider extends ChangeNotifier {
