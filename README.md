@@ -66,7 +66,7 @@ $ flutter pub get
 ## 4. Environement de travaille
 ### 4.1. Arborescence
 
-<par>Ci-dessous est présentée l'arborescence du projet Octree.</par>
+<par>Ci-dessous est présentée l'arborescence du projet Octree avec les fichiers importants.</par>
 
 
 #### Application
