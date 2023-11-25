@@ -26,7 +26,7 @@ String arbre4 = "V";
 //int phi = 45 ;
 //int rho = 50 ;
 void main() {
-  //databaseFactory = databaseFactoryFfi;
+  databaseFactory = databaseFactoryFfi;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ModelProvider(),
@@ -513,6 +513,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             child: const Icon(Icons.autorenew),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+          if(octree3D == true)
           FloatingActionButton(
             heroTag: "btn2",
             onPressed: () {
@@ -522,8 +523,10 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             backgroundColor: Colors.green,
             child: const Icon(Icons.zoom_in),
           ),
-          const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-          FloatingActionButton(
+          if(octree3D == true)
+            const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+          if(octree3D == true)
+            FloatingActionButton(
             heroTag: "btn3",
             onPressed: () {
               prov.zoomIn(da);
