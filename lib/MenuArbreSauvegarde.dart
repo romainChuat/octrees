@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:octrees/MenuArbreGeneration.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
+import 'Themesprovider.dart';
 import 'Visualisation.dart';
 import 'Main.dart';
 
@@ -27,7 +28,24 @@ class MenuArbreSauvegarde extends StatelessWidget{
               icon: const Icon(Icons.settings),
               color: Colors.white,
               onPressed: () {
-                // TODO ajouter des parametres dans l'icon settings
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                  items: [
+                    PopupMenuItem(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const ChangeThemeButtonWidget(),
+                            Text(
+                              "Mode sombre",
+                            ),
+                          ]
+
+                      ),
+                    ),
+                  ],
+                );
               },
             ),
           ),

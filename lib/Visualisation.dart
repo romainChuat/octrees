@@ -6,6 +6,7 @@ import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
 import 'MenuPrincipal.dart';
 import 'Main.dart';
+import 'Themesprovider.dart';
 
 
 class MyWorkingArea extends StatefulWidget {
@@ -80,7 +81,6 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     prov = context.watch<ModelProvider>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           color: Colors.white,
@@ -270,7 +270,24 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               icon: const Icon(Icons.settings),
               color: Colors.white,
               onPressed: () {
-                /// TODO ajouter des parametres dans l'icon settings
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                  items: [
+                    PopupMenuItem(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const ChangeThemeButtonWidget(),
+                            Text(
+                              "Mode sombre",
+                            ),
+                          ]
+
+                      ),
+                    ),
+                  ],
+                );
               },
             ),
           ),

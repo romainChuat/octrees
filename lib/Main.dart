@@ -3,6 +3,7 @@ import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'MenuPrincipal.dart';
+import 'Themes.dart';
 
 // String arbre = "DPVVPVVVP" ;
 String arbre2 = "DPPPPVVVV";
@@ -17,7 +18,7 @@ String arbre4 = "V";
 //int phi = 45 ;
 //int rho = 50 ;
 void main() {
-  //databaseFactory = databaseFactoryFfi;
+  databaseFactory = databaseFactoryFfi;
   runApp(
     ChangeNotifierProvider(
       create: (_) => ModelProvider(),
@@ -33,16 +34,19 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.dark().copyWith(
-        popupMenuTheme: PopupMenuThemeData(
-          color: Colors.black,
-        ),
-      ),
-      home: MyHomePage(),
-    );
-  }
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+    create: (context) => ThemeProvider(),
+    builder: (context, _) {
+      final themeProvider = Provider.of<ThemeProvider>(context);
+      return MaterialApp(
+        title: 'Flutter Demo',
+        themeMode: themeProvider.themeMode,
+        theme: MyThemes.darkTheme,
+        darkTheme: MyThemes.lightTheme,
+        home: MyHomePage(),
+      );
+    },
+  );
 }
 
 

@@ -6,6 +6,8 @@ import 'package:octrees/Main.dart';
 import 'package:provider/provider.dart';
 import 'package:octrees/Library.dart';
 
+import 'Themes.dart';
+import 'Themesprovider.dart';
 import 'Visualisation.dart';
 
 class MenuArbreGeneration extends StatefulWidget {
@@ -43,6 +45,7 @@ class MenuArbreGenerationState extends State<MenuArbreGeneration> {
   }
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     var modelProvider = context.watch<ModelProvider>();
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +64,24 @@ class MenuArbreGenerationState extends State<MenuArbreGeneration> {
               icon: const Icon(Icons.settings),
               color: Colors.white,
               onPressed: () {
-                // TODO ajouter des parametres dans l'icon settings
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(100, 100, 0, 0),
+                  items: [
+                    PopupMenuItem(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const ChangeThemeButtonWidget(),
+                            Text(
+                              "Mode sombre",
+                            ),
+                          ]
+
+                      ),
+                    ),
+                  ],
+                );
               },
             ),
           ),
@@ -69,9 +89,9 @@ class MenuArbreGenerationState extends State<MenuArbreGeneration> {
       ),
       body: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text(
+            Text(
               "Vous avez choisis de généré un nouvel arbre, choisissez la manière :",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              style: TextStyle(color: themeProvider.isDarkMode ? Colors.black : Colors.white,fontSize: 20),
             ),
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 50)),
             buildTextField('Saisir votre arbre', _treeStringController),
@@ -109,7 +129,7 @@ class MenuArbreGenerationState extends State<MenuArbreGeneration> {
               const Text( "Veuillez saisir un arbre valide", style: TextStyle(color: Colors.red),),
 
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
-            const Text( "ou", style: TextStyle(color: Colors.white, fontSize: 18),),
+            Text( "ou", style: TextStyle(color: themeProvider.isDarkMode ? Colors.black : Colors.white,fontSize: 18),),
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
             buildTextField("Longueur d'arbre aléatoire", _randomTreeStringController),
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
