@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:math' ;
 import 'dart:ui' ;
 import 'Octree.dart' ;
 import 'Cube.dart' ;
-import 'Themes.dart';
 
 Paint paint = Paint()..color = Colors.black;
 

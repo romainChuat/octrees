@@ -6,6 +6,9 @@ import 'Octree.dart';
 import 'Themes.dart';
 import 'Visualisation.dart';
 
+/// Cette classe permet la creation d'operation entre 2 arbres
+/// on pourra choisir de cree des arbres aleatoire ou de saisir la chaine de l'univers de l'arbre
+/// on peut aussi selectionner 2 arbres parmis les arbres deja cree
 class Operation extends StatefulWidget {
   const Operation({super.key});
 
@@ -29,6 +32,8 @@ class _OperationState extends State<Operation> {
 
   TextEditingController _treeStringController1 = new TextEditingController();
 
+  /// valeurs d'affiche des messages d'erreur
+  /// si ces valeurs passent a true le message d'erreur correspondant sera affiche
   bool _showEmptyStringErrorMessage = false;
   bool _showInvalidStringErrorMessage = false;
   bool _showInvalidLengthStringError = false;
@@ -37,14 +42,17 @@ class _OperationState extends State<Operation> {
 
   var textField1;
 
+  /// premet la selection d'un octree dans la liste des octrees deja crees
   int clicked = -1;
 
   @override
   void initState() {
+    /// initialise le textfield de l'arbre
     super.initState();
     textField1 = buildTextField(dropDownValueTreeType, _treeStringController1);
   }
 
+  /// reinitialise les valeurs d'affichage de messages d'erreurs
   _handleInputChangeTree(String input, String type) {
     setState(() {
       _showEmptyStringErrorMessage = false;
@@ -54,8 +62,10 @@ class _OperationState extends State<Operation> {
     });
   }
 
+  /// cree le textfield de saisie
   Widget buildTextField(String dropDownValueTreeType, var controller) {
     if (dropDownValueTreeType == 'arbre aléatoire') {
+      /// la chaine sera utilise comme hintText pour la creation du TextField
       dropDownValueTreeType = 'saisir une longueur';
     }
     return textField(dropDownValueTreeType, controller,
@@ -67,10 +77,18 @@ class _OperationState extends State<Operation> {
 
   }
 
+  /// verifie la valeur de la string saisie
+  /// string type permet de definir si la saisie est un arbre aleatoire ou un arbre saisie
+  /// return true si la valeur est valide
+  /// false sinon
+  /// une chaine est valide si elle est constitue d'un unique
+  /// P ou V ou si elle commence par un D et qu'elle contient
+  /// un nombre valide de caractères
   bool verifyString(String text, String type) {
     String treeValue;
     treeValue = _treeStringController1.text;
     if (type != "saisir mon arbre") {
+      /// verification de la valeur d'un arbre aleatoire saisie
       bool valid = true;
       try {
         int treeLengthInt = int.parse(treeValue);
@@ -88,6 +106,7 @@ class _OperationState extends State<Operation> {
       }
       return valid;
     } else {
+      /// verification de la valeur d'un arbre saisie avec sa chaine univers
       if (treeValue == "") {
         setState(() {
           _showEmptyStringErrorMessage = true;
@@ -126,6 +145,7 @@ class _OperationState extends State<Operation> {
     }
   }
 
+  /// retourne le body de la page
   Widget createBody(String title, ThemeProvider themeProvider) {
     return SingleChildScrollView(
     child: Padding(
@@ -160,6 +180,8 @@ class _OperationState extends State<Operation> {
                     );
                   },
                 ).toList(),
+                /// si on change la valeur du dropdownButton
+                /// on retire tous les messages d'erreur
                 onChanged: (String? value) {
                   setState(() {
                     _showEmptyStringErrorMessage = false;
@@ -167,11 +189,13 @@ class _OperationState extends State<Operation> {
                     _showInvalidLengthStringError = false;
                     _treeStringController1.text = "";
                     dropDownValueTreeType = value!;
+                    /// on reconstruit le TextField en fonction valeur du dropDownMenu
                     textField1 = buildTextField(
                         dropDownValueTreeType, _treeStringController1);
                   });
                 }),
             textField1,
+            /// affichage des message d'erreur de saisie
             if (_showEmptyStringErrorMessage)
               textError("Veuillez saisir un arbre"),
             if (_showInvalidStringErrorMessage)
@@ -189,6 +213,7 @@ class _OperationState extends State<Operation> {
               "Selectionné parmis vos arbre enregistrés : ",
             ),
             const SizedBox(height: 20,),
+            /// ListView des arbre deja enregistres
             Container(
               height: 200,
               child: ListView.separated(
@@ -203,12 +228,14 @@ class _OperationState extends State<Operation> {
                           child: ElevatedButton(
                               onPressed: () {
                                 if(clicked != index){
+                                  /// enregistrement de l'arbre selectionne
                                   _treeStringController1.text = "";
                                   if(title == 'arbre 1'){
                                     octree1 = modelProvider.getByIndex(index);
                                   }else{
                                     octree2 = modelProvider.getByIndex(index);
                                   }
+                                  /// enregistrement de l'index
                                   clicked = index;
                                 }else{
                                   clicked = -1;
@@ -270,6 +297,7 @@ class _OperationState extends State<Operation> {
     );
   }
 
+  /// creation des button de bas de pages
   Widget buildButton(String buttonText, ThemeProvider themeProvider) {
     return SizedBox(
     height: 50,
@@ -291,6 +319,7 @@ class _OperationState extends State<Operation> {
             return;
           }
         }
+        /// si on est sur la page de selection/creation de l'arbre 1
         if (title == 'arbre 1') {
           if(clicked == -1 ){
             if (dropDownValueTreeType == 'saisir mon arbre') {
@@ -307,12 +336,12 @@ class _OperationState extends State<Operation> {
           setState(() {});
           clicked = -1;
         } else {
+          /// si on est sur la page de selection de l'arbre 2
           if (buttonText == 'Précédent') {
             title = "arbre 1";
             showExecutButton = false;
             clicked = -1;
             setState(() {});
-
           } else {
             if(clicked == -1){
               if(dropDownValueTreeType == 'saisir mon arbre'){
@@ -325,6 +354,7 @@ class _OperationState extends State<Operation> {
               }
               clicked = -1;
             }
+            /// execution de l'operation en fonction de l'operation selectionne
             switch (dropDownValueOperation) {
               case 'Intersection':
                 octree1 = octree1.intersection(octree2);
@@ -337,10 +367,10 @@ class _OperationState extends State<Operation> {
                 break;
             }
             print(octree1.decompile(octree1.univers));
-
             int levelNumber = treeLevel(octree1.decompile(octree1.univers));
             int treeLength = treeSide(levelNumber);
             Octree res = Octree.fromChaine(octree1.decompile(octree1.univers), treeLength);
+            /// redirection vers la page MyWorkingArea(visualisation 3D)
             Navigator.of(context).push(
                 MaterialPageRoute(
                     builder: (BuildContext context) =>
@@ -357,7 +387,7 @@ class _OperationState extends State<Operation> {
       ),
     ));
   }
-
+  /// build de la page
   @override
   Widget build(BuildContext context) {
     modelProvider = context.watch<ModelProvider>();

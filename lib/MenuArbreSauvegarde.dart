@@ -6,9 +6,13 @@ import 'Library.dart';
 import 'Themes.dart';
 import 'Visualisation.dart';
 
+/// Classe permettant de selectionner un octree parmis les octrees crée précédement
 class MenuArbreSauvegarde extends StatelessWidget {
   const MenuArbreSauvegarde({super.key});
 
+  /// supprime l'arbre octree identifié par treeName
+  /// en utilisant le fonction removeTree du provider qui supprime l'arbre de la base de donnée
+  /// on fait appel a getAllTrees pour récupérer la nouvelle liste après suppression
   void deleteTree(ModelProvider prov, String treeName, BuildContext context) {
     prov.removeTree(treeName);
     prov.getAllTrees();
@@ -33,6 +37,7 @@ class MenuArbreSauvegarde extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 75)),
+                    /// La liste d'octree est affichee uniquement si elle contient des elements
                     Visibility(
                       visible: prov.trees.isNotEmpty,
                       child: SizedBox(
@@ -46,23 +51,22 @@ class MenuArbreSauvegarde extends StatelessWidget {
                                   padding: EdgeInsets.fromLTRB(0, 0, 0, 50)),
                               SizedBox(
                                   height: 500,
+                                  /// L'affichage de la liste des octree se fait sous la forme d'une ListView
                                   child: ListView.separated(
                                     padding: const EdgeInsets.all(8),
                                     itemCount: prov.trees.length,
                                     itemBuilder: (BuildContext context,
                                         int index) {
-                                      final treeName = prov.trees.keys
-                                          .elementAt(
-                                          index); //TODO remplacer par un getters
+                                      final treeName = prov.trees.keys.elementAt(index);
                                       return Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .spaceBetween,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Expanded(
                                               child: button(
                                                   themeProvider,
                                                   context,
                                                   treeName,
+                                                  /// redirection vers la page de visualisation
                                                   MaterialPageRoute(
                                                       builder: (
                                                           BuildContext context) =>
@@ -72,11 +76,12 @@ class MenuArbreSauvegarde extends StatelessWidget {
                                                                   treeName),
                                                               namePage: "visualizePage"))),
                                             ),
+                                            /// bouton de suppression d'un arbre de la liste
                                             Tooltip(
                                               message: 'Supprimer',
                                               child: deleteButton(
                                                   themeProvider, context,
-                                                  treeName, prov, deleteTree),
+                                                  treeName, prov, deleteTree, false),
                                             ),
                                           ]);
                                     },
@@ -87,6 +92,7 @@ class MenuArbreSauvegarde extends StatelessWidget {
                             ],
                           )),
                     ),
+                    /// Afficher dans le cas ou la base de données ne contient aucun octree
                     Visibility(
                       visible: prov.trees.isEmpty,
                       child: Column(children: [

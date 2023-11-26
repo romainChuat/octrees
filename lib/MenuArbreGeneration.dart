@@ -12,6 +12,7 @@ class MenuArbreGeneration extends StatefulWidget {
   State<MenuArbreGeneration> createState() => _MenuArbreGenerationState();
 }
 
+/// Classe permettant le generation d'un octree a partir d'une chaine ou d'une longueur de cote saisie
 class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
   final _treeStringController = TextEditingController();
   final _randomTreeStringController = TextEditingController();
@@ -19,6 +20,7 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
   bool _showInvalidStringErrorMessage = false;
   bool _showInvalidLengthStringError = false;
 
+  /// reinitialise les valeurs booleenne de visibilite des messages d'erreurs
   void _handleInputChangeTree(String input) {
     setState(() {
       _showEmptyStringErrorMessage = false;
@@ -39,13 +41,11 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
         ],
       ),
       body: SingleChildScrollView(
-
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 50)),
-
             text(
               themeProvider,
               "Vous avez choisi de générer un nouvel arbre, choisissez la manière :",
@@ -58,10 +58,12 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
                 text: "Générer l'arbre",
                 onPressed: () {
                   if (verifyTreeString()) {
+                    /// création de l'octree a partir de la chaine saisie
                     String treeString = _treeStringController.text.trim();
                     int levelNumber = treeLevel(treeString);
                     int treeLength = treeSide(levelNumber);
                     Octree tree = Octree.fromChaine(treeString, treeLength);
+                    ///redirection vers la page de visualisation
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) => MyWorkingArea(
@@ -73,6 +75,7 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
                   }
                 },
                 themeProvider: themeProvider),
+            /// affichage des message d'erreur de validite de la chaine saisie
             if (_showEmptyStringErrorMessage)
               textError("Veuillez saisir un arbre"),
             if (_showInvalidStringErrorMessage)
@@ -90,8 +93,10 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
                 text: "Générer un arbre aléatoire",
                 onPressed: () {
                   if (verifyLengthString()) {
+                    /// création aleatoire de l'octree a l'aide de la longueur saisie
                     Octree tree = Octree.aleatoire(
                         int.parse(_randomTreeStringController.text));
+                    ///redirection vers la page de visualisation
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) => MyWorkingArea(
@@ -103,6 +108,7 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
                   }
                 },
                 themeProvider: themeProvider),
+            /// affichage des message d'erreur de validite de la longueur saisie
             if (_showInvalidLengthStringError)
               textError("La longueur saisie doit être une puissance de 2"),
           ],
@@ -112,6 +118,7 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
     );
   }
 
+  /// retourne le nombre de caractère 'D' contenu dans la chaine tree
   int countD(String tree) {
     int countNbD = 0;
     for (int i = 0; i < tree.length; i++) {
@@ -122,6 +129,9 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
     return countNbD;
   }
 
+  /// Verifie la validite de la valeur saisie pour un arbre aléatoire
+  /// return true si la valeur est une puissance de 2 > 1
+  /// false sinon
   bool verifyLengthString() {
     String treeLength = _randomTreeStringController.text;
     bool valid = true;
@@ -143,6 +153,12 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
     return valid;
   }
 
+  /// Verifie la validite de la chaine saisie pour un arbre
+  /// return true si la valeur est valide
+  /// false sinon
+  /// une chaine est valide si elle est constitue d'un unique
+  /// P ou V ou si elle commence par un D et qu'elle contient
+  /// un nombre valide de caractères
   bool verifyTreeString() {
     String tree = _treeStringController.text;
     int countNbD = countD(tree);

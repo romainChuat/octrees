@@ -6,7 +6,6 @@ import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
 import 'Library.dart';
 import 'MenuPrincipal.dart';
-import 'Main.dart';
 import 'Themes.dart';
 
 
@@ -42,12 +41,13 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   bool octree3D = true;
 
   /// 2D VIEW
-  Map<TextEditingController, int> _controllers = {};
+  Map<TextEditingController, int> _controllers = {}; /// list de controller associe a l'int id du noeud
   bool edit = false;
   final Graph graph = Graph()..isTree = true;
-  Map<Node, String> nodes = {};
+  Map<Node, String> nodes = {};   /// represente la list de node et la valeur associe ('D','V','P')
   var prov;
 
+  /// initialisation = initState
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -55,10 +55,6 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     thetaController = TextEditingController(text: '${modelProv.theta}');
     phiController = TextEditingController(text: '${modelProv.phi}');
     rhoController = TextEditingController(text: '${modelProv.rho}');
-    octree1 = Octree.fromChaine(arbre1, 16);
-    octree2 = Octree.fromChaine(arbre2, 16);
-    // octreeResultant = octree1.intersection(octree2) ;
-    octreeResultant = octree1.clone();
 
     da = DessinArbre(octree, modelProv.theta, modelProv.phi, modelProv.rho);
     if (!edit) {
@@ -74,7 +70,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     super.dispose();
   }
 
-  void deleteTree(ModelProvider prov, String treeName, BuildContext context) {
+  /// suppression de l'arbre visualiser
+  void deleteTree(ModelProvider prov, BuildContext context) {
     Navigator.of(context).pop();
     prov.removeTree(prov.getIndexByOctree(octree));
     Navigator.of(context).pop();
@@ -120,7 +117,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                       TextButton(
                         child: text(
                     themeProvider,
-                    'Annuler',
+                    'Quitter',
                   ),
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -162,63 +159,60 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             message: 'Supprimer',
             child: Visibility(
               visible: namePage == "visualizePage",
-            child: deleteButton(themeProvider, context, prov.getIndexByOctree(octree), prov, deleteTree)
-
-
-
+              child: deleteButton(themeProvider, context, prov.getIndexByOctree(octree), prov, deleteTree, true),
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
           if(!edit && octree3D == true)
             Tooltip(
-            message: 'Editer',
-            child: IconButton(
-              icon: const Icon(Icons.edit),
-              color: Colors.white,
-              onPressed: () {
-                showMenu(
-                  context: context,
-                  position: RelativeRect.fromLTRB(
-                      MediaQuery.of(context).size.width, 80.0, 0.0, 0.0),
-                  items: <PopupMenuEntry>[
-                    popupMenuItem(
-                      label: "theta",
-                      controller: thetaController,
-                      onChanged: (value) {
-                        var newTheta = int.tryParse(value);
-                        if (newTheta != null) {
-                          prov.theta = newTheta;
-                          da.theta = newTheta;
-                        }
-                      },
-                      isTop: true,
-                    ),
-                    popupMenuItem(
-                      label: "phi",
-                      controller: phiController,
-                      onChanged: (value) {
-                        var newPhi = int.tryParse(value);
-                        if (newPhi != null) {
-                          prov.phi = newPhi;
-                          da.phi = newPhi;
-                        }
-                      },
-                    ),
-                    popupMenuItem(
-                      label: "rho",
-                      controller: rhoController,
-                      onChanged: (value) {
-                        var newRho = int.tryParse(value);
-                        if (newRho != null) {
-                          prov.rho = newRho;
-                          da.rho = newRho;
-                        }
-                      },
-                      isBottom: true,
-                    ),
-                  ],
-                );
-              },
+              message: 'Editer',
+              child: IconButton(
+                icon: const Icon(Icons.edit),
+                color: Colors.white,
+                onPressed: () {
+                  showMenu(
+                    context: context,
+                    position: RelativeRect.fromLTRB(
+                        MediaQuery.of(context).size.width, 80.0, 0.0, 0.0),
+                    items: <PopupMenuEntry>[
+                      popupMenuItem(
+                        label: "theta",
+                        controller: thetaController,
+                        onChanged: (value) {
+                          var newTheta = int.tryParse(value);
+                          if (newTheta != null) {
+                            prov.theta = newTheta;
+                            da.theta = newTheta;
+                          }
+                        },
+                        isTop: true,
+                      ),
+                      popupMenuItem(
+                        label: "phi",
+                        controller: phiController,
+                        onChanged: (value) {
+                          var newPhi = int.tryParse(value);
+                          if (newPhi != null) {
+                            prov.phi = newPhi;
+                            da.phi = newPhi;
+                          }
+                        },
+                      ),
+                      popupMenuItem(
+                        label: "rho",
+                        controller: rhoController,
+                        onChanged: (value) {
+                          var newRho = int.tryParse(value);
+                          if (newRho != null) {
+                            prov.rho = newRho;
+                            da.rho = newRho;
+                          }
+                        },
+                        isBottom: true,
+                      ),
+                    ],
+                  );
+                },
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
@@ -246,15 +240,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             onPressed: () {
               setState(() {
                 if (octree3D == true) {
-                  /// création de l'arbre en 2D
-                  String univers_string = octree.decompile(octree.univers);
+                  /// creation de l'arbre en 2D
 
+                  String univers_string = octree.decompile(octree.univers);
                   ///ajout des noeuds au graph
                   for (int i = 0; i < univers_string.length; i++) {
                     nodes[Node.Id(i)] = univers_string[i];
                     print(nodes[Node.Id(i)]);
                   }
+
                   createGraphe(0, 1);
+                  /// affichage du graph cree grace au plugin GraphView
                   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
                   builder.orientation = 3;
                   builder.siblingSeparation = 10;
@@ -282,7 +278,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
 
                   octree3D = false;
                 } else {
-                  /// creéation de l'arbre en 3D
+                  /// creation de l'arbre en 3D
                   currentContent = CustomPaint(
                     size: MediaQuery.of(context).size,
                     painter: Painter(da),
@@ -297,6 +293,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             child: const Icon(Icons.autorenew),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+          /// creation des bouton zoom et dezoom si on est en vue 3D
           if (!edit && octree3D == true) zoomButton("Zoomer", prov.zoomOut, themeProvider, da),
           if (!edit && octree3D == true) const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
           if (!edit && octree3D == true) zoomButton("Dézoomer", prov.zoomIn, themeProvider, da),
@@ -307,9 +304,12 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   }
 
 
-
-  void createGraphe(/*Graph g, Map<Node, String> nodes,*/ int father, int childIndex) {
-    //int i  = childIndex;
+  /// création d'un graphe ,
+  /// graph est le graph modifie
+  /// nodes represente la list de node et la valeur associe ('D','V','P')
+  /// father est le noeud pere auquel on se place pour effectue la modification
+  /// childIndex est la position dans la chaine nodes
+  void createGraphe(int father, int childIndex) {
     int countD = 0;
     for (int k = childIndex; k < childIndex + 8; k++) {
       graph.addEdge(Node.Id(father), Node.Id(k));
@@ -320,6 +320,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     }
   }
 
+  /// Enregistrement de l'arbre visualiser(si il vient d'etre genere)
+  /// on affiche une AlertDialog permettant de saisir le nom de l'arbre
   saveMethod(BuildContext context, ModelProvider prov) {
     showDialog(
       context: context,

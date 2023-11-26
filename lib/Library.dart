@@ -1,22 +1,12 @@
-
-
 import 'dart:math';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:octrees/DessinArbre.dart';
-import 'package:provider/provider.dart';
-
-import 'MenuArbreGeneration.dart';
 import 'ModelProvider.dart';
 import 'Themes.dart';
 import 'Themesprovider.dart';
 
-createAppBar(){
-  return AppBar();
-}
-
-///TODO VERIFICATION VALIDITE DU CALCUL
+/// Calcul de la hauteur de l'arbre à partir de la chaine représentant son univers
 int treeLevel(String treeString){
   int levelNumber = 0;
   int i = 1;
@@ -39,10 +29,12 @@ int treeLevel(String treeString){
   return levelNumber;
 }
 
+/// Calcul de la longueur de coté minimal d'un arbre grâce à sa hauteur
 int treeSide (int level){
   return pow(2 , level) as int;
 }
 
+/// retourne un l'elevatedButton crée grace à son titre et sa route passé en paramètres
 SizedBox button(ThemeProvider themeProvider, BuildContext context, String texte, MaterialPageRoute route ) {
   return SizedBox(
       height: 50,
@@ -60,6 +52,8 @@ SizedBox button(ThemeProvider themeProvider, BuildContext context, String texte,
           child: Center(child: Text(texte,  style: TextStyle(color: themeProvider.isDarkMode ? Colors.black : Colors.white,fontSize: 18))))
   );
 }
+
+/// retourne l'ElevatedButton crée grace au text et la fonction onPressedCallback
 Widget buttonWithVerification({
   required String text,
   required VoidCallback onPressed,
@@ -80,7 +74,7 @@ Widget buttonWithVerification({
     ),
   );
 }
-
+/// retourne le FloatingActionButton crée grace au text et la fonction onPressedCallback
 FloatingActionButton floatingActionButton(
     BuildContext context,
     String text,
@@ -98,6 +92,7 @@ FloatingActionButton floatingActionButton(
   );
 }
 
+/// retourne le TextButton crée grace au text et la fonction onPressedCallback
 Widget textButton(
     BuildContext context,
     String buttonText,
@@ -113,8 +108,7 @@ Widget textButton(
   );
 }
 
-
-
+///retourne le menu Tooltip contenant le bouton de passage au darkmode
 Tooltip settingIcon(BuildContext context) {
   return Tooltip(
     message: 'Paramètre',
@@ -126,13 +120,13 @@ Tooltip settingIcon(BuildContext context) {
           context: context,
           position: const RelativeRect.fromLTRB(100, 100, 0, 0),
           items: [
-            const PopupMenuItem(
+             const PopupMenuItem(
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     ChangeThemeButtonWidget(),
                     Text(
-                      "Mode sombre",
+                      "Mode claire"
                     ),
                   ]
 
@@ -146,7 +140,7 @@ Tooltip settingIcon(BuildContext context) {
   );
 }
 
-
+///
 AnimatedTextKit texteAnime(String text) {
   return AnimatedTextKit(
     animatedTexts: [
@@ -256,12 +250,10 @@ PopupMenuItem popupMenuItem({
   );
 }
 
-IconButton deleteButton(ThemeProvider themeProvider, BuildContext context, String treeName, ModelProvider prov, Function deleteTree) {
+IconButton deleteButton(ThemeProvider themeProvider, BuildContext context, String treeName, ModelProvider prov, Function deleteTree, bool isAppBar) {
   return IconButton(
     icon: const Icon(Icons.delete),
-    color: themeProvider.isDarkMode
-        ? Colors.black
-        : Colors.white,
+    color: (!themeProvider.isDarkMode || isAppBar) ?  Colors.white : Colors.black ,
     onPressed: () {
       showDialog(
         context: context,
