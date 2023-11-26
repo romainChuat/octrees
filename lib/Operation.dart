@@ -30,7 +30,7 @@ class _OperationState extends State<Operation> {
 
   var modelProvider;
 
-  TextEditingController _treeStringController1 = new TextEditingController();
+  TextEditingController _treeStringController1 = TextEditingController();
 
   /// valeurs d'affiche des messages d'erreur
   /// si ces valeurs passent a true le message d'erreur correspondant sera affiche
@@ -214,7 +214,7 @@ class _OperationState extends State<Operation> {
             ),
             const SizedBox(height: 20,),
             /// ListView des arbre deja enregistres
-            Container(
+            SizedBox(
               height: 200,
               child: ListView.separated(
                 padding: const EdgeInsets.all(8),
@@ -243,13 +243,13 @@ class _OperationState extends State<Operation> {
                                 }
 
                               },
-                              child: Center(child: Text(treeName)),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: clicked == index ? Colors.green : Colors.black ,
                                   shape: const RoundedRectangleBorder(
                                       borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
-                                      side: BorderSide(color: Colors.white)))),
+                                      side: BorderSide(color: Colors.white))),
+                              child: Center(child: Text(treeName))),
                         ),
 
                       ]

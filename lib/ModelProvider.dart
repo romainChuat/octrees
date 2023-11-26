@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:octrees/Database_helper.dart';
 import 'package:octrees/Octree.dart';
@@ -8,7 +7,7 @@ import 'package:octrees/Library.dart';
 
 class ModelProvider extends ChangeNotifier {
 
-  Map<String,Octree> _trees = new Map<String,Octree>();
+  Map<String,Octree> _trees = Map<String,Octree>();
   Map<String,Octree> get trees => _trees;
   late DatabaseHelper _database_helper;
 
@@ -37,7 +36,7 @@ class ModelProvider extends ChangeNotifier {
         _trees[treeName] = Octree.fromChaine(treeString,treeLength);
       }
     }catch(e) {
-      print(e);
+      //print(e);
     }
     notifyListeners();
   }

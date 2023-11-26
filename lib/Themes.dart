@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-/**
- *  ThemeProvider est une classe qui étend la classe ChangeNotifier de Flutter.
- * Elle permet de notifier les widgets lorsqu'il y a un changement de thème.
- */
+///  ThemeProvider est une classe qui étend la classe ChangeNotifier de Flutter.
+/// Elle permet de notifier les widgets lorsqu'il y a un changement de thème.
 class ThemeProvider extends ChangeNotifier {
   /// Représente le mode du thème actuel
   ThemeMode themeMode = ThemeMode.light;
@@ -15,19 +13,16 @@ class ThemeProvider extends ChangeNotifier {
   }
 }
 
-/**
- * Cette classe permet de définir les deux thèmes (claire, sombre) que l'application peut utiliser.
- * Plus particulièrement elle définit les différente couleurs que l'on utilise dans l'application.
- *
- */
+/// Cette classe permet de définir les deux thèmes (claire, sombre) que l'application peut utiliser.
+/// Plus particulièrement elle définit les différente couleurs que l'on utilise dans l'application.
 
-const PrimaryColor = const Color(0x00000000);
-const PrimaryColorLight = const Color(0xFFFFFFFF);
-const PrimaryColorDark = const Color(0x00000000);
+const primaryColor =  Color(0x00000000);
+const primaryColorLight =  Color(0xFFFFFFFF);
+const primaryColorDark =  Color(0x00000000);
 
-const SecondaryColor = const Color(0xFFFFFFFF);
-const SecondaryColorLight = const Color(0x00000000);
-const SecondaryColorDark = const Color(0xFFFFFFFF);
+const secondaryColor =  Color(0xFFFFFFFF);
+const secondaryColorLight =  Color(0x00000000);
+const secondaryColorDark =  Color(0xFFFFFFFF);
 
 
 class MyThemes {

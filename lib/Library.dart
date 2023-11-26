@@ -65,7 +65,7 @@ Widget buttonWithVerification({
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
             side: BorderSide(color: themeProvider.isDarkMode ? Colors.black : Colors.white),
         ),
       ),
@@ -228,17 +228,17 @@ PopupMenuItem popupMenuItem({
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white, width: 1.0),
         borderRadius: BorderRadius.only(
-          topLeft: isTop ? Radius.circular(10.0) : Radius.zero,
-          topRight: isTop ? Radius.circular(10.0) : Radius.zero,
-          bottomLeft: isBottom ? Radius.circular(10.0) : Radius.zero,
-          bottomRight: isBottom ? Radius.circular(10.0) : Radius.zero,
+          topLeft: isTop ? const Radius.circular(10.0) : Radius.zero,
+          topRight: isTop ? const Radius.circular(10.0) : Radius.zero,
+          bottomLeft: isBottom ? const Radius.circular(10.0) : Radius.zero,
+          bottomRight: isBottom ? const Radius.circular(10.0) : Radius.zero,
         ),
       ),
       child: ListTile(
         tileColor: Colors.black,
-        leading: Text("$label : ", style: TextStyle(color: Colors.white)),
+        leading: Text("$label : ", style: const TextStyle(color: Colors.white)),
         title: TextField(
-          keyboardType: TextInputType.numberWithOptions(
+          keyboardType: const TextInputType.numberWithOptions(
             decimal: false,
             signed: true,
           ),

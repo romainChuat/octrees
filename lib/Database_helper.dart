@@ -8,8 +8,8 @@ class DatabaseHelper  {
 
   static const _databaseName = "db_flutter.db";
   static const _databaseVersion = 1;
-  var dbPath;
-  var path;
+  var dbPath = "";
+  var path = "";
 
  static final DatabaseHelper  _dbhelper =  DatabaseHelper._Constructor();
 

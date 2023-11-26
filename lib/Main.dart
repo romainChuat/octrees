@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         themeMode: themeProvider.themeMode,
         theme: MyThemes.darkTheme,
         darkTheme: MyThemes.lightTheme,
-        home: MyHomePage(),
+        home: const MyHomePage(),
       );
     },
   );

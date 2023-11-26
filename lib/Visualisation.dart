@@ -17,8 +17,7 @@ class MyWorkingArea extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MyWorkingAreaState createState() =>
-      _MyWorkingAreaState(octree: octree, namePage: namePage);
+  _MyWorkingAreaState createState() => _MyWorkingAreaState(octree: octree, namePage: namePage);
 }
 
 class _MyWorkingAreaState extends State<MyWorkingArea> {
@@ -242,11 +241,11 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                 if (octree3D == true) {
                   /// creation de l'arbre en 2D
 
-                  String univers_string = octree.decompile(octree.univers);
+                  String universString = octree.decompile(octree.univers);
                   ///ajout des noeuds au graph
-                  for (int i = 0; i < univers_string.length; i++) {
-                    nodes[Node.Id(i)] = univers_string[i];
-                    print(nodes[Node.Id(i)]);
+                  for (int i = 0; i < universString.length; i++) {
+                    nodes[Node.Id(i)] = universString[i];
+                    //print(nodes[Node.Id(i)]);
                   }
 
                   createGraphe(0, 1);
@@ -257,7 +256,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                   builder.levelSeparation = 50;
                   currentContent = InteractiveViewer(
                       constrained: false,
-                      boundaryMargin: EdgeInsets.all(20),
+                      boundaryMargin: const EdgeInsets.all(20),
                       minScale: 0.01,
                       maxScale: 5.6,
                       child: GraphView(
@@ -270,7 +269,6 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                           ..style = PaintingStyle.stroke,
                         builder: (Node node) {
                           String? a = nodes[node];
-                          print("a");
                           return rectangleWidget(a!, node.key?.value as int,
                               graph.getOutEdges(node));
                         },
@@ -374,7 +372,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
           textAlign: TextAlign.center,
           decoration: InputDecoration(
               hintText: a,
-              contentPadding: EdgeInsets.fromLTRB(3, 30, 0, 0),
+              contentPadding: const EdgeInsets.fromLTRB(3, 30, 0, 0),
               filled: true,
               fillColor: Colors.white,
               border: InputBorder.none),
@@ -382,17 +380,16 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   }
   _handleNodeChange(TextEditingController controller) {
     setState(() {
-      print(controller.text);
-      print("change");
+      //print(controller.text);
+      //print("change");
       int? id = _controllers[controller];
       if (controller.text == 'V' || controller.text == 'P') {
         nodes[Node.Id(id)] = controller.text;
       }
       if (controller.text == 'D') {
         if (_controllers.containsKey(controller)) {
-          print(id);
           nodes[Node.Id(id)] = 'D';
-          // creé 8 Noeud en partant du noeud last;
+          /// creé 8 Noeud en partant du noeud last;
           nodes[Node.Id(35)] = 'V';
           graph.addEdge(Node.Id(id), Node.Id(35));
         }
