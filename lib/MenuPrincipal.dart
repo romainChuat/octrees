@@ -37,14 +37,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 75)),
-                Text(
+                text(
+                  themeProvider,
                   "Veuillez choisir ce que vous voulez faire :",
-                  style: TextStyle(
-                      color: themeProvider.isDarkMode
-                          ? Colors.black
-                          : Colors.white,
-                      fontSize: 20),
                 ),
+
                 const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 75)),
                 button(
                     themeProvider,

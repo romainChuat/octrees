@@ -54,7 +54,7 @@ SizedBox button(ThemeProvider themeProvider, BuildContext context, String texte,
           onPressed: () {
             Navigator.of(context).push(route);
           },
-          child: Text(texte,  style: TextStyle(color: themeProvider.isDarkMode ? Colors.black : Colors.white,fontSize: 18)))
+          child: Center(child: Text(texte,  style: TextStyle(color: themeProvider.isDarkMode ? Colors.black : Colors.white,fontSize: 18))))
   );
 }
 Widget buttonWithVerification({
@@ -73,10 +73,43 @@ Widget buttonWithVerification({
         ),
       ),
       onPressed: onPressed,
-        child: Text(text,  style: TextStyle(color: themeProvider.isDarkMode ? Colors.black : Colors.white,fontSize: 18))
+        child: Center(child: Text(text,  style: TextStyle(color: themeProvider.isDarkMode ? Colors.black : Colors.white,fontSize: 18)))
     ),
   );
 }
+
+FloatingActionButton floatingActionButton(
+    BuildContext context,
+    String text,
+    Icon icon,
+    void Function() onPressedCallback,
+ ThemeProvider themeProvider,
+    ) {
+  return FloatingActionButton(
+    heroTag: UniqueKey(),
+    onPressed: onPressedCallback,
+    backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.white,
+    foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+    tooltip: text,
+    child: icon,
+  );
+}
+
+Widget textButton(
+    BuildContext context,
+    String buttonText,
+    VoidCallback onPressedCallback,
+    ThemeProvider themeProvider,
+    ) {
+  return TextButton(
+    onPressed: onPressedCallback,
+    child: text(
+      themeProvider,
+      buttonText,
+    ),
+  );
+}
+
 
 
 Tooltip settingIcon(BuildContext context) {
@@ -173,3 +206,4 @@ Widget textField(
     ),
   );
 }
+
