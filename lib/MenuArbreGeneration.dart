@@ -80,7 +80,7 @@ class _MenuArbreGenerationState extends State<MenuArbreGeneration> {
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
             text(
               themeProvider,
-              "Vous avez choisi de générer un nouvel arbre, choisissez la manière :",
+              "Ou",
             ),
             const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 30)),
             textField("Longueur d'arbre aléatoire", _randomTreeStringController,

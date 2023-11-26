@@ -8,14 +8,13 @@ import 'Library.dart';
 import 'MenuPrincipal.dart';
 import 'Main.dart';
 import 'Themes.dart';
-import 'Themesprovider.dart';
 
 
 class MyWorkingArea extends StatefulWidget {
   final Octree octree;
   final String namePage;
 
-  MyWorkingArea({Key? key, required this.octree, required this.namePage})
+  const MyWorkingArea({Key? key, required this.octree, required this.namePage})
       : super(key: key);
 
   @override
@@ -60,9 +59,6 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     octree2 = Octree.fromChaine(arbre2, 16);
     // octreeResultant = octree1.intersection(octree2) ;
     octreeResultant = octree1.clone();
-    // octreeResultant = octree1.complementaire() ;
-    // octree = Octree.aleatoire(16) ;
-    //da = DessinArbre(octreeResultant, modelProv.theta, modelProv.phi, modelProv.rho) ;
 
     da = DessinArbre(octree, modelProv.theta, modelProv.phi, modelProv.rho);
     if (!edit) {
@@ -78,16 +74,20 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
     super.dispose();
   }
 
+  void deleteTree(ModelProvider prov, String treeName, BuildContext context) {
+    Navigator.of(context).pop();
+    prov.removeTree(prov.getIndexByOctree(octree));
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     Color backgroundColor = themeProvider.isDarkMode ? Colors.white : Colors.black;
     prov = context.watch<ModelProvider>();
     return Theme(
-      // Use Theme widget to set the colors for light and dark modes
       data: ThemeData(
         brightness: themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
-        // Add other theme properties as needed
       ),
     child: Scaffold(
       appBar: AppBar(
@@ -101,25 +101,37 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             prov.rho = 50;
             if (namePage == "visualizePage") {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => MyHomePage(),
+                builder: (BuildContext context) => const MyHomePage(),
               ));
             } else if (namePage == "generatePage") {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Sauvegarde'),
-                    content: Text('Voulez-vous sauvegarder avant de quitter ?'),
+                    title: text(
+                      themeProvider,
+                      'Sauvegarde',
+                    ),
+                    content:  text(
+                      themeProvider,
+                      'Voulez-vous sauvegarder avant de quitter ?',
+                    ),
                     actions: <Widget>[
                       TextButton(
-                        child: Text('Annuler'),
+                        child: text(
+                    themeProvider,
+                    'Annuler',
+                  ),
                         onPressed: () {
                           Navigator.of(context).pop();
                           Navigator.of(context).pop();
                         },
                       ),
                       TextButton(
-                        child: Text('Sauvegarder'),
+                        child: text(
+                  themeProvider,
+                  'Sauvegarder',
+                  ),
                         onPressed: () {
                           saveMethod(context, prov);
                         },
@@ -150,38 +162,10 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             message: 'Supprimer',
             child: Visibility(
               visible: namePage == "visualizePage",
-            child: IconButton(
-              icon: const Icon(Icons.delete),
-              color: Colors.white,
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Confirmation'),
-                      content:
-                      Text('Voulez-vous vraiment supprimer cet arbre ?'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Annuler'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            prov.removeTree(prov.getIndexByOctree(octree));
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Supprimer'),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
+            child: deleteButton(themeProvider, context, prov.getIndexByOctree(octree), prov, deleteTree)
+
+
+
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
@@ -197,81 +181,40 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                   position: RelativeRect.fromLTRB(
                       MediaQuery.of(context).size.width, 80.0, 0.0, 0.0),
                   items: <PopupMenuEntry>[
-                    PopupMenuItem(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1.0),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                        ),
-                        child: ListTile(
-                          tileColor: Colors.black,
-                          leading: Text("theta : ",
-                              style: TextStyle(color: Colors.white)),
-                          title: TextField(
-                            keyboardType: TextInputType.numberWithOptions(
-                              decimal: false,
-                              signed: true,
-                            ),
-                            controller: thetaController,
-                            onChanged: (value) {
-                              var newTheta = int.tryParse(value);
-                              if (newTheta != null) {
-                                prov.theta = newTheta;
-                                da.theta = newTheta;
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+                    popupMenuItem(
+                      label: "theta",
+                      controller: thetaController,
+                      onChanged: (value) {
+                        var newTheta = int.tryParse(value);
+                        if (newTheta != null) {
+                          prov.theta = newTheta;
+                          da.theta = newTheta;
+                        }
+                      },
+                      isTop: true,
                     ),
-                    PopupMenuItem(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1.0),
-                        ),
-                        child: ListTile(
-                          leading: Text("phi : "),
-                          title: TextField(
-                            keyboardType: TextInputType.number,
-                            controller: phiController,
-                            onChanged: (value) {
-                              var newPhi = int.tryParse(value);
-                              if (newPhi != null) {
-                                prov.phi = newPhi;
-                                da.phi = newPhi;
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+                    popupMenuItem(
+                      label: "phi",
+                      controller: phiController,
+                      onChanged: (value) {
+                        var newPhi = int.tryParse(value);
+                        if (newPhi != null) {
+                          prov.phi = newPhi;
+                          da.phi = newPhi;
+                        }
+                      },
                     ),
-                    PopupMenuItem(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white, width: 1.0),
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(10.0),
-                            bottomRight: Radius.circular(10.0),
-                          ),
-                        ),
-                        child: ListTile(
-                          leading: Text("rho : "),
-                          title: TextField(
-                            keyboardType: TextInputType.number,
-                            controller: rhoController,
-                            onChanged: (value) {
-                              var newRho = int.tryParse(value);
-                              if (newRho != null) {
-                                prov.rho = newRho;
-                                da.rho = newRho;
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+                    popupMenuItem(
+                      label: "rho",
+                      controller: rhoController,
+                      onChanged: (value) {
+                        var newRho = int.tryParse(value);
+                        if (newRho != null) {
+                          prov.rho = newRho;
+                          da.rho = newRho;
+                        }
+                      },
+                      isBottom: true,
                     ),
                   ],
                 );
@@ -302,7 +245,50 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             heroTag: "btn1",
             onPressed: () {
               setState(() {
-                toggleView(context);
+                if (octree3D == true) {
+                  /// création de l'arbre en 2D
+                  String univers_string = octree.decompile(octree.univers);
+
+                  ///ajout des noeuds au graph
+                  for (int i = 0; i < univers_string.length; i++) {
+                    nodes[Node.Id(i)] = univers_string[i];
+                    print(nodes[Node.Id(i)]);
+                  }
+                  createGraphe(0, 1);
+                  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+                  builder.orientation = 3;
+                  builder.siblingSeparation = 10;
+                  builder.levelSeparation = 50;
+                  currentContent = InteractiveViewer(
+                      constrained: false,
+                      boundaryMargin: EdgeInsets.all(20),
+                      minScale: 0.01,
+                      maxScale: 5.6,
+                      child: GraphView(
+                        graph: graph,
+                        algorithm: BuchheimWalkerAlgorithm(
+                            builder, TreeEdgeRenderer(builder)),
+                        paint: Paint()
+                          ..color = Colors.white
+                          ..strokeWidth = 3
+                          ..style = PaintingStyle.stroke,
+                        builder: (Node node) {
+                          String? a = nodes[node];
+                          print("a");
+                          return rectangleWidget(a!, node.key?.value as int,
+                              graph.getOutEdges(node));
+                        },
+                      ));
+
+                  octree3D = false;
+                } else {
+                  /// creéation de l'arbre en 3D
+                  currentContent = CustomPaint(
+                    size: MediaQuery.of(context).size,
+                    painter: Painter(da),
+                  );
+                  octree3D = true;
+                }
               });
             },
             tooltip: 'Autre vue',
@@ -318,53 +304,6 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
       ),
     ),
     );
-  }
-
-  void toggleView(BuildContext context) {
-     if (octree3D == true) {
-      /// création de l'arbre en 2D
-      String univers_string = octree.decompile(octree.univers);
-
-      ///ajout des noeuds au graph
-      for (int i = 0; i < univers_string.length; i++) {
-        nodes[Node.Id(i)] = univers_string[i];
-        print(nodes[Node.Id(i)]);
-      }
-      createGraphe(0, 1);
-      BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
-      builder.orientation = 3;
-      builder.siblingSeparation = 10;
-      builder.levelSeparation = 50;
-      currentContent = InteractiveViewer(
-          constrained: false,
-          boundaryMargin: EdgeInsets.all(20),
-          minScale: 0.01,
-          maxScale: 5.6,
-          child: GraphView(
-            graph: graph,
-            algorithm: BuchheimWalkerAlgorithm(
-                builder, TreeEdgeRenderer(builder)),
-            paint: Paint()
-              ..color = Colors.white
-              ..strokeWidth = 3
-              ..style = PaintingStyle.stroke,
-            builder: (Node node) {
-              String? a = nodes[node];
-              print("a");
-              return rectangleWidget(a!, node.key?.value as int,
-                  graph.getOutEdges(node));
-            },
-          ));
-
-      octree3D = false;
-    } else {
-      /// creéation de l'arbre en 3D
-      currentContent = CustomPaint(
-        size: MediaQuery.of(context).size,
-        painter: Painter(da),
-      );
-      octree3D = true;
-    }
   }
 
 
@@ -386,25 +325,25 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Nom de l\'arbre'),
+          title: const Text('Nom de l\'arbre'),
           content: TextField(
             controller: _textNameController,
-            decoration: InputDecoration(hintText: 'Nom de l\'arbre'),
+            decoration: const InputDecoration(hintText: 'Nom de l\'arbre'),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Valider'),
+              child: const Text('Valider'),
               onPressed: () {
                 Navigator.of(context).pop();
 
                 prov.addTree(_textNameController.text, octree);
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => MyHomePage(),
+                  builder: (BuildContext context) => const MyHomePage(),
                 ));
               },
             ),
             TextButton(
-              child: Text('Annuler'),
+              child: const Text('Annuler'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -414,6 +353,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
       },
     );
   }
+
+
 
   Widget rectangleWidget(String a, int id, List<Edge> e) {
     TextEditingController controller = TextEditingController(text: a);
@@ -425,9 +366,8 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
           style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           enabled: e.isEmpty,
           controller: controller,
-          onChanged: (newValue) => prov.handleNodeChange(controller, _controllers, octree3D, nodes, graph),
-
-    onTap: prov.handleTextFieldTap(octree3D, edit),
+          onChanged: (newValue) => _handleNodeChange(controller),
+          onTap: _handleTextFieldTap,
           textAlignVertical: TextAlignVertical.top,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
@@ -438,6 +378,34 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
               border: InputBorder.none),
         ));
   }
+  _handleNodeChange(TextEditingController controller) {
+    setState(() {
+      print(controller.text);
+      print("change");
+      int? id = _controllers[controller];
+      if (controller.text == 'V' || controller.text == 'P') {
+        nodes[Node.Id(id)] = controller.text;
+      }
+      if (controller.text == 'D') {
+        if (_controllers.containsKey(controller)) {
+          print(id);
+          nodes[Node.Id(id)] = 'D';
+          // creé 8 Noeud en partant du noeud last;
+          nodes[Node.Id(35)] = 'V';
+          graph.addEdge(Node.Id(id), Node.Id(35));
+        }
+      }
+      octree3D = true;
+    });
+  }
+
+  _handleTextFieldTap() {
+    setState(() {
+      edit = true;
+      octree3D = true;
+    });
+  }
+
 
 
 

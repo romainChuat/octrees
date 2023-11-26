@@ -72,6 +72,7 @@ class ModelProvider extends ChangeNotifier {
     return null;
   }
   Octree getByIndex(int index){
+    notifyListeners();
      return _trees.values.elementAt(index);
   }
 
@@ -120,30 +121,7 @@ class ModelProvider extends ChangeNotifier {
     notifyListeners();
 
   }
-  handleNodeChange(TextEditingController controller,Map<TextEditingController, int> _controllers, bool octree3D, Map<Node, String> nodes, Graph graph) {
-      print(controller.text);
-      print("change");
-      int? id = _controllers[controller];
-      if (controller.text == 'V' || controller.text == 'P') {
-        nodes[Node.Id(id)] = controller.text;
-      }
-      if (controller.text == 'D') {
-        if (_controllers.containsKey(controller)) {
-          print(id);
-          nodes[Node.Id(id)] = 'D';
-          // creé 8 Noeud en partant du noeud last;
-          nodes[Node.Id(35)] = 'V';
-          graph.addEdge(Node.Id(id), Node.Id(35));
-        }
-      }
-      octree3D = true;
-  }
-  handleTextFieldTap(bool octree3D, bool edit) {
-      edit = true;
-      octree3D = true;
-      notifyListeners();
 
-  }
 
   void createGraphe(Graph graph, Map<Node, String> nodes, int father, int childIndex) {
     //int i  = childIndex;
@@ -156,6 +134,7 @@ class ModelProvider extends ChangeNotifier {
       }
     }
   }
+
 
 
   /*void showToastDelete() {

@@ -8,6 +8,7 @@ import 'package:octrees/DessinArbre.dart';
 import 'package:provider/provider.dart';
 
 import 'MenuArbreGeneration.dart';
+import 'ModelProvider.dart';
 import 'Themes.dart';
 import 'Themesprovider.dart';
 
@@ -220,5 +221,98 @@ Widget zoomButton(String tooltip, Function onPressed, ThemeProvider themeProvide
     child: Icon(tooltip == "Zoomer" ? Icons.zoom_in : Icons.zoom_out),
   );
 }
+
+PopupMenuItem popupMenuItem({
+  required String label,
+  required TextEditingController controller,
+  required Function(String) onChanged,
+  bool isTop = false,
+  bool isBottom = false,
+}) {
+  return PopupMenuItem(
+    child: Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.white, width: 1.0),
+        borderRadius: BorderRadius.only(
+          topLeft: isTop ? Radius.circular(10.0) : Radius.zero,
+          topRight: isTop ? Radius.circular(10.0) : Radius.zero,
+          bottomLeft: isBottom ? Radius.circular(10.0) : Radius.zero,
+          bottomRight: isBottom ? Radius.circular(10.0) : Radius.zero,
+        ),
+      ),
+      child: ListTile(
+        tileColor: Colors.black,
+        leading: Text("$label : ", style: TextStyle(color: Colors.white)),
+        title: TextField(
+          keyboardType: TextInputType.numberWithOptions(
+            decimal: false,
+            signed: true,
+          ),
+          controller: controller,
+          onChanged: onChanged,
+        ),
+      ),
+    ),
+  );
+}
+
+IconButton deleteButton(ThemeProvider themeProvider, BuildContext context, String treeName, ModelProvider prov, Function deleteTree) {
+  return IconButton(
+    icon: const Icon(Icons.delete),
+    color: themeProvider.isDarkMode
+        ? Colors.black
+        : Colors.white,
+    onPressed: () {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: text(
+              themeProvider,
+              "Confirmation",
+            ),
+            backgroundColor:
+            themeProvider.isDarkMode
+                ? Colors.white
+                : Colors.black,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                  color:
+                  themeProvider.isDarkMode
+                      ? Colors.black
+                      : Colors.white),
+              borderRadius:
+              BorderRadius.circular(10.0),
+            ),
+            content: text(
+              themeProvider,
+              "Etes-vous sûr de vouloir supprimer l'arbre : $treeName ?",
+            ),
+            actions: <Widget>[
+              textButton(
+                context,
+                "Annuler",
+                    () {
+                  Navigator.of(context).pop();
+                },
+                themeProvider,
+              ),
+              textButton(
+                context,
+                "Confirmer",
+                    () {
+                  deleteTree(prov, treeName, context);
+                },
+                themeProvider,
+              ),
+            ],
+          );
+        },
+      );
+    },
+  );
+}
+
+
 
 
