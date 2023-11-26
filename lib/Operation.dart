@@ -64,7 +64,7 @@ class _OperationState extends State<Operation> {
             _handleInputChangeTree(text, dropDownValueTreeType);
           });
         });
-   
+
   }
 
   bool verifyString(String text, String type) {
@@ -127,7 +127,8 @@ class _OperationState extends State<Operation> {
   }
 
   Widget createBody(String title, ThemeProvider themeProvider) {
-    return Padding(
+    return SingleChildScrollView(
+    child: Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Center(
         child: Column(
@@ -149,10 +150,13 @@ class _OperationState extends State<Operation> {
                       (String value) {
                     return DropdownMenuItem(
                       value: value,
-                      child: text(
-                        themeProvider,
-                        value,
-                      ),
+                        child: Text(value, style: TextStyle(
+                          color: themeProvider.isDarkMode ? Colors.black : Colors.white,
+                          backgroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+
+                        ),
+                        )
+
                     );
                   },
                 ).toList(),
@@ -262,6 +266,7 @@ class _OperationState extends State<Operation> {
           ],
         ),
       ),
+    ),
     );
   }
 
