@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:math' ;
 import 'dart:ui' ;
 import 'Octree.dart' ;
 import 'Cube.dart' ;
+import 'Themes.dart';
 
 Paint paint = Paint()..color = Colors.black;
 
@@ -43,8 +45,8 @@ class DessinArbre {
   DessinArbre (this.arbreUnivers, this.theta, this.phi, int this.rho) ;
 
   void dessineArbre(Canvas canvas) {
-    paint.color = Colors.black ;
-    canvas.drawPaint(paint);
+    //paint.color = Colors.black;
+   // canvas.drawPaint(paint);
     //paint.color = Colors.black ;
     de = 400 ;
     initialiseProjection ();
@@ -163,7 +165,7 @@ class DessinArbre {
     {
       case 0 : paint.color = Colors.deepPurpleAccent ; break ;
       case 5 : paint.color = Colors.amberAccent ; break ;
-      case 2 : paint.color = Colors.black12 ; break ;
+      case 2 : paint.color = Colors.green ; break ;
       case 4 : paint.color = Colors.pinkAccent ; break ;
       case 1 : paint.color = Colors.indigoAccent ; break ;
       case 3 : paint.color = Colors.greenAccent ;

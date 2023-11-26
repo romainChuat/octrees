@@ -4,6 +4,8 @@ import 'dart:math';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:octrees/DessinArbre.dart';
+import 'package:provider/provider.dart';
 
 import 'MenuArbreGeneration.dart';
 import 'Themes.dart';
@@ -206,4 +208,17 @@ Widget textField(
     ),
   );
 }
+Widget zoomButton(String tooltip, Function onPressed, ThemeProvider themeProvider, DessinArbre da) {
+  return FloatingActionButton(
+    heroTag: tooltip,
+    onPressed: () {
+      onPressed(da);
+    },
+    tooltip: tooltip,
+    backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.white,
+    foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+    child: Icon(tooltip == "Zoomer" ? Icons.zoom_in : Icons.zoom_out),
+  );
+}
+
 

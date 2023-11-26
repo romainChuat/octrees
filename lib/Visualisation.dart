@@ -4,8 +4,10 @@ import 'package:octrees/DessinArbre.dart';
 import 'package:octrees/Octree.dart';
 import 'package:octrees/ModelProvider.dart';
 import 'package:provider/provider.dart';
+import 'Library.dart';
 import 'MenuPrincipal.dart';
 import 'Main.dart';
+import 'Themes.dart';
 import 'Themesprovider.dart';
 
 
@@ -78,8 +80,16 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    Color backgroundColor = themeProvider.isDarkMode ? Colors.white : Colors.black;
     prov = context.watch<ModelProvider>();
-    return Scaffold(
+    return Theme(
+      // Use Theme widget to set the colors for light and dark modes
+      data: ThemeData(
+        brightness: themeProvider.isDarkMode ? Brightness.dark : Brightness.light,
+        // Add other theme properties as needed
+      ),
+    child: Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         leading: IconButton(
@@ -161,7 +171,7 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pop();
-                            prov.removeTreeByOctree(octree);
+                            prov.removeTree(prov.getIndexByOctree(octree));
                             Navigator.of(context).pop();
                           },
                           child: Text('Supprimer'),
@@ -269,45 +279,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             ),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(20, 0, 0, 0)),
-          Tooltip(
-            message: 'Paramètre',
-            child: IconButton(
-              icon: const Icon(Icons.settings),
-              color: Colors.white,
-              onPressed: () {
-                showMenu(
-                  context: context,
-                  position: RelativeRect.fromLTRB(100, 100, 0, 0),
-                  items: [
-                    PopupMenuItem(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const ChangeThemeButtonWidget(),
-                            Text(
-                              "Mode sombre",
-                            ),
-                          ]
-
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
+          settingIcon(context),
           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 10, 0)),
         ],
       ),
       body: Center(
         child: GestureDetector(
           onPanUpdate: (details) {
-            setState(() {
-              prov.phi += details.delta.dy.toInt();
-              prov.theta += details.delta.dx.toInt();
-            });
+              prov.gestureDetectorMethods(details);
           },
           child: Container(
+            color: backgroundColor,
             child: currentContent,
           ),
         ),
@@ -320,83 +302,72 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
             heroTag: "btn1",
             onPressed: () {
               setState(() {
-                if (octree3D == true) {
-                  /// création de l'arbre en 2D
-                  String univers_string = octree.decompile(octree.univers);
-
-                  ///ajout des noeuds au graph
-                  for (int i = 0; i < univers_string.length; i++) {
-                    nodes[Node.Id(i)] = univers_string[i];
-                    print(nodes[Node.Id(i)]);
-                  }
-                  createGraphe(0, 1);
-                  BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
-                  builder.orientation = 3;
-                  builder.siblingSeparation = 10;
-                  builder.levelSeparation = 50;
-                  currentContent = InteractiveViewer(
-                      constrained: false,
-                      boundaryMargin: EdgeInsets.all(20),
-                      minScale: 0.01,
-                      maxScale: 5.6,
-                      child: GraphView(
-                        graph: graph,
-                        algorithm: BuchheimWalkerAlgorithm(
-                            builder, TreeEdgeRenderer(builder)),
-                        paint: Paint()
-                          ..color = Colors.white
-                          ..strokeWidth = 3
-                          ..style = PaintingStyle.stroke,
-                        builder: (Node node) {
-                          String? a = nodes[node];
-                          print("a");
-                          return rectangleWidget(a!, node.key?.value as int,
-                              graph.getOutEdges(node));
-                        },
-                      ));
-
-                  octree3D = false;
-                } else {
-                  /// creéation de l'arbre en 3D
-                  currentContent = CustomPaint(
-                    size: MediaQuery.of(context).size,
-                    painter: Painter(da),
-                  );
-                  octree3D = true;
-                }
+                toggleView(context);
               });
             },
             tooltip: 'Autre vue',
-            backgroundColor: Colors.green,
+            backgroundColor: themeProvider.isDarkMode ? Colors.black : Colors.white,
+            foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
             child: const Icon(Icons.autorenew),
           ),
           const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-          if(!edit && octree3D == true)
-            FloatingActionButton(
-              heroTag: "btn2",
-              onPressed: () {
-                prov.zoomOut(da);
-              },
-              tooltip: 'Zoomer',
-              backgroundColor: Colors.green,
-              child: const Icon(Icons.zoom_in),
-            ),
-          if(!edit && octree3D == true)
-            const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
-          if(!edit && octree3D == true)
-            FloatingActionButton(
-              heroTag: "btn3",
-              onPressed: () {
-                prov.zoomIn(da);
-              },
-              tooltip: 'Dézoomer',
-              backgroundColor: Colors.green,
-              child: const Icon(Icons.zoom_out),
-            ),
+          if (!edit && octree3D == true) zoomButton("Zoomer", prov.zoomOut, themeProvider, da),
+          if (!edit && octree3D == true) const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 10)),
+          if (!edit && octree3D == true) zoomButton("Dézoomer", prov.zoomIn, themeProvider, da),
         ],
       ),
+    ),
     );
   }
+
+  void toggleView(BuildContext context) {
+     if (octree3D == true) {
+      /// création de l'arbre en 2D
+      String univers_string = octree.decompile(octree.univers);
+
+      ///ajout des noeuds au graph
+      for (int i = 0; i < univers_string.length; i++) {
+        nodes[Node.Id(i)] = univers_string[i];
+        print(nodes[Node.Id(i)]);
+      }
+      createGraphe(0, 1);
+      BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
+      builder.orientation = 3;
+      builder.siblingSeparation = 10;
+      builder.levelSeparation = 50;
+      currentContent = InteractiveViewer(
+          constrained: false,
+          boundaryMargin: EdgeInsets.all(20),
+          minScale: 0.01,
+          maxScale: 5.6,
+          child: GraphView(
+            graph: graph,
+            algorithm: BuchheimWalkerAlgorithm(
+                builder, TreeEdgeRenderer(builder)),
+            paint: Paint()
+              ..color = Colors.white
+              ..strokeWidth = 3
+              ..style = PaintingStyle.stroke,
+            builder: (Node node) {
+              String? a = nodes[node];
+              print("a");
+              return rectangleWidget(a!, node.key?.value as int,
+                  graph.getOutEdges(node));
+            },
+          ));
+
+      octree3D = false;
+    } else {
+      /// creéation de l'arbre en 3D
+      currentContent = CustomPaint(
+        size: MediaQuery.of(context).size,
+        painter: Painter(da),
+      );
+      octree3D = true;
+    }
+  }
+
+
 
   void createGraphe(/*Graph g, Map<Node, String> nodes,*/ int father, int childIndex) {
     //int i  = childIndex;
@@ -454,8 +425,9 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
           style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           enabled: e.isEmpty,
           controller: controller,
-          onChanged: (newValue) => _handleNodeChange(controller),
-          onTap: _handleTextFieldTap,
+          onChanged: (newValue) => prov.handleNodeChange(controller, _controllers, octree3D, nodes, graph),
+
+    onTap: prov.handleTextFieldTap(octree3D, edit),
           textAlignVertical: TextAlignVertical.top,
           textAlign: TextAlign.center,
           decoration: InputDecoration(
@@ -467,33 +439,9 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
         ));
   }
 
-  _handleNodeChange(TextEditingController controller) {
-    setState(() {
-      print(controller.text);
-      print("change");
-      int? id = _controllers[controller];
-      if (controller.text == 'V' || controller.text == 'P') {
-        nodes[Node.Id(id)] = controller.text;
-      }
-      if (controller.text == 'D') {
-        if (_controllers.containsKey(controller)) {
-          print(id);
-          nodes[Node.Id(id)] = 'D';
-          // creé 8 Noeud en partant du noeud last;
-          nodes[Node.Id(35)] = 'V';
-          graph.addEdge(Node.Id(id), Node.Id(35));
-        }
-      }
-      octree3D = true;
-    });
-  }
 
-  _handleTextFieldTap() {
-    setState(() {
-      edit = true;
-      octree3D = true;
-    });
-  }
+
+
 }
 
 class Painter extends CustomPainter {
@@ -502,7 +450,7 @@ class Painter extends CustomPainter {
   const Painter(this.da);
 
   @override
-  void paint(Canvas canvas, Size size) {
+  void paint(Canvas canvas, Size size,) {
     da.maxX = size.width;
     da.maxY = size.height;
     da.dessineArbre(canvas);

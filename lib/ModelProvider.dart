@@ -33,6 +33,17 @@ class ModelProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String getIndexByOctree(Octree octree) {
+    int index = 0;
+    for (var entry in _trees.entries) {
+      if (entry.value.decompile(entry.value.univers) == octree.decompile(octree.univers)) {
+        return entry.key;
+      }
+      index++;
+    }
+    return "AAAAAAAAAAa";
+  }
+
   void addTree(String name, Octree tree) async{
     _database_helper = await Database_helper.dbhelper;
     _database_helper.insertTree({'tree_name' : name, 'tree_string' : (tree.decompile(tree.univers)).trim() });
@@ -63,6 +74,7 @@ class ModelProvider extends ChangeNotifier {
   Octree getByIndex(int index){
      return _trees.values.elementAt(index);
   }
+
 
   int _rho = 50;
   int get rho => _rho;
@@ -102,6 +114,49 @@ class ModelProvider extends ChangeNotifier {
   int getTreeSize() {
     return _trees.length;
   }
+  void gestureDetectorMethods(DragUpdateDetails details) {
+    phi += details.delta.dy.toInt();
+    theta += details.delta.dx.toInt();
+    notifyListeners();
+
+  }
+  handleNodeChange(TextEditingController controller,Map<TextEditingController, int> _controllers, bool octree3D, Map<Node, String> nodes, Graph graph) {
+      print(controller.text);
+      print("change");
+      int? id = _controllers[controller];
+      if (controller.text == 'V' || controller.text == 'P') {
+        nodes[Node.Id(id)] = controller.text;
+      }
+      if (controller.text == 'D') {
+        if (_controllers.containsKey(controller)) {
+          print(id);
+          nodes[Node.Id(id)] = 'D';
+          // creé 8 Noeud en partant du noeud last;
+          nodes[Node.Id(35)] = 'V';
+          graph.addEdge(Node.Id(id), Node.Id(35));
+        }
+      }
+      octree3D = true;
+  }
+  handleTextFieldTap(bool octree3D, bool edit) {
+      edit = true;
+      octree3D = true;
+      notifyListeners();
+
+  }
+
+  void createGraphe(Graph graph, Map<Node, String> nodes, int father, int childIndex) {
+    //int i  = childIndex;
+    int countD = 0;
+    for (int k = childIndex; k < childIndex + 8; k++) {
+      graph.addEdge(Node.Id(father), Node.Id(k));
+      if (nodes[Node.Id(k)] == 'D') {
+        countD++;
+        createGraphe(graph,nodes, k, childIndex + (8 * countD));
+      }
+    }
+  }
+
 
   /*void showToastDelete() {
     Fluttertoast.showToast(
