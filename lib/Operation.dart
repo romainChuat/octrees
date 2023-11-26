@@ -3,6 +3,7 @@ import 'package:octrees/Library.dart';
 import 'package:provider/provider.dart';
 import 'ModelProvider.dart';
 import 'Octree.dart';
+import 'Themes.dart';
 import 'Visualisation.dart';
 
 class Operation extends StatefulWidget {
@@ -57,15 +58,13 @@ class _OperationState extends State<Operation> {
     if (dropDownValueTreeType == 'arbre aléatoire') {
       dropDownValueTreeType = 'saisir une longueur';
     }
-    return TextField(
-      decoration: InputDecoration(hintText: dropDownValueTreeType),
-      controller: controller,
-      onChanged: (text) {
-        setState(() {
-          _handleInputChangeTree(text, dropDownValueTreeType);
+    return textField(dropDownValueTreeType, controller,
+            (text) {
+          setState(() {
+            _handleInputChangeTree(text, dropDownValueTreeType);
+          });
         });
-      },
-    );
+   
   }
 
   bool verifyString(String text, String type) {
@@ -127,17 +126,22 @@ class _OperationState extends State<Operation> {
     }
   }
 
-  Widget createBody(String title) {
+  Widget createBody(String title, ThemeProvider themeProvider) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
       child: Center(
         child: Column(
           children: [
-            const Text(
-                'Vous avez choisi de réaliser une opération sur des arbres',
-                style: TextStyle(fontSize: 15)),
+            text(
+              themeProvider,
+              "Vous avez choisi de réaliser une opération sur des arbres",
+            ),
+
             const SizedBox(height: 20,),
-            Text(title, style: TextStyle(fontSize: 20),),
+            text(
+              themeProvider,
+              title
+            ),
             const SizedBox(height: 20,),
             DropdownButton<String>(
                 value: dropDownValueTreeType,
@@ -145,7 +149,10 @@ class _OperationState extends State<Operation> {
                       (String value) {
                     return DropdownMenuItem(
                       value: value,
-                      child: Text(value),
+                      child: text(
+                        themeProvider,
+                        value,
+                      ),
                     );
                   },
                 ).toList(),
@@ -162,18 +169,21 @@ class _OperationState extends State<Operation> {
                 }),
             textField1,
             if (_showEmptyStringErrorMessage)
-              const Text("Veuillez saisir un arbre",
-                style: TextStyle(color: Colors.red),),
+              textError("Veuillez saisir un arbre"),
             if (_showInvalidStringErrorMessage)
-              const Text("Veuillez saisir un arbre valide",
-                style: TextStyle(color: Colors.red),),
+              textError("Veuillez saisir un arbre valide"),
             if (_showInvalidLengthStringError)
-              const Text("La longueur saisie doit être une puissance de 2",
-                style: TextStyle(color: Colors.red),),
+              textError("La longueur saisie doit être une puissance de 2"),
             const SizedBox(height: 20,),
-            const Text("ou"),
+            text(
+              themeProvider,
+              "ou",
+            ),
             const SizedBox(height: 20,),
-            const Text("Selectionné parmis vos arbre enregistrés : "),
+            text(
+              themeProvider,
+              "Selectionné parmis vos arbre enregistrés : ",
+            ),
             const SizedBox(height: 20,),
             Container(
               height: 200,
@@ -221,8 +231,8 @@ class _OperationState extends State<Operation> {
             const Divider(color: Colors.white, thickness: 2, indent: 100, endIndent: 100,),
             const SizedBox(height: 20,),
 
-            if (title == 'arbre 1') buildButton('Suivant'),
-            if (title == 'arbre 2') buildButton('Précédent'),
+            if (title == 'arbre 1') buildButton('Suivant', themeProvider),
+            if (title == 'arbre 2') buildButton('Précédent',themeProvider),
             Visibility(
                 visible: showExecutButton,
                 child: Column(
@@ -233,7 +243,10 @@ class _OperationState extends State<Operation> {
                               (String value) {
                             return DropdownMenuItem(
                               value: value,
-                              child: Text(value),
+                              child: text(
+                                themeProvider,
+                               value,
+                              ),
                             );
                           },
                         ).toList(),
@@ -242,7 +255,7 @@ class _OperationState extends State<Operation> {
                             dropDownValueOperation = value!;
                           });
                         }),
-                    buildButton('Executer'),
+                    buildButton('Executer',themeProvider),
                   ],
                 )
             )
@@ -252,8 +265,17 @@ class _OperationState extends State<Operation> {
     );
   }
 
-  Widget buildButton(String buttonText) {
-    return ElevatedButton(
+  Widget buildButton(String buttonText, ThemeProvider themeProvider) {
+    return SizedBox(
+    height: 50,
+    width: 200,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+          shape: RoundedRectangleBorder(
+              borderRadius:
+              const BorderRadius.all(Radius.circular(10)),
+              side: BorderSide(color: themeProvider.isDarkMode ? Colors.black : Colors.white))),
       onPressed: () {
         String tree = _treeStringController1.text;
         _handleInputChangeTree(tree, dropDownValueTreeType);
@@ -324,15 +346,27 @@ class _OperationState extends State<Operation> {
         }
         _treeStringController1.text = "";
       },
-      child: Text(buttonText),
-    );
+      child: text(
+        themeProvider,
+        buttonText,
+      ),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     modelProvider = context.watch<ModelProvider>();
     modelProvider.getAllTrees();
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return Scaffold(appBar: createAppBar(), body: createBody(title));
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          leading: retourEnArriere(context),
+          actions: [
+            settingIcon(context),
+          ],
+        ),
+        body: createBody(title,themeProvider));
   }
 }
