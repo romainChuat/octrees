@@ -243,12 +243,17 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
 
                   String universString = octree.decompile(octree.univers);
                   ///ajout des noeuds au graph
-                  for (int i = 0; i < universString.length; i++) {
-                    nodes[Node.Id(i)] = universString[i];
-                    //print(nodes[Node.Id(i)]);
+                  if(universString[0] == 'D'){
+                    for (int i = 0; i < universString.length; i++) {
+                      nodes[Node.Id(i)] = universString[i];
+                      //print(nodes[Node.Id(i)]);
+                    }
+                    createGraphe(0, 1);
+                  }else{
+                    graph.addNode(Node.Id(0));
+                    nodes[Node.Id(0)] = universString[0];
                   }
 
-                  createGraphe(0, 1);
                   /// affichage du graph cree grace au plugin GraphView
                   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
                   builder.orientation = 3;
@@ -380,18 +385,18 @@ class _MyWorkingAreaState extends State<MyWorkingArea> {
   }
   _handleNodeChange(TextEditingController controller) {
     setState(() {
-      //print(controller.text);
-      //print("change");
       int? id = _controllers[controller];
       if (controller.text == 'V' || controller.text == 'P') {
         nodes[Node.Id(id)] = controller.text;
       }
       if (controller.text == 'D') {
         if (_controllers.containsKey(controller)) {
+          int countNode = graph.nodeCount();
           nodes[Node.Id(id)] = 'D';
-          /// creé 8 Noeud en partant du noeud last;
-          nodes[Node.Id(35)] = 'V';
-          graph.addEdge(Node.Id(id), Node.Id(35));
+          for(int i = countNode+1 ;i <countNode+8; i++){
+            nodes[Node.Id(i)] = 'V';
+            graph.addEdge(Node.Id(id), Node.Id(i));
+          }
         }
       }
       octree3D = true;
